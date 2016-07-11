@@ -1,0 +1,35 @@
+.elsa-app-container {
+  .header {
+    -webkit-app-region: drag;
+    position: fixed;
+    left: @navigator-width;
+    width: 100%;
+    height: @header-height;
+    border-bottom: 1px solid @header-border-color;
+    z-index: 100;
+  }
+
+  .navigator {
+    position: fixed;
+    left: 0;
+    width: @navigator-width;
+    height: 100%;
+    background-color: @navigator-bg-color;
+    z-index: 100;
+  }
+
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: @footer-height;
+    width: 100%;
+    border-top: 1px solid @footer-border-color;
+    z-index: 200;
+
+    .player {
+      display: inline-block;
+      padding: 20px 20px 20px 30px;
+    }
+  }
+}
