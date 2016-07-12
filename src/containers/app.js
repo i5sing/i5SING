@@ -36,7 +36,7 @@ export default class App extends Component {
                 <nav className="navigator">
                     <Nav />
                 </nav>
-                <div className="wrapper">
+                <div className="panel">
                     <Router history={hashHistory} routes={routes}/>
                 </div>
                 <footer className="footer">

@@ -49,3 +49,5 @@ app.on('activate', () => {
 global.terminate = function () {
     app.quit();
 };
+
+global.lang = app.getLocale();

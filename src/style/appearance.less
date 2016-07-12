@@ -1,0 +1,99 @@
+.appearance {
+
+  .carousel {
+    margin: 20px 100px;
+  }
+
+  .daily-recommend {
+    h3 {
+      font-size: 16px;
+    }
+
+    ul {
+
+      li {
+        width: 205px;
+        margin-right: 3px;
+
+        img {
+          float: left;
+          width: 46px;
+          height: 46px;
+        }
+
+        .info-wrapper {
+          float: right;
+
+          .song-name {
+            margin: 5px;
+            width: 148px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+
+          .singer-name {
+            font-size: 12px;
+            margin: 10px 5px 5px 5px;
+            width: 148px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+
+          .song-description {
+            font-size: 12px;
+            margin: 10px 5px 5px 5px;
+            width: 148px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+
+    .btn {
+      margin-right: 10px;
+      cursor: pointer;
+      opacity: 0.7;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    &.special-column {
+      li {
+        width: 300px;
+        margin-right: 40px;
+
+        img {
+          float: left;
+          width: auto;
+          height: 80px;
+        }
+
+        .info-wrapper {
+
+          .song-name {
+            margin: 10px 5px 5px 5px;
+            width: 148px;
+          }
+
+          .singer-name {
+            width: 148px;
+          }
+        }
+      }
+    }
+  }
+}

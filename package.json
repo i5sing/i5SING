@@ -33,6 +33,7 @@
     "key-mirror": "^1.0.1",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
+    "nuka-carousel": "^2.0.2",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
     "react-redux": "^4.4.5",

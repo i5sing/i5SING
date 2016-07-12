@@ -11,7 +11,10 @@ export default class Header extends Component {
     render() {
         return (
             <div className="elsa-header">
-
+                <div className="btn-group">
+                    <i className="fa fa-cog btn btn-setting"/>
+                    <i className="fa fa-remove btn btn-close"/>
+                </div>
             </div>
         );
     }

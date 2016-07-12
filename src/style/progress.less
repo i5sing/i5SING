@@ -1,0 +1,62 @@
+.elsa-progress {
+  color: @progress-font-color;
+
+  .head-img {
+    float: left;
+    width: @footer-height - 20;
+    height: @footer-height - 20;
+    margin: 10px;
+    border-radius: 2px;
+    border: 1px solid @footer-border-color;
+
+    img {
+      width: @footer-height - 20;
+      height: @footer-height - 20;
+    }
+  }
+
+  .wrapper {
+    float: left;
+    margin: 18px 0;
+
+    .info {
+      width: @progress-width;
+      .song-name {
+        float: left;
+      }
+
+      .time {
+        float: right;
+      }
+
+      &:after {
+        content: '';
+        clear: both;
+        display: block;
+      }
+    }
+
+    .progress {
+      position: relative;
+      height: 2px;
+      margin-top: 5px;
+      background-color: @progress-color;
+      width: @progress-width;
+
+      .current-progress {
+        position: absolute;
+        left:0;
+        top: 0;
+        height: 2px;
+        background-color: @progress-highlight-color;
+      }
+
+    }
+  }
+
+  &:after {
+    content: '';
+    clear: both;
+    display: block;
+  }
+}

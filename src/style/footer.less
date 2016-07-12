@@ -1,0 +1,33 @@
+.elsa-footer {
+  .elsa-progress {
+    display: inline-block;
+  }
+
+  .btn-group {
+    position: absolute;
+    display: inline-block;
+    color: @player-btn-color;
+    width: 224px;
+    padding: 22px;
+
+    .btn {
+      margin-right: 20px;
+      opacity: 0.7;
+      cursor: pointer;
+
+      &.lrc {
+        position: relative;
+        top: -2px;
+        border: 1px solid @footer-border-color;
+        border-radius: 2px;
+        height: 14px;
+        padding: 2px 5px;
+        font-size: 12px;
+      }
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}

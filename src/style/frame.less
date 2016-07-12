@@ -3,6 +3,7 @@
     -webkit-app-region: drag;
     position: fixed;
     left: @navigator-width;
+    top: 0;
     width: 100%;
     height: @header-height;
     border-bottom: 1px solid @header-border-color;
@@ -12,6 +13,7 @@
   .navigator {
     position: fixed;
     left: 0;
+    top: 0;
     width: @navigator-width;
     height: 100%;
     background-color: @navigator-bg-color;
@@ -31,5 +33,33 @@
       display: inline-block;
       padding: 20px 20px 20px 30px;
     }
+
+    .control-bar {
+      position: fixed;
+      bottom: 0;
+      left: @navigator-width;
+      height: @footer-height;
+    }
+  }
+
+  .panel {
+    margin-left: @navigator-width;
+    margin-top: @header-height;
+    overflow-y: auto;
+    height: 565px;
+  }
+
+  .pull-right {
+    float: right;
+  }
+
+  .pull-left {
+    float: left;
+  }
+
+  .clear-fix:after {
+    content: '';
+    clear: both;
+    display: block;
   }
 }
