@@ -4,7 +4,11 @@
 import {combineReducers} from 'redux';
 
 import common from './common';
+import appearance from './appearance';
+import rank from './rank';
 
 export default combineReducers({
-    common: common
+    common: common,
+    appearance: appearance,
+    rank: rank
 });

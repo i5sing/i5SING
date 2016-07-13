@@ -5,17 +5,37 @@ import React, {Component} from 'react';
 
 import Player from './player';
 import Progress from './progress';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {
+    play,
+    pause,
+    resume,
+    getSongAddr
+} from '../actions/common';
+
+const mapStateToProps = state => ({
+    appearance: state.appearance,
+    common: state.common
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    action: bindActionCreators({
+        play,
+        pause,
+        resume
+    }, dispatch),
+    dispatch
+});
 
 export default class Footer extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            index: 0,
             currentTime: 0,
             duration: 0,
-            picture: 'http://img2.5sing.kgimg.com/m/T1nsCaB7JT1RXrhCrK.jpg',
-            songAddress: 'http://data.5sing.kgimg.com/G030/M08/17/07/voYBAFX5BHiIcqh5AA8GdoA88WkAABsCwL5wFsADwaO919.m4a',
-            isPlaying: false,
-            songName: ''
+            playing: false
         };
     }
 
@@ -30,44 +50,90 @@ export default class Footer extends Component {
         //成功获取资源长度
         this.media.addEventListener('loadedmetadata', () => {
             this.setState({duration: this.media.duration});
-            this.setState({songName: '测试'});
+        });
+
+        this.media.addEventListener('ended', () => {
+            this.setState({index: this.state.index + 1}, this.loadSongAddress);
+        });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        let common = nextProps.common;
+        
+        if (common.playing && !common.resume && this.media.paused) {
+            this.setState({playing: true});
+            this.loadSongAddress();
+        } else if (common.playing && this.media.paused) {
+            this.setState({playing: true});
+            this.media.play();
+        } else if (!common.playing && !this.media.paused) {
+            this.setState({playing: false});
+            this.media.pause();
+        }
+    }
+
+    loadSongAddress() {
+        this.setState({playing: true});
+        let song = this.props.common.playlist[this.state.index];
+        getSongAddr(song.id, song.type).then(result => {
+            this.media.src = result.data.squrl || result.data.hqurl || result.data.lqurl;
+            this.media.load();
+            return this.media.play();
         });
     }
 
     play() {
-        if (this.state.isPlaying) {
-            this.setState({isPlaying: false});
-            return this.media.pause();
+        if (this.state.playing) {
+            return this.props.action.pause();
         } else if (this.media.readyState > 1) {
-            this.setState({isPlaying: true});
-            return this.media.play();
+            return this.props.action.resume();
         } else {
-            this.setState({isPlaying: true});
-            this.setState({songName: '正在加载中,请稍候...'});
-            this.media.src = this.state.songAddress;
-            return this.media.play();
+            this.props.action.play();
+        }
+    }
+
+    previous() {
+        let index = this.state.index;
+        if (this.props.common.playing && index) {
+            this.setState({index: this.state.index - 1}, this.loadSongAddress);
+        }
+    }
+
+    next() {
+        let index = this.state.index;
+        if (this.props.common.playing && index < this.props.common.playlist.length - 1) {
+            this.setState({index: this.state.index + 1}, this.loadSongAddress);
         }
     }
 
     render() {
+        let index = this.state.index;
+        let playlist = this.props.common.playlist || [];
+        let name = playlist.length > 0 ? playlist[index].name + ' - ' + playlist[index].singer : '';
+        let img = playlist.length > 0 ? playlist[index].singerImg : '';
         return (
             <div className="elsa-footer">
                 <div className="player">
-                    <Player play={this.play.bind(this)} isPlaying={this.state.isPlaying}/>
+                    <Player play={this.play.bind(this)}
+                            previous={this.previous.bind(this)}
+                            next={this.next.bind(this)}
+                            isPlaying={this.state.playing}/>
                 </div>
                 <div className="control-bar">
-                    <Progress songName={this.state.songName}
-                              picture={this.state.picture}
+                    <Progress songName={name}
+                              picture={img}
                               currentTime={this.state.currentTime}
                               duration={this.state.duration}/>
                     <div className="btn-group">
                         <i className="fa fa-heart btn btn-heart"/>
                         <i className="fa fa-download btn"/>
                         <span className="lrc btn">歌词</span>
-                        <i className="fa fa-list-ul btn btn-list"/>
+                        <i className="fa fa-list-ul btn btn-list" onClick={this.props.openPlayList}/>
                     </div>
                 </div>
             </div>
         );
     }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Footer);

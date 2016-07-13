@@ -1,7 +1,9 @@
 .appearance {
 
   .carousel {
-    margin: 20px 100px;
+    margin: 20px 20px;
+    width: 725px;
+    height: 208px;
   }
 
   .daily-recommend {
@@ -92,6 +94,35 @@
           .singer-name {
             width: 148px;
           }
+        }
+      }
+    }
+
+    &.singer-list {
+      li {
+        width: 110px;
+        margin-right: 8px;
+
+        img {
+          float: left;
+          width: 110px;
+          height: 110px;
+          border-radius: 110px;
+          cursor: pointer;
+        }
+
+        .info-wrapper {
+          float: none;
+
+          .song-name {
+            text-align: center;
+            padding: 10px 0 0 0;
+            width: 110px;
+          }
+        }
+
+        &:hover {
+          background-color: transparent;
         }
       }
     }

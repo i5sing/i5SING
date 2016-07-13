@@ -49,17 +49,14 @@
     height: 565px;
   }
 
-  .pull-right {
-    float: right;
-  }
-
-  .pull-left {
-    float: left;
-  }
-
-  .clear-fix:after {
-    content: '';
-    clear: both;
-    display: block;
+  .play-list {
+    position: fixed;
+    right: 0;
+    bottom: 61px;
+    width: 300px;
+    height: 100%;
+    z-index: 300;
+    background-color: #fff;
+    box-shadow: 0 -3px 15px 2px rgba(0, 0, 0, 0.2);
   }
 }

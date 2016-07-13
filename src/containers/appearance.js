@@ -3,91 +3,212 @@
  */
 import React, {Component} from 'react';
 import Carousel from 'nuka-carousel';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {insertSongs} from '../backend/song.db';
+import {play} from '../actions/common';
+import {
+    getCarousel,
+    getDailyRecommendSongs,
+    getSpecialColumn,
+    getLatestSingers,
+    getSingers
+} from '../actions/appearance';
 
-export default class Appearance extends Component {
+const mapStateToProps = state => ({
+    appearance: state.appearance,
+    common: state.common
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    action: bindActionCreators({
+        getCarousel,
+        getDailyRecommendSongs,
+        getSpecialColumn,
+        getLatestSingers,
+        getSingers,
+        play
+    }, dispatch),
+    dispatch
+});
+
+class Appearance extends Component {
     constructor(props) {
         super(props);
 
-        this.handleClick = this.handleClick.bind(this);
+        this.state = {
+            dailyPage: 0
+        };
     }
 
-    handleClick(e) {
+    nextDailyPage() {
+        if (this.state.dailyPage == 2) return;
+        this.setState({dailyPage: this.state.dailyPage + 1});
+    }
 
+    previousDailyPage() {
+        if (this.state.dailyPage == 0) return;
+        this.setState({dailyPage: this.state.dailyPage - 1});
+    }
+
+    playAll() {
+        let dailyRecommends = this.props.appearance.dailyRecommends;
+        insertSongs('playlist', dailyRecommends.map(song => {
+            return {
+                id: song.SongId,
+                type: song.SongType,
+                name: song.RecommendName,
+                singer: song.NickName,
+                singerId: song.UserId,
+                singerImg: song.Image
+            }
+        })).then(() => {
+            this.props.action.play();
+        });
+    }
+
+    componentDidMount() {
+        this.props.action.getCarousel(23);
+        this.props.action.getDailyRecommendSongs(1, 27);
+        this.props.action.getSpecialColumn();
+        this.props.action.getLatestSingers(1, 5);
+        this.props.action.getSingers(1, 5);
     }
 
     render() {
+        let carousels = this.props.appearance.carousels || [];
+        let dailyRecommends = this.props.appearance.dailyRecommends || [];
+        let specialColumns = this.props.appearance.specialColumns || [];
+        let recommendSingers = this.props.appearance.recommendSingers || [];
+        let latestSingers = this.props.appearance.latestSingers || [];
+
         return (
             <div className="appearance">
                 <div className="carousel">
-                    <Carousel autoplay={true} wrapAround={true}>
-                        <img src="http://img5.5sing.kgimg.com/m/T1M0bnB7YT1RXrhCrK.jpg"/>
-                        <img src="http://img4.5sing.kgimg.com/m/T1LUC7BmWT1RXrhCrK.jpg"/>
-                        <img src="http://img4.5sing.kgimg.com/m/T1.8KnB7VT1RXrhCrK.jpg"/>
-                        <img src="http://img2.5sing.kgimg.com/m/T10Bh7B7YT1RXrhCrK.jpg"/>
-                    </Carousel>
-                </div>
-                <div className="elsa-panel daily-recommend">
-                    <h3>每日推荐</h3>
-                    <div className="elsa-panel-bar">
-                        <span><i className="fa fa-play btn"></i>播放全部</span>
-                        <div className="pull-right">
-                            <i className="fa fa-chevron-circle-left btn"></i>
-                            <i className="fa fa-chevron-circle-right btn"></i>
-                        </div>
-                    </div>
-                    <ul>
-                        <li>
-                            <img src="http://img1.5sing.kgimg.com/force/T1giK0BmhT1RXrhCrK.jpg"/>
-                            <div className="info-wrapper">
-                                <div className="song-name">神武三世桥（《神武2》游戏主题曲）</div>
-                                <div className="singer-name">晨悠组合</div>
-                            </div>
-                        </li>
-                        <li>
-                            <img src="http://img1.5sing.kgimg.com/force/T1giK0BmhT1RXrhCrK.jpg"/>
-                            <div className="info-wrapper">
-                                <div className="song-name">神武三世桥（《神武2》游戏主题曲）</div>
-                                <div className="singer-name">晨悠组合</div>
-                            </div>
-                        </li>
-                        <li>
-                            <img src="http://img1.5sing.kgimg.com/force/T1giK0BmhT1RXrhCrK.jpg"/>
-                            <div className="info-wrapper">
-                                <div className="song-name">神武三世桥（《神武2》游戏主题曲）</div>
-                                <div className="singer-name">晨悠组合</div>
-                            </div>
-                        </li>
-                    </ul>
+                    {this._buildCarousel(carousels)}
                 </div>
 
-                <div className="elsa-panel daily-recommend special-column">
-                    <h3>有声专栏</h3>
-                    <div className="elsa-panel-bar clear-fix">
-                        <div className="pull-right">
-                            更多
-                        </div>
-                    </div>
-                    <ul>
-                        <li>
-                            <img src="http://img2.5sing.kgimg.com/m/T1nsCaB7JT1RXrhCrK.jpg"/>
-                            <div className="info-wrapper">
-                                <div className="song-name">【广播剧】《最好的我们》 第二期（下）</div>
-                                <div className="song-description">最幸福的，是在身边。</div>
-                                <div className="singer-name">七濑薰</div>
-                            </div>
-                        </li>
-                        <li>
-                            <img src="http://img5.5sing.kgimg.com/m/T1M.EkBThT1RXrhCrK.jpg"/>
-                            <div className="info-wrapper">
-                                <div className="song-name">【广播剧】《最好的我们》 第一期 （上）</div>
-                                <div className="song-description">如果你还记得当年最好的时光</div>
-                                <div className="singer-name">七濑薰</div>
+                {this._buildDailyRecommend(dailyRecommends)}
 
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+                {this._buildSpecialColumn(specialColumns)}
+
+                {this._buildSingers(latestSingers, '新入驻音乐人')}
+
+                {this._buildSingers(recommendSingers, '热门音乐人')}
             </div>
         );
     }
+
+    _buildSingers(singers, name) {
+        singers = singers.slice(0, 5);
+        return (<div className="elsa-panel daily-recommend singer-list">
+            <h3>{name}</h3>
+            <div className="elsa-panel-bar clear-fix">
+                <div className="pull-right">
+                    更多
+                </div>
+            </div>
+            <ul>
+                {singers.map(singer => {
+                    return (
+                        <li key={singer.ID}>
+                            <img src={singer.I}/>
+                            <div className="info-wrapper">
+                                <div className="song-name">{singer.NN}</div>
+                            </div>
+                        </li>
+                    )
+                })}
+            </ul>
+        </div>);
+    }
+
+    _buildSpecialColumn(specialColumns) {
+        if (specialColumns.length > 0) {
+            specialColumns = specialColumns.filter(column => {
+                return column.title == '有声专栏';
+            })
+        }
+
+        return specialColumns.length > 0 && (<div className="elsa-panel daily-recommend special-column">
+                <h3>有声专栏</h3>
+                <div className="elsa-panel-bar clear-fix">
+                    <div className="pull-right">
+                        更多
+                    </div>
+                </div>
+                <ul>
+                    {specialColumns[0].list.map(column => {
+                        return (
+                            <li key={column.id}>
+                                <img src={column.pic}/>
+                                <div className="info-wrapper">
+                                    <div className="song-name">{column.song_name}</div>
+                                    <div className="song-description light-color">{column.words}</div>
+                                    <div className="singer-name light-color">{column.nickname}</div>
+                                </div>
+                            </li>
+                        )
+                    })}
+                </ul>
+            </div>);
+    }
+
+    _buildDailyRecommend(dailyRecommends) {
+        let rightBtnClasses = 'fa fa-chevron-circle-right btn ';
+        let leftBtnClasses = 'fa fa-chevron-circle-left btn ';
+
+        if (dailyRecommends.length > 0) {
+            dailyRecommends = dailyRecommends.slice(this.state.dailyPage * 9, (this.state.dailyPage + 1) * 9);
+        }
+
+        if (this.state.dailyPage == 2) {
+            rightBtnClasses += 'disabled';
+        }
+
+        if (this.state.dailyPage == 0) {
+            leftBtnClasses += 'disabled';
+        }
+
+        return (
+            <div className="elsa-panel daily-recommend">
+                <h3>每日推荐</h3>
+                <div className="elsa-panel-bar">
+                    <span><i className="fa fa-play btn"
+                             onClick={this.playAll.bind(this, dailyRecommends)}></i>播放全部</span>
+                    <div className="pull-right">
+                        <i className={leftBtnClasses}
+                           onClick={this.previousDailyPage.bind(this)}></i>
+                        <i className={rightBtnClasses}
+                           onClick={this.nextDailyPage.bind(this)}></i>
+                    </div>
+                </div>
+                <ul>
+                    {dailyRecommends.map(daily => {
+                        return (
+                            <li key={daily.SongId}>
+                                <img src={daily.Image}/>
+                                <div className="info-wrapper">
+                                    <div className="song-name">{daily.RecommendName}</div>
+                                    <div className="singer-name light-color">{daily.NickName}</div>
+                                </div>
+                            </li>
+                        )
+                    })}
+                </ul>
+            </div>
+        );
+    }
+
+    _buildCarousel(carousels) {
+        return (
+            <Carousel autoplay={true} wrapAround={true}>
+                {carousels.map(item => {
+                    return <img key={item.id} src={item.thumb}/>
+                })}
+            </Carousel>
+        );
+    }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Appearance);

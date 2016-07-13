@@ -30,7 +30,7 @@ module.exports = {
 
                 // Options to configure babel with
                 query: {
-                    presets: ['es2015', 'react']
+                    presets: ['react', 'es2015']
                 }
             },
             {
@@ -53,7 +53,14 @@ module.exports = {
         ]
     },
     plugins: [
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': process.env.NODE_ENV
+        }),
         new webpack.optimize.DedupePlugin()
         // new webpack.optimize.UglifyJsPlugin({comments: false}),
-    ]
+    ],
+    "externals": {
+        "sqlite3": "require('sqlite3')",
+        "5sing-sdk": "require('5sing-sdk')"
+    }
 };
