@@ -9,10 +9,17 @@ export default class Button extends Component {
     }
 
     render() {
-        return (
-            <div className="elsa-button">
+        let classes = this.props.type == 'primary' ?
+            'elsa-button btn-primary ' :
+            'elsa-button ';
+        
+        classes += this.props.size == 'large' ?
+            'btn-lg' : 'btn-md';
 
-            </div>
+        return (
+            <button type="button" className={classes} onClick={this.props.onClick}>
+                {this.props.children}
+            </button>
         );
     }
 }

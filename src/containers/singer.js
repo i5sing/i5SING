@@ -4,52 +4,98 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getRankDetail} from '../actions/rank';
+import {
+    getUserInfo,
+    getUserSongs
+} from '../actions/singer';
+import {play, playAll} from '../actions/common';
 import Button from '../components/button';
-import {Link} from 'react-router';
 
 const mapStateToProps = state => ({
-    rank: state.rank
+    singer: state.singer
 });
 
 const mapDispatchToProps = (dispatch) => ({
     action: bindActionCreators({
-        getRankDetail
+        getUserInfo,
+        getUserSongs,
+        play,
+        playAll
     }, dispatch),
     dispatch
 });
 
-class RankList extends Component {
+class Singer extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            songType: 'yc',
             page: 1,
             pageSize: 20
         }
     }
 
     componentDidMount() {
-        let rankId = this.props.routeParams.rankId,
-            state = this.state;
-        this.props.action.getRankDetail(rankId, state.page, state.pageSize);
+        this.userId = this.props.routeParams.userId;
+        let state = this.state;
+        this.props.action.getUserInfo(this.userId);
+        this.props.action.getUserSongs(this.userId, state.songType, state.page, state.pageSize);
     }
 
     componentWillReceiveProps(nextProps) {
     }
 
+    changeSongType(type) {
+        let state = this.state;
+        if (type == state.songType) return;
+
+        this.setState({songType: type}, () => {
+            this.props.action.getUserSongs(this.userId, type, state.page, state.pageSize);
+        });
+    }
+
+    playAll() {
+        let userSongs = this.props.singer.userSongs;
+        this.props.action.playAll(userSongs.map(song => {
+            return {
+                id: song.ID,
+                type: song.SK,
+                name: song.SN,
+                singer: song.user.NN,
+                singerId: song.user.ID,
+                singerImg: song.user.I
+            }
+        }));
+    }
+
     render() {
-        let rankDetail = this.props.rank.rankDetail || {};
+        let userInfo = this.props.singer.userInfo || {},
+            userSongs = this.props.singer.userSongs || [];
 
         return (
             <div>
-                <div className="elsa-panel elsa-panel-no-margin elsa-list">
+                <div className="elsa-panel elsa-panel-no-margin elsa-list singer">
                     <div className="elsa-panel-body elsa-panel-body-bg elsa-list-body clear-fix">
-                        <img src={rankDetail.photoBig}/>
+                        <img src={userInfo.I}/>
                         <div className="elsa-list-info">
-                            <h3 className="elsa-list-title highlight-bold">{rankDetail.name}</h3>
-                            <div className="light-color elsa-list-time">{rankDetail.time}</div>
+                            <h3 className="elsa-list-title highlight-bold">{userInfo.NN}</h3>
+                            <div className="light-color elsa-list-time">
+                                {`${userInfo.P} ${userInfo.C},  ${userInfo.SX == 1 ? '女' : '男'},  生日:${userInfo.B}`}
+                            </div>
+                            <div className="light-color elsa-list-description">{userInfo.M}</div>
                             <div className="btn-group">
-                                <Button type="primary" size="large">
+                                <ul className="tab">
+                                    <li className={`pointer ${this.state.songType == 'yc' ? 'active' : ''}`}
+                                        onClick={this.changeSongType.bind(this, 'yc')}>原创
+                                    </li>
+                                    <li className={`pointer ${this.state.songType == 'fc' ? 'active' : ''}`}
+                                        onClick={this.changeSongType.bind(this, 'fc')}>翻唱
+                                    </li>
+                                    <li className={`pointer ${this.state.songType == 'bz' ? 'active' : ''}`}
+                                        onClick={this.changeSongType.bind(this, 'bz')}>伴奏
+                                    </li>
+                                </ul>
+                                <Button type="primary" size="large" onClick={this.playAll.bind(this)}>
                                     <i className="fa fa-play"/>播放全部
                                 </Button>
                                 <Button type="default" size="large">
@@ -70,7 +116,7 @@ class RankList extends Component {
                             </tr>
                             </thead>
                             <tbody>
-                            {rankDetail.songs && rankDetail.songs.map((song, index) => {
+                            {userSongs.map((song, index) => {
                                 index++;
                                 return (
                                     <tr key={song.ID}>
@@ -84,9 +130,7 @@ class RankList extends Component {
                                                 <i className="btn fa fa-download"/>
                                             </span>
                                         </td>
-                                        <td className="no-wrap highlight-normal">
-                                            <Link to={`/user/${song.user.ID}`}>{song.user.NN}</Link>
-                                        </td>
+                                        <td className="no-wrap highlight-normal">{song.user.NN}</td>
                                         <td className="no-wrap highlight-normal">
                                             {song.LG ? `${song.LG}, ${song.SY}` : `--`}
                                         </td>
@@ -102,4 +146,4 @@ class RankList extends Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RankList);
+export default connect(mapStateToProps, mapDispatchToProps)(Singer);

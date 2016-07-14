@@ -6,10 +6,9 @@ import React, {Component} from 'react';
 export default class Progress extends Component {
     constructor(props) {
         super(props);
-        this.formatTime = this.formatTime.bind(this);
     }
 
-    formatTime(time) {
+    static formatTime(time) {
         if (!time) {
             return '00:00';
         }
@@ -34,11 +33,11 @@ export default class Progress extends Component {
                 <div className="wrapper">
                     <div className="info">
                         <div className="song-name">{this.props.songName}</div>
-                        <div className="time">{this.formatTime(currentTime)}/{this.formatTime(duration)}</div>
+                        <div className="time">{Progress.formatTime(currentTime)}/{Progress.formatTime(duration)}</div>
                     </div>
                     <div className="progress">
                     <span className="current-progress" style={{width: 525 * currentTime / duration}}>
-                        <span className="circle-chunk"></span>
+                        <span className="circle-chunk"/>
                     </span>
                     </div>
                 </div>

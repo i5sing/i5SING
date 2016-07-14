@@ -6,9 +6,11 @@ import {combineReducers} from 'redux';
 import common from './common';
 import appearance from './appearance';
 import rank from './rank';
+import singer from './singer';
 
 export default combineReducers({
     common: common,
     appearance: appearance,
-    rank: rank
+    rank: rank,
+    singer: singer
 });

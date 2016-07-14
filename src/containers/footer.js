@@ -3,15 +3,16 @@
  */
 import React, {Component} from 'react';
 
-import Player from './player';
-import Progress from './progress';
+import Player from '../components/player';
+import Progress from '../components/progress';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
     play,
     pause,
     resume,
-    getSongAddr
+    getSongAddr,
+    succeed
 } from '../actions/common';
 
 const mapStateToProps = state => ({
@@ -23,7 +24,8 @@ const mapDispatchToProps = (dispatch) => ({
     action: bindActionCreators({
         play,
         pause,
-        resume
+        resume,
+        succeed
     }, dispatch),
     dispatch
 });
@@ -59,17 +61,18 @@ export default class Footer extends Component {
 
     componentWillReceiveProps(nextProps) {
         let common = nextProps.common;
-        
-        if (common.playing && !common.resume && this.media.paused) {
-            this.setState({playing: true});
-            this.loadSongAddress();
-        } else if (common.playing && this.media.paused) {
+        if (common.success) return;
+
+        if (common.playing && !common.resume) {
+            this.setState({playing: true, index: 0}, this.loadSongAddress);
+        } else if (common.playing) {
             this.setState({playing: true});
             this.media.play();
-        } else if (!common.playing && !this.media.paused) {
+        } else if (!common.playing) {
             this.setState({playing: false});
             this.media.pause();
         }
+        this.props.action.succeed();
     }
 
     loadSongAddress() {
@@ -109,8 +112,8 @@ export default class Footer extends Component {
     render() {
         let index = this.state.index;
         let playlist = this.props.common.playlist || [];
-        let name = playlist.length > 0 ? playlist[index].name + ' - ' + playlist[index].singer : '';
-        let img = playlist.length > 0 ? playlist[index].singerImg : '';
+        let name = playlist.length > index ? playlist[index].name + ' - ' + playlist[index].singer : '';
+        let img = playlist.length > index ? playlist[index].singerImg : '';
         return (
             <div className="elsa-footer">
                 <div className="player">

@@ -6,24 +6,30 @@ import ACTIONS from '../constants/actions';
 const {
     PLAY,
     RESUME,
-    PAUSE
+    PAUSE,
+    ACTION
 } = ACTIONS;
 
 export default (state = {}, action) => {
-    console.log(action);
     switch (action.type) {
         case PLAY:
             state.playlist = action.data;
             state.playing = true;
             state.resume = false;
+            state.success = false;
             break;
         case RESUME:
             state.playing = true;
             state.resume = true;
+            state.success = false;
             break;
         case PAUSE:
             state.playing = false;
             state.resume = false;
+            state.success = false;
+            break;
+        case ACTION:
+            state.success = true;
             break;
     }
 

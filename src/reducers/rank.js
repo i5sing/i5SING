@@ -5,11 +5,15 @@ import ACTIONS from '../constants/actions';
 
 const {
     GET_RANK_OVERVIEW,
+    GET_RANK_DETAIL
 } = ACTIONS;
 export default (state = {}, action) => {
     switch (action.type) {
         case GET_RANK_OVERVIEW:
             state.overviews = action.data;
+            break;
+        case GET_RANK_DETAIL:
+            state.rankDetail = action.data;
             break;
     }
 

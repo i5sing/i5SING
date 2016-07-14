@@ -1,0 +1,44 @@
+.table.table-elsa {
+  width: 100%;
+  font-size: 12px;
+
+  thead {
+    background-color: #fafafa;
+  }
+
+  tr {
+    height: 40px;
+    border-bottom: 1px solid #f7f7f7;
+
+    .th-index {
+      width: 30px;
+    }
+
+    .th-name {
+      width: 350px;
+    }
+
+    .th-singer, .th-type {
+      width: 180px;
+    }
+
+    &:hover {
+      background-color: #f7f7f7;
+
+      .menu-bar {
+        visibility: visible;
+      }
+    }
+
+    .menu-bar {
+      visibility: hidden;
+      position: absolute;
+      right: 20px;
+    }
+  }
+
+  th, td {
+    line-height: 40px;
+    text-align: left;
+  }
+}

@@ -7,17 +7,19 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 //components
 import Nav from '../components/nav';
-import Header from '../components/header';
-import Footer from '../components/footer';
 
 //containers
+import Header from './header';
+import Footer from './footer';
 import RankList from './ranklist';
 import Rank from './rank';
 import Appearance from './appearance';
+import Singer from './singer';
 
 let routes = (
     <Router>
         <Route path="/appearance" component={Appearance}/>
+        <Route path="/user/:userId" component={Singer}/>
         <Route path="/rank/:rankId" component={RankList}/>
         <Route path="/rank" component={Rank}/>
         <Route path="*" component={Appearance}/>

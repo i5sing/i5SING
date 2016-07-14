@@ -26,15 +26,4 @@ function createTable() {
     db.run(createHostorySql);
 }
 
-
-function readAllRows() {
-    console.log("readAllRows lorem");
-    db.all("SELECT rowid AS id, info FROM lorem", function (err, rows) {
-        rows.forEach(function (row) {
-            console.log(row.id + ": " + row.info);
-        });
-        closeDb();
-    });
-}
-
 module.exports = db;

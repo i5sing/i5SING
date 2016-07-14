@@ -4,9 +4,9 @@
 import React, {Component} from 'react';
 import Carousel from 'nuka-carousel';
 import {connect} from 'react-redux';
+import {Link} from 'react-router';
 import {bindActionCreators} from 'redux';
-import {insertSongs} from '../backend/song.db';
-import {play} from '../actions/common';
+import {play, playAll} from '../actions/common';
 import {
     getCarousel,
     getDailyRecommendSongs,
@@ -27,7 +27,8 @@ const mapDispatchToProps = (dispatch) => ({
         getSpecialColumn,
         getLatestSingers,
         getSingers,
-        play
+        play,
+        playAll
     }, dispatch),
     dispatch
 });
@@ -53,7 +54,7 @@ class Appearance extends Component {
 
     playAll() {
         let dailyRecommends = this.props.appearance.dailyRecommends;
-        insertSongs('playlist', dailyRecommends.map(song => {
+        this.props.action.playAll(dailyRecommends.map(song => {
             return {
                 id: song.SongId,
                 type: song.SongType,
@@ -62,9 +63,7 @@ class Appearance extends Component {
                 singerId: song.UserId,
                 singerImg: song.Image
             }
-        })).then(() => {
-            this.props.action.play();
-        });
+        }));
     }
 
     componentDidMount() {
@@ -112,9 +111,11 @@ class Appearance extends Component {
                 {singers.map(singer => {
                     return (
                         <li key={singer.ID}>
-                            <img src={singer.I}/>
+                            <Link to={`/user/${singer.ID}`}><img src={singer.I}/></Link>
                             <div className="info-wrapper">
-                                <div className="song-name">{singer.NN}</div>
+                                <Link to={`/user/${singer.ID}`}>
+                                    <div className="song-name">{singer.NN}</div>
+                                </Link>
                             </div>
                         </li>
                     )
@@ -175,12 +176,12 @@ class Appearance extends Component {
                 <h3>每日推荐</h3>
                 <div className="elsa-panel-bar">
                     <span><i className="fa fa-play btn"
-                             onClick={this.playAll.bind(this, dailyRecommends)}></i>播放全部</span>
+                             onClick={this.playAll.bind(this, dailyRecommends)}/>播放全部</span>
                     <div className="pull-right">
                         <i className={leftBtnClasses}
-                           onClick={this.previousDailyPage.bind(this)}></i>
+                           onClick={this.previousDailyPage.bind(this)}/>
                         <i className={rightBtnClasses}
-                           onClick={this.nextDailyPage.bind(this)}></i>
+                           onClick={this.nextDailyPage.bind(this)}/>
                     </div>
                 </div>
                 <ul>
