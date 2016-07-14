@@ -48,6 +48,12 @@
         top: 0;
         height: 2px;
         background-color: @highlight-color;
+        z-index: 100;
+
+        &.buffered {
+          background-color: rgba(0, 0, 0, 0.2);
+          z-index: 50;
+        }
       }
 
     }

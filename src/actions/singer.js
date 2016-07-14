@@ -32,7 +32,7 @@ export function getUserSongs(userId, songType, pageIndex, pageSize) {
             pageIndex: pageIndex,
             pageSize: pageSize
         }).then(result => {
-            dispatch({type: GET_USER_SONGS, data: result.data});
+            dispatch({type: GET_USER_SONGS, result: result});
         }, err => {
 
         });

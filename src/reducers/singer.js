@@ -13,7 +13,8 @@ export default (state = {}, action) => {
             state.userInfo = action.data;
             break;
         case GET_USER_SONGS:
-            state.userSongs = action.data;
+            state.userSongs = action.result.data;
+            state.count = action.result.count;
             break;
     }
 

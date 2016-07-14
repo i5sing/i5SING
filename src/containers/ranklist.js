@@ -5,7 +5,9 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getRankDetail} from '../actions/rank';
+import {play, playAll} from '../actions/common';
 import Button from '../components/button';
+import Pagination from '../components/pagination';
 import {Link} from 'react-router';
 
 const mapStateToProps = state => ({
@@ -14,7 +16,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch) => ({
     action: bindActionCreators({
-        getRankDetail
+        getRankDetail,
+        play,
+        playAll
     }, dispatch),
     dispatch
 });
@@ -29,12 +33,29 @@ class RankList extends Component {
     }
 
     componentDidMount() {
-        let rankId = this.props.routeParams.rankId,
-            state = this.state;
-        this.props.action.getRankDetail(rankId, state.page, state.pageSize);
+        this.rankId = this.props.routeParams.rankId;
+        let state = this.state;
+        this.props.action.getRankDetail(this.rankId, state.page, state.pageSize);
     }
 
-    componentWillReceiveProps(nextProps) {
+    onPageChange(page) {
+        let state = this.state;
+        this.setState({page: page});
+        this.props.action.getRankDetail(this.rankId, page, state.pageSize);
+    }
+
+    playAll() {
+        let songs = this.props.rank.rankDetail.songs;
+        this.props.action.playAll(songs.map(song => {
+            return {
+                id: song.ID,
+                type: song.SK,
+                name: song.SN,
+                singer: song.user.NN,
+                singerId: song.user.ID,
+                singerImg: song.user.I
+            }
+        }));
     }
 
     render() {
@@ -49,7 +70,7 @@ class RankList extends Component {
                             <h3 className="elsa-list-title highlight-bold">{rankDetail.name}</h3>
                             <div className="light-color elsa-list-time">{rankDetail.time}</div>
                             <div className="btn-group">
-                                <Button type="primary" size="large">
+                                <Button type="primary" size="large" onClick={this.playAll.bind(this)}>
                                     <i className="fa fa-play"/>播放全部
                                 </Button>
                                 <Button type="default" size="large">
@@ -72,6 +93,7 @@ class RankList extends Component {
                             <tbody>
                             {rankDetail.songs && rankDetail.songs.map((song, index) => {
                                 index++;
+                                index = index + (this.state.page - 1) * this.state.pageSize;
                                 return (
                                     <tr key={song.ID}>
                                         <td className="center light-color no-wrap">
@@ -95,6 +117,10 @@ class RankList extends Component {
                             })}
                             </tbody>
                         </table>
+                        <Pagination count={rankDetail.count}
+                                    onChange={this.onPageChange.bind(this)}
+                                    pageSize={this.state.pageSize}
+                        />
                     </div>
                 </div>
             </div>

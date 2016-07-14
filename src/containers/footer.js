@@ -2,6 +2,7 @@
  * Created by zhaofeng on 7/11/16.
  */
 import React, {Component} from 'react';
+import ipc from '../backend/ipc';
 
 import Player from '../components/player';
 import Progress from '../components/progress';
@@ -16,7 +17,6 @@ import {
 } from '../actions/common';
 
 const mapStateToProps = state => ({
-    appearance: state.appearance,
     common: state.common
 });
 
@@ -37,16 +37,27 @@ export default class Footer extends Component {
             index: 0,
             currentTime: 0,
             duration: 0,
+            buffered: 0,
             playing: false
         };
     }
 
     componentDidMount() {
+        ipc.render.on('change-song', (evt, type) => {
+            if (type == 'next') {
+                this.next();
+            } else if (type == 'pre') {
+                this.previous()
+            } else {
+                this.play();
+            }
+        });
+
         this.media = new Audio('');
 
         //时间改变
         this.media.addEventListener('timeupdate', () => {
-            this.setState({currentTime: this.media.currentTime});
+            this.setState({currentTime: this.media.currentTime, buffered: this.media.buffered.end(0)});
         });
 
         //成功获取资源长度
@@ -79,9 +90,10 @@ export default class Footer extends Component {
         this.setState({playing: true});
         let song = this.props.common.playlist[this.state.index];
         getSongAddr(song.id, song.type).then(result => {
-            this.media.src = result.data.squrl || result.data.hqurl || result.data.lqurl;
-            this.media.load();
-            return this.media.play();
+            setTimeout(() => {
+                this.media.src = result.data.squrl || result.data.hqurl || result.data.lqurl;
+                this.media.play();
+            }, 150);
         });
     }
 
@@ -125,6 +137,7 @@ export default class Footer extends Component {
                 <div className="control-bar">
                     <Progress songName={name}
                               picture={img}
+                              buffered={this.state.buffered}
                               currentTime={this.state.currentTime}
                               duration={this.state.duration}/>
                     <div className="btn-group">

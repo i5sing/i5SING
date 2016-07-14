@@ -10,6 +10,7 @@ import {
 } from '../actions/singer';
 import {play, playAll} from '../actions/common';
 import Button from '../components/button';
+import Pagination from '../components/pagination';
 
 const mapStateToProps = state => ({
     singer: state.singer
@@ -54,6 +55,12 @@ class Singer extends Component {
         });
     }
 
+    onPageChange(page) {
+        let state = this.state;
+        this.setState({page: page});
+        this.props.action.getUserSongs(this.userId, state.songType, page, state.pageSize);
+    }
+
     playAll() {
         let userSongs = this.props.singer.userSongs;
         this.props.action.playAll(userSongs.map(song => {
@@ -71,7 +78,6 @@ class Singer extends Component {
     render() {
         let userInfo = this.props.singer.userInfo || {},
             userSongs = this.props.singer.userSongs || [];
-
         return (
             <div>
                 <div className="elsa-panel elsa-panel-no-margin elsa-list singer">
@@ -118,6 +124,7 @@ class Singer extends Component {
                             <tbody>
                             {userSongs.map((song, index) => {
                                 index++;
+                                index = index + (this.state.page - 1) * this.state.pageSize;
                                 return (
                                     <tr key={song.ID}>
                                         <td className="center light-color no-wrap">
@@ -139,6 +146,10 @@ class Singer extends Component {
                             })}
                             </tbody>
                         </table>
+                        <Pagination count={this.props.singer.count}
+                                    onChange={this.onPageChange.bind(this)}
+                                    pageSize={this.state.pageSize}
+                        />
                     </div>
                 </div>
             </div>
