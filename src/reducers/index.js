@@ -7,10 +7,12 @@ import common from './common';
 import appearance from './appearance';
 import rank from './rank';
 import singer from './singer';
+import collection from './collection';
 
 export default combineReducers({
     common: common,
     appearance: appearance,
     rank: rank,
-    singer: singer
+    singer: singer,
+    collection: collection
 });

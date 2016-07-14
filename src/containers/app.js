@@ -15,6 +15,9 @@ import RankList from './ranklist';
 import Rank from './rank';
 import Appearance from './appearance';
 import Singer from './singer';
+import Collections from './collections';
+import Collection from './collection';
+import WebView from './webview';
 
 let routes = (
     <Router>
@@ -22,6 +25,9 @@ let routes = (
         <Route path="/user/:userId" component={Singer}/>
         <Route path="/rank/:rankId" component={RankList}/>
         <Route path="/rank" component={Rank}/>
+        <Route path="/collection" component={Collections}/>
+        <Route path="/collection/:collectionId" component={Collection}/>
+        <Route path="/webview" component={WebView}/>
         <Route path="*" component={Appearance}/>
     </Router>
 );
@@ -50,7 +56,7 @@ export default class App extends Component {
                 <nav className="navigator">
                     <Nav />
                 </nav>
-                <div className="panel">
+                <div className="panel" id="panel">
                     <Router history={hashHistory} routes={routes}/>
                 </div>
                 <footer className="footer">

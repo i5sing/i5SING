@@ -1,0 +1,38 @@
+.collection {
+  h3 {
+    font-weight: normal;
+    font-size: 20px;
+    padding: 20px;
+    border-bottom: 1px solid @border-color;
+  }
+
+  .collection-list {
+    padding: 0;
+    background-color: #fff;
+
+    li {
+      padding: 0;
+      margin-right: 25px;
+      width: 125px;
+      margin-bottom: 20px;
+
+      &.last-child {
+        margin-right: 0;
+      }
+
+      img {
+        width: 125px;
+        height: 125px;
+      }
+
+      .collection-title {
+        text-align: center;
+        line-height: 20px;
+      }
+
+      &:hover {
+        background-color: #fff;
+      }
+    }
+  }
+}

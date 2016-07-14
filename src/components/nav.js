@@ -49,7 +49,10 @@ export default class Nav extends Component {
                             className={this.state.current=='rank' && 'active'}>
                             <i className="fa fa-signal btn"/>排行
                         </li>
-                        <li><i className="fa fa-reorder btn"/>歌单</li>
+                        <li onClick={this.handleClick.bind(this, 'collection')}
+                            className={this.state.current=='collection' && 'active'}>
+                            <i className="fa fa-reorder btn"/>歌单
+                        </li>
                         <li><i className="fa fa-square btn"/>广场</li>
                     </ul>
                     <h3>我的音乐</h3>

@@ -67,7 +67,7 @@ class Appearance extends Component {
     }
 
     componentDidMount() {
-        this.props.action.getCarousel(23);
+        this.props.action.getCarousel(26);
         this.props.action.getDailyRecommendSongs(1, 27);
         this.props.action.getSpecialColumn();
         this.props.action.getLatestSingers(1, 5);
@@ -205,7 +205,19 @@ class Appearance extends Component {
         return (
             <Carousel autoplay={true} wrapAround={true}>
                 {carousels.map(item => {
-                    return <img key={item.id} src={item.thumb}/>
+                    let webViewType = ['1', '4'];
+                    let to;
+                    if (~webViewType.indexOf(item.url_type))
+                        to = {pathname: "/webview", query: {url: item.url}};
+                    else if (item.url_type == 2)
+                        to = `/collection/${item.url}`;
+                    if (!to) return;
+
+                    return (
+                        <Link key={item.id} to={to}>
+                            <img src={item.thumb}/>
+                        </Link>
+                    )
                 })}
             </Carousel>
         );
