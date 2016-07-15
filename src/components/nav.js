@@ -3,6 +3,7 @@
  */
 import React, {Component} from 'react';
 const routeRE = /#\/(.*)\?.+/;
+const ipc = require('../backend/ipc');
 
 export default class Nav extends Component {
     constructor(props) {
@@ -23,6 +24,12 @@ export default class Nav extends Component {
         this.handleClick = this.handleClick.bind(this);
     }
 
+    componentDidMount() {
+        ipc.render.on('login-success-to-main-win', (event, info) => {
+            console.log(info)
+        })
+    }
+
     handleClick(key) {
         this.setState({
             current: key
@@ -31,12 +38,17 @@ export default class Nav extends Component {
         location.hash = '#/' + key;
     }
 
+    openLoginWin() {
+        console.log('send event');
+        ipc.render.send('open-login-win');
+    }
+
     render() {
         return (
             <div className="elsa-navigator">
                 <div className="user-info">
                     <img className="user-img" src="#"/>
-                    <div className="user-name">测试帐号</div>
+                    <div className="user-name pointer" onClick={this.openLoginWin.bind(this)}>登录</div>
                 </div>
                 <div className="nav">
                     <h3>乐库</h3>
@@ -53,7 +65,10 @@ export default class Nav extends Component {
                             className={this.state.current=='collection' && 'active'}>
                             <i className="fa fa-reorder btn"/>歌单
                         </li>
-                        <li><i className="fa fa-square btn"/>广场</li>
+                        <li onClick={this.handleClick.bind(this, 'square')}
+                            className={this.state.current=='square' && 'active'}>
+                            <i className="fa fa-square btn"/>广场
+                        </li>
                     </ul>
                     <h3>我的音乐</h3>
                     <ul>

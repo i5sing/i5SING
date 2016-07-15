@@ -18,6 +18,7 @@ import Singer from './singer';
 import Collections from './collections';
 import Collection from './collection';
 import WebView from './webview';
+import Square from './square';
 
 let routes = (
     <Router>
@@ -28,6 +29,7 @@ let routes = (
         <Route path="/collection" component={Collections}/>
         <Route path="/collection/:collectionId" component={Collection}/>
         <Route path="/webview" component={WebView}/>
+        <Route path="/square" component={Square}/>
         <Route path="*" component={Appearance}/>
     </Router>
 );

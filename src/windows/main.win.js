@@ -7,15 +7,15 @@ const MenuBuilder = require('./menu');
 const ipc = require('../backend/ipc');
 
 class MainWindows {
-    constructor(path) {
+    constructor() {
         this.win = new BrowserWindow({
             frame: false,
             resizable: false,
             height: 670,
             width: 980
         });
-
-        this.win.loadURL(path);
+        console.log(__dirname);
+        this.win.loadURL(`file://${__dirname}/index.html`);
 
         if (process.env.NODE_ENV && process.env.NODE_ENV == 'dev') {
             this.win.webContents.openDevTools();

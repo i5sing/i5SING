@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-size: 12px;
+        }
+
+        .input {
+            padding: 10px;
+            width: 240px;
+            outline: 0;
+            border: 1px solid #ebebeb;
+        }
+
+        .row {
+            margin: 20px;
+        }
+
+        .button {
+            width: 260px;
+            border-radius: 5px;
+            background-color: #3ac17e;
+            border: 1px solid #ebebeb;
+            opacity: 0.7;
+            padding: 10px;
+            cursor: pointer;
+            color: #fff;
+            outline: 0;
+        }
+
+        .button:hover {
+            opacity: 1;
+        }
+
+        #reason {
+            display: none;
+        }
+    </style>
+    <script>
+        const SingSdk = require('../backend/sing.sdk');
+        const ipc = require('../backend/ipc');
+
+        function login() {
+            let username = document.getElementById('username').value;
+            let password = document.getElementById('password').value;
+            SingSdk.login({
+                username: username,
+                password: password
+            }, function (result) {
+                if (result.code == 401) {
+                    document.getElementById('reason').style.display = 'block';
+                } else if (result.code == 200) {
+                    document.getElementById('reason').style.display = 'none';
+                    ipc.render.send('login-success', result);
+                }
+            });
+        }
+
+    </script>
+</head>
+<body>
+<div class="row">
+    <input class="input" type="text" placeholder="输入帐号/邮箱/手机" id="username">
+</div>
+<div class="row">
+    <input class="input" type="password" placeholder="输入密码" id="password">
+</div>
+
+<div class="row">
+    <input class="button" type="button" value="登录" onclick="login()">
+</div>
+<div class="row" id="reason">
+    用户名或密码错误
+</div>
+</body>
+</html>

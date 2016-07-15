@@ -49,6 +49,6 @@
     "webpack": "^1.13.1"
   },
   "dependencies": {
-    "5sing-sdk": "0.0.1"
+    "5sing-sdk": "0.0.3"
   }
 }

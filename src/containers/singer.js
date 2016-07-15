@@ -80,12 +80,12 @@ class Singer extends Component {
             userSongs = this.props.singer.userSongs || [];
         return (
             <div>
-                <div className="elsa-panel elsa-panel-no-margin elsa-list singer">
+                <div className="elsa-panel elsa-panel-no-margin elsa-list elsa-list-2">
                     <div className="elsa-panel-body elsa-panel-body-bg elsa-list-body clear-fix">
                         <img src={userInfo.I}/>
                         <div className="elsa-list-info">
                             <h3 className="elsa-list-title highlight-bold">{userInfo.NN}</h3>
-                            <div className="light-color elsa-list-time">
+                            <div className="light-color elsa-list-desc">
                                 {`${userInfo.P} ${userInfo.C},  ${userInfo.SX == 1 ? '女' : '男'},  生日:${userInfo.B}`}
                             </div>
                             <div className="light-color elsa-list-description">{userInfo.M}</div>

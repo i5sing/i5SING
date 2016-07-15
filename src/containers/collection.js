@@ -53,18 +53,19 @@ class Collection extends Component {
     }
 
     render() {
-        let collectionInfo = this.props.collection.collectionInfo || {},
+        let collectionInfo = this.props.collection.collectionInfo || {user: {}},
             songlist = this.props.collection.songlist || [];
         return (
             <div>
-                <div className="elsa-panel elsa-panel-no-margin elsa-list singer">
+                <div className="elsa-panel elsa-panel-no-margin elsa-list elsa-list-2">
                     <div className="elsa-panel-body elsa-panel-body-bg elsa-list-body clear-fix">
                         <img className="rect" src={collectionInfo.P}/>
                         <div className="elsa-list-info">
                             <h3 className="elsa-list-title highlight-bold">{collectionInfo.T}</h3>
-                            <div className="light-color elsa-list-time">
-                                {collectionInfo.C}
+                            <div className="light-color elsa-list-desc">
+                                创建人: <Link to={`/user/${collectionInfo.user.ID}`}>{collectionInfo.user.NN}</Link>
                             </div>
+                            <div className="light-color elsa-list-description">{collectionInfo.C}</div>
                             <div className="btn-group">
                                 <Button type="primary" size="large" onClick={this.playAll.bind(this)}>
                                     <i className="fa fa-play"/>播放全部

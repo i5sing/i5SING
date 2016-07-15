@@ -22,6 +22,8 @@ export default keyMirror({
     GET_COLLECTION: 'GET_COLLECTION',
     GET_COLLECTION_SONG: 'GET_COLLECTION_SONG',
 
+    GET_SQUARE: 'GET_SQUARE',
+
     PLAY: 'PLAY',
     PAUSE: 'PAUSE',
     RESUME: 'RESUME',
