@@ -73,7 +73,7 @@ export default class Nav extends Component {
                             <i className="fa fa-heart btn"/>收藏音乐
                         </li>
                         <li><i className="fa fa-star btn"/>收藏歌单</li>
-                        <li><i className="fa fa-history btn"/>播放历史</li>
+                        <li><i className="fa fa-download btn"/>下载</li>
                     </ul>
                 </div>
             </div>

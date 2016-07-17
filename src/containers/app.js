@@ -88,6 +88,13 @@ class App extends Component {
         ipc.render.send(`open-login-win`);
     }
 
+    closePanel() {
+        this.setState({
+            playListOpen: false,
+            lrcOpen: false
+        })
+    }
+
     componentDidMount() {
         this.props.action.checkLoginStatus();
         ipc.render.on('login-success-to-main-win', (event, info) => {
@@ -101,10 +108,10 @@ class App extends Component {
                 <header className="header">
                     <Header />
                 </header>
-                <nav className="navigator">
+                <nav className="navigator" onClick={this.closePanel.bind(this)}>
                     <Nav info={this.props.app.info} login={this.openLoginWin.bind(this)}/>
                 </nav>
-                <div className="panel" id="panel">
+                <div className="panel" id="panel" onClick={this.closePanel.bind(this)}>
                     <Router history={hashHistory} routes={routes}/>
                 </div>
                 <footer className="footer">

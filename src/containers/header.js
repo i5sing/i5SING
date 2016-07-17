@@ -2,6 +2,7 @@
  * Created by zhaofeng on 7/11/16.
  */
 import React, {Component} from 'react';
+import ipc from '../backend/ipc';
 
 export default class Header extends Component {
     constructor(props) {
@@ -9,9 +10,15 @@ export default class Header extends Component {
     }
 
     componentDidMount() {
-        // window.addEventListener('hashchange', function (evt, result) {
-        //     console.log(evt, result);
-        // });
+
+    }
+
+    forward() {
+        ipc.render.send('go-back-forward', 'forward');
+    }
+
+    back() {
+        ipc.render.send('go-back-forward', 'back');
     }
 
     /*
@@ -25,8 +32,10 @@ export default class Header extends Component {
         return (
             <div className="elsa-header clear-fix">
                 <div className="btn-group pull-left">
-                    <i className="fa fa-arrow-left btn btn-left" onClick={history.back}/>
-                    <i className="fa fa-arrow-right btn btn-right" onClick={history.forward}/>
+                    <i className={`fa fa-arrow-left btn btn-left`}
+                       onClick={this.back.bind(this)}/>
+                    <i className="fa fa-arrow-right btn btn-right"
+                       onClick={this.forward.bind(this)}/>
                 </div>
 
             </div>

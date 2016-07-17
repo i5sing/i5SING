@@ -46,7 +46,7 @@ class Singer extends Component {
         let state = this.state;
         if (type == state.songType) return;
 
-        this.setState({songType: type}, () => {
+        this.setState({songType: type, page: 1}, () => {
             this.props.action.getUserSongs(this.userId, type, state.page, state.pageSize);
         });
     }

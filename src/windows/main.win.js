@@ -16,6 +16,8 @@ class MainWindows {
         });
         this.win.loadURL(`file://${__dirname}/index.html`);
 
+        this.win.webContents.clearHistory();
+
         if (process.env.NODE_ENV && process.env.NODE_ENV == 'dev') {
             this.win.webContents.openDevTools();
         }

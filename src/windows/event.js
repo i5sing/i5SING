@@ -14,4 +14,13 @@ exports.registerEvent = function () {
         WinManager.close('login');
         ipc.send(win, 'login-success-to-main-win', info);
     });
+
+    ipc.main.on('go-back-forward', function (event, type) {
+        let win = WinManager.getWin('main');
+        if (type == 'back' && win.webContents.canGoBack()) {
+            win.webContents.goBack();
+        } else if (type == 'forward' && win.webContents.canGoForward()) {
+            win.webContents.goForward();
+        }
+    })
 };
