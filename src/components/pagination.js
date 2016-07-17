@@ -6,13 +6,10 @@ import React, {Component} from 'react';
 export default class Pagination extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            current: 1
-        }
     }
 
     onChange(page) {
-        if (page == this.state.current) return;
+        if (page == this.props.page) return;
 
         this.setState({current: page});
         this.props.onChange && this.props.onChange(page);
@@ -20,6 +17,7 @@ export default class Pagination extends Component {
 
     render() {
         let count = this.props.count || 0,
+            current = this.props.page || 1,
             pageSize = this.props.pageSize || 20;
 
         let pages = [];
@@ -33,7 +31,7 @@ export default class Pagination extends Component {
                     {pages.map(page => {
                         {
                             return (
-                                <li className={`pointer ${this.state.current == page ? 'active' : ''}`}
+                                <li className={`pointer ${current == page ? 'active' : ''}`}
                                     onClick={this.onChange.bind(this, page)}
                                     key={page}>{page}
                                 </li>

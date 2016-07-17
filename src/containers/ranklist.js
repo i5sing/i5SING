@@ -84,6 +84,7 @@ class RankList extends Component {
                                    pageSize={this.state.pageSize}/>
                         <Pagination count={rankDetail.count}
                                     onChange={this.onPageChange.bind(this)}
+                                    page={this.state.page}
                                     pageSize={this.state.pageSize}
                         />
                     </div>

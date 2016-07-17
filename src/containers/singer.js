@@ -46,9 +46,8 @@ class Singer extends Component {
         let state = this.state;
         if (type == state.songType) return;
 
-        this.setState({songType: type, page: 1}, () => {
-            this.props.action.getUserSongs(this.userId, type, state.page, state.pageSize);
-        });
+        this.setState({songType: type, page: 1});
+        this.props.action.getUserSongs(this.userId, type, 1, state.pageSize);
     }
 
     onPageChange(page) {
@@ -113,6 +112,7 @@ class Singer extends Component {
                                    pageSize={this.state.pageSize}/>
                         <Pagination count={this.props.singer.count}
                                     onChange={this.onPageChange.bind(this)}
+                                    page={this.state.page}
                                     pageSize={this.state.pageSize}
                         />
                     </div>

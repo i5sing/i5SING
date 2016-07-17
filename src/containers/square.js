@@ -5,7 +5,6 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getSquareList} from '../actions/square';
-import Pagination from '../components/pagination';
 
 const mapStateToProps = state => ({
     square: state.square
