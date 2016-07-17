@@ -29,7 +29,10 @@ export default keyMirror({
     PAUSE: 'PAUSE',
     RESUME: 'RESUME',
     ACTION: 'ACTION',
+    NEXT: 'NEXT',
+    PREVIOUS: 'PREVIOUS',
     GET_PERSONAL_INFO: 'GET_PERSONAL_INFO',
+    GET_SONG_INFO: 'GET_SONG_INFO',
 
     GET_MY_SONGS: 'GET_MY_SONGS'
 })

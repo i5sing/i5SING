@@ -10,7 +10,10 @@ const {
     ADD,
     PAUSE,
     RESUME,
-    ACTION
+    ACTION,
+    GET_SONG_INFO,
+    NEXT,
+    PREVIOUS
 } = ACTIONS;
 
 export function play(type) {
@@ -72,15 +75,40 @@ export function resume() {
     }
 }
 
-export function succeed() {
+export function succeed(status) {
     return {
-        type: ACTION
+        type: ACTION,
+        status: status
     }
 }
 
-export function getSongAddr(songId, songType) {
-    return SingSdk.getSongAddr({
-        songId: songId,
-        songType: songType
-    });
+export function next() {
+    return {
+        type: NEXT
+    }
+}
+
+export function previous() {
+    return {
+        type: PREVIOUS
+    }
+}
+
+export function getSongInfo(songId, songType) {
+    return (dispatch) => {
+        return SingSdk.getSongAddr({
+            songId: songId,
+            songType: songType
+        }).then(result => {
+            SingSdk.getSong({
+                songId: songId,
+                songType: songType
+            }).then(res => {
+                Object.assign(result.data, res.data);
+                dispatch({type: GET_SONG_INFO, data: result});
+            }, err => {
+
+            });
+        });
+    };
 }

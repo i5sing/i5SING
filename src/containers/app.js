@@ -72,12 +72,14 @@ class App extends Component {
 
     togglePlayListPanel() {
         this.setState({
+            lrcOpen: false,
             playListOpen: !this.state.playListOpen
         })
     }
 
     toggleLrcPanel() {
         this.setState({
+            playListOpen: false,
             lrcOpen: !this.state.lrcOpen
         })
     }
@@ -115,8 +117,8 @@ class App extends Component {
                     {this.state.playListOpen && (<div className="play-list" key="play-list">
                         <PlayList />
                     </div>)}
-                    {this.state.lrcOpen && (<div className="play-list" key="play-list">
-                        <Lrc />
+                    {this.state.lrcOpen && (<div className="play-list" key="lrc-list">
+                        <Lrc song={this.state.currentSong}/>
                     </div>)}
                 </ReactCSSTransitionGroup>
             </div>

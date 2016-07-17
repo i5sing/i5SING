@@ -42,7 +42,6 @@ class Playlist extends Component {
 
     render() {
         let songs = this.props.common.playlist || [];
-        console.log(songs);
         return (
             <div>
                 <div className="elsa-panel elsa-panel-no-margin elsa-list elsa-list-3 relative">

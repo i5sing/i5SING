@@ -12,7 +12,9 @@ import {
     play,
     pause,
     resume,
-    getSongAddr,
+    next,
+    previous,
+    getSongInfo,
     succeed
 } from '../actions/common';
 
@@ -25,7 +27,10 @@ const mapDispatchToProps = (dispatch) => ({
         play,
         pause,
         resume,
-        succeed
+        succeed,
+        getSongInfo,
+        next,
+        previous
     }, dispatch),
     dispatch
 });
@@ -38,8 +43,10 @@ export default class Footer extends Component {
             currentTime: 0,
             duration: 0,
             buffered: 0,
-            playing: false
+            playing: false,
+            currentSong: null
         };
+        this.hasLoad = false; //avoid mulity load song info
     }
 
     componentDidMount() {
@@ -57,7 +64,12 @@ export default class Footer extends Component {
 
         //时间改变
         this.media.addEventListener('timeupdate', () => {
-            this.setState({currentTime: this.media.currentTime, buffered: this.media.buffered.end(0)});
+            let timeRang = this.media.buffered;
+            if (timeRang.length == 1) {
+                this.setState({currentTime: this.media.currentTime, buffered: timeRang.end(0)});
+            } else {
+                this.setState({currentTime: this.media.currentTime});
+            }
         });
 
         //成功获取资源长度
@@ -66,35 +78,48 @@ export default class Footer extends Component {
         });
 
         this.media.addEventListener('ended', () => {
-            this.setState({index: this.state.index + 1}, this.loadSongAddress);
+            this.next();
         });
     }
 
+    /**
+     *
+     * @param nextProps
+     * @returns {*}
+     *
+     * state.status = 1; //加载播放列表成功
+     * state.status = 2; //继续
+     * state.status = 3; //暂停
+     * state.status = 0; //开始播放
+     * state.status = 4; //加载歌曲信息成功
+     */
     componentWillReceiveProps(nextProps) {
         let common = nextProps.common;
-        if (common.success) return;
 
-        if (common.playing && !common.resume) {
-            this.setState({playing: true, index: common.current}, this.loadSongAddress);
-        } else if (common.playing) {
+        if (common.status == 0) return;
+
+        if (common.status == 1) {
+            this.state.index = common.current;
+            let song = this.props.common.playlist[this.state.index];
+            return this.props.action.getSongInfo(song.id, song.type);
+        } else if (common.status == 2) {
             this.setState({playing: true});
             this.media.play();
-        } else if (!common.playing) {
+        } else if (common.status == 3) {
             this.setState({playing: false});
             this.media.pause();
-        }
-        this.props.action.succeed();
-    }
-
-    loadSongAddress() {
-        this.setState({playing: true});
-        let song = this.props.common.playlist[this.state.index];
-        getSongAddr(song.id, song.type).then(result => {
+        } else if (common.status == 4 && !this.hasLoad) {
+            this.hasLoad = true;
+            let result = common.currentSong;
+            this.setState({playing: true});
             setTimeout(() => {
                 this.media.src = result.data.squrl || result.data.hqurl || result.data.lqurl;
                 this.media.play();
+                this.hasLoad = false;
             }, 150);
-        });
+        }
+
+        this.props.action.succeed(0);
     }
 
     play() {
@@ -108,22 +133,21 @@ export default class Footer extends Component {
     }
 
     previous() {
-        let index = this.state.index;
-        if (this.props.common.playing && index) {
-            this.setState({index: this.state.index - 1}, this.loadSongAddress);
+        if (this.props.common.current) {
+            this.props.action.previous();
         }
     }
 
     next() {
-        let index = this.state.index;
-        if (this.props.common.playing && index < this.props.common.playlist.length - 1) {
-            this.setState({index: this.state.index + 1}, this.loadSongAddress);
+        if (this.props.common.current < this.props.common.playlist.length - 1) {
+            this.props.action.next();
         }
     }
 
     render() {
         let index = this.state.index;
         let playlist = this.props.common.playlist || [];
+        let song = this.state.currentSong;
         let name = playlist.length > index ? playlist[index].name + ' - ' + playlist[index].singer : '';
         let img = playlist.length > index ? playlist[index].singerImg : '';
         return (
@@ -144,7 +168,7 @@ export default class Footer extends Component {
                     <div className="btn-group">
                         <i className="fa fa-heart btn btn-heart"/>
                         <i className="fa fa-download btn"/>
-                        <span className="lrc btn" onClick={this.props.openLrc}>歌词</span>
+                        <span className="lrc btn" onClick={this.props.openLrc.bind(this)}>歌词</span>
                         <i className="fa fa-list-ul btn btn-list" onClick={this.props.openPlayList}/>
                     </div>
                 </div>
