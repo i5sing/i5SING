@@ -31,20 +31,19 @@ class Collections extends Component {
     }
 
     componentDidMount() {
-        let panelEl = document.getElementById('panel');
+        let el = document.getElementById('panel');
         this.props.action.getSongCollections(this.state.pageIndex);
-        panelEl.addEventListener('scroll', this.onScroll);
+        el.addEventListener('scroll', this.onScroll);
     }
 
     componentWillUnmount() {
-        let panelEl = document.getElementById('panel');
-        panelEl.removeEventListener('scroll', this.onScroll);
+        let el = document.getElementById('panel');
+        el.removeEventListener('scroll', this.onScroll);
     }
 
     onScroll() {
-        let obj = document.getElementById('panel');
-
-        if (obj.offsetHeight + obj.scrollTop > obj.scrollHeight - 50) {
+        let el = document.getElementById('panel');
+        if (el.scrollHeight - 50 <= el.offsetHeight + el.scrollTop) {
             clearTimeout(this.timer);
             this.timer = setTimeout(() => {
                 this.state.pageIndex += 2;
@@ -59,7 +58,7 @@ class Collections extends Component {
         return (
             <div>
                 <div className="elsa-panel collection">
-                    <h3>歌单</h3>
+                    <h3 className="title">歌单</h3>
                     <ul className="collection-list">
                         {collections.map((collection, index) => {
                             index++;

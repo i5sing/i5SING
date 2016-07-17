@@ -42,7 +42,7 @@ class Square extends Component {
             <div>
                 <div className="elsa-panel elsa-panel-no-margin elsa-list comment-list">
                     <div className="elsa-panel-body elsa-list-body clear-fix">
-                        <h3>广场</h3>
+                        <h3 className="title">广场</h3>
                         <ul>
                             {squareList.map(square => {
                                 console.log(square);

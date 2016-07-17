@@ -5,18 +5,24 @@ import ACTIONS from '../constants/actions';
 
 const {
     PLAY,
+    ADD,
     RESUME,
     PAUSE,
-    ACTION
+    ACTION,
+    GET_PERSONAL_INFO
 } = ACTIONS;
 
 export default (state = {}, action) => {
     switch (action.type) {
         case PLAY:
-            state.playlist = action.data;
+            state.playlist = action.data.songs;
             state.playing = true;
             state.resume = false;
             state.success = false;
+            state.current = action.data.current || 0;
+            break;
+        case ADD:
+            state.playlist = action.data.songs;
             break;
         case RESUME:
             state.playing = true;
@@ -30,6 +36,9 @@ export default (state = {}, action) => {
             break;
         case ACTION:
             state.success = true;
+            break;
+        case GET_PERSONAL_INFO:
+            state.info = action.data;
             break;
     }
 

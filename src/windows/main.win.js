@@ -14,7 +14,6 @@ class MainWindows {
             height: 670,
             width: 980
         });
-        console.log(__dirname);
         this.win.loadURL(`file://${__dirname}/index.html`);
 
         if (process.env.NODE_ENV && process.env.NODE_ENV == 'dev') {

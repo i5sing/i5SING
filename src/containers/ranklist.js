@@ -5,9 +5,8 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getRankDetail} from '../actions/rank';
-import {play, playAll} from '../actions/common';
-import Button from '../components/button';
-import Pagination from '../components/pagination';
+import {playAll} from '../actions/common';
+import {SongTable, Pagination, Button} from '../components';
 import {Link} from 'react-router';
 
 const mapStateToProps = state => ({
@@ -17,7 +16,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch) => ({
     action: bindActionCreators({
         getRankDetail,
-        play,
         playAll
     }, dispatch),
     dispatch
@@ -44,7 +42,7 @@ class RankList extends Component {
         this.props.action.getRankDetail(this.rankId, page, state.pageSize);
     }
 
-    playAll() {
+    playAll(index) {
         let songs = this.props.rank.rankDetail.songs;
         this.props.action.playAll(songs.map(song => {
             return {
@@ -55,7 +53,7 @@ class RankList extends Component {
                 singerId: song.user.ID,
                 singerImg: song.user.I
             }
-        }));
+        }), 'playlist', index);
     }
 
     render() {
@@ -70,7 +68,7 @@ class RankList extends Component {
                             <h3 className="elsa-list-title highlight-bold">{rankDetail.name}</h3>
                             <div className="light-color elsa-list-time">{rankDetail.time}</div>
                             <div className="btn-group">
-                                <Button type="primary" size="large" onClick={this.playAll.bind(this)}>
+                                <Button type="primary" size="large" onClick={this.playAll.bind(this, 0)}>
                                     <i className="fa fa-play"/>播放全部
                                 </Button>
                                 <Button type="default" size="large">
@@ -81,42 +79,9 @@ class RankList extends Component {
                     </div>
 
                     <div className="elsa-panel-body elsa-list-body clear-fix">
-                        <table className="table table-elsa">
-                            <thead className="light-color">
-                            <tr>
-                                <th className="th-index">&nbsp;</th>
-                                <th className="th-name center">歌曲</th>
-                                <th className="th-singer">歌手</th>
-                                <th className="th-type">风格</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {rankDetail.songs && rankDetail.songs.map((song, index) => {
-                                index++;
-                                index = index + (this.state.page - 1) * this.state.pageSize;
-                                return (
-                                    <tr key={song.ID}>
-                                        <td className="center light-color no-wrap">
-                                            {index < 10 ? `0${index}` : index}
-                                        </td>
-                                        <td className="no-wrap highlight-normal relative">
-                                            {song.SN}
-                                            <span className="btn-group menu-bar">
-                                                <i className="btn fa fa-play"/>
-                                                <i className="btn fa fa-download"/>
-                                            </span>
-                                        </td>
-                                        <td className="no-wrap highlight-normal">
-                                            <Link to={`/user/${song.user.ID}`}>{song.user.NN}</Link>
-                                        </td>
-                                        <td className="no-wrap highlight-normal">
-                                            {song.LG ? `${song.LG}, ${song.SY}` : `--`}
-                                        </td>
-                                    </tr>
-                                )
-                            })}
-                            </tbody>
-                        </table>
+                        <SongTable songs={rankDetail.songs}
+                                   page={this.state.page}
+                                   pageSize={this.state.pageSize}/>
                         <Pagination count={rankDetail.count}
                                     onChange={this.onPageChange.bind(this)}
                                     pageSize={this.state.pageSize}

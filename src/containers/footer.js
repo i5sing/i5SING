@@ -75,7 +75,7 @@ export default class Footer extends Component {
         if (common.success) return;
 
         if (common.playing && !common.resume) {
-            this.setState({playing: true, index: 0}, this.loadSongAddress);
+            this.setState({playing: true, index: common.current}, this.loadSongAddress);
         } else if (common.playing) {
             this.setState({playing: true});
             this.media.play();
@@ -137,13 +137,14 @@ export default class Footer extends Component {
                 <div className="control-bar">
                     <Progress songName={name}
                               picture={img}
+                              isPlaying={this.state.playing}
                               buffered={this.state.buffered}
                               currentTime={this.state.currentTime}
                               duration={this.state.duration}/>
                     <div className="btn-group">
                         <i className="fa fa-heart btn btn-heart"/>
                         <i className="fa fa-download btn"/>
-                        <span className="lrc btn">歌词</span>
+                        <span className="lrc btn" onClick={this.props.openLrc}>歌词</span>
                         <i className="fa fa-list-ul btn btn-list" onClick={this.props.openPlayList}/>
                     </div>
                 </div>

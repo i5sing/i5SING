@@ -9,8 +9,7 @@ import {
     getUserSongs
 } from '../actions/singer';
 import {play, playAll} from '../actions/common';
-import Button from '../components/button';
-import Pagination from '../components/pagination';
+import {SongTable, Pagination, Button} from '../components';
 
 const mapStateToProps = state => ({
     singer: state.singer
@@ -41,9 +40,6 @@ class Singer extends Component {
         let state = this.state;
         this.props.action.getUserInfo(this.userId);
         this.props.action.getUserSongs(this.userId, state.songType, state.page, state.pageSize);
-    }
-
-    componentWillReceiveProps(nextProps) {
     }
 
     changeSongType(type) {
@@ -112,40 +108,9 @@ class Singer extends Component {
                     </div>
 
                     <div className="elsa-panel-body elsa-list-body clear-fix">
-                        <table className="table table-elsa">
-                            <thead className="light-color">
-                            <tr>
-                                <th className="th-index">&nbsp;</th>
-                                <th className="th-name center">歌曲</th>
-                                <th className="th-singer">歌手</th>
-                                <th className="th-type">风格</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {userSongs.map((song, index) => {
-                                index++;
-                                index = index + (this.state.page - 1) * this.state.pageSize;
-                                return (
-                                    <tr key={song.ID}>
-                                        <td className="center light-color no-wrap">
-                                            {index < 10 ? `0${index}` : index}
-                                        </td>
-                                        <td className="no-wrap highlight-normal relative">
-                                            {song.SN}
-                                            <span className="btn-group menu-bar">
-                                                <i className="btn fa fa-play"/>
-                                                <i className="btn fa fa-download"/>
-                                            </span>
-                                        </td>
-                                        <td className="no-wrap highlight-normal">{song.user.NN}</td>
-                                        <td className="no-wrap highlight-normal">
-                                            {song.LG ? `${song.LG}, ${song.SY}` : `--`}
-                                        </td>
-                                    </tr>
-                                )
-                            })}
-                            </tbody>
-                        </table>
+                        <SongTable songs={userSongs}
+                                   page={this.state.page}
+                                   pageSize={this.state.pageSize}/>
                         <Pagination count={this.props.singer.count}
                                     onChange={this.onPageChange.bind(this)}
                                     pageSize={this.state.pageSize}

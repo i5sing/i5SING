@@ -10,7 +10,7 @@ import {
     getSongsInSongCollections
 } from '../actions/collection';
 import {play, playAll} from '../actions/common';
-import Button from '../components/button';
+import {SongTable, Button} from '../components';
 
 const mapStateToProps = state => ({
     collection: state.collection
@@ -78,41 +78,7 @@ class Collection extends Component {
                     </div>
 
                     <div className="elsa-panel-body elsa-list-body clear-fix">
-                        <table className="table table-elsa">
-                            <thead className="light-color">
-                            <tr>
-                                <th className="th-index">&nbsp;</th>
-                                <th className="th-name center">歌曲</th>
-                                <th className="th-singer">歌手</th>
-                                <th className="th-type">风格</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {songlist.map((song, index) => {
-                                index++;
-                                return (
-                                    <tr key={song.ID}>
-                                        <td className="center light-color no-wrap">
-                                            {index < 10 ? `0${index}` : index}
-                                        </td>
-                                        <td className="no-wrap highlight-normal relative">
-                                            {song.SN}
-                                            <span className="btn-group menu-bar">
-                                                <i className="btn fa fa-play"/>
-                                                <i className="btn fa fa-download"/>
-                                            </span>
-                                        </td>
-                                        <td className="no-wrap highlight-normal">
-                                            <Link to={`/user/${song.user.ID}`}>{song.user.NN}</Link>
-                                        </td>
-                                        <td className="no-wrap highlight-normal">
-                                            {song.LG ? `${song.LG}, ${song.SY}` : `--`}
-                                        </td>
-                                    </tr>
-                                )
-                            })}
-                            </tbody>
-                        </table>
+                        <SongTable songs={songlist}/>
                     </div>
                 </div>
             </div>

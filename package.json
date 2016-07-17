@@ -32,6 +32,7 @@
     "electron-rebuild": "^1.1.5",
     "file-loader": "^0.9.0",
     "font-awesome": "^4.6.3",
+    "jquery": "^3.1.0",
     "key-mirror": "^1.0.1",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
@@ -45,10 +46,11 @@
     "redux-thunk": "^2.1.0",
     "sqlite3": "^3.1.4",
     "style-loader": "^0.13.1",
+    "toastr": "^2.1.2",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.1"
   },
   "dependencies": {
-    "5sing-sdk": "0.0.3"
+    "5sing-sdk": "0.0.4"
   }
 }

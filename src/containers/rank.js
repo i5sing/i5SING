@@ -35,7 +35,7 @@ class Rank extends Component {
         return (
             <div>
                 <div className="elsa-panel rank-overview">
-                    <h3>排行榜</h3>
+                    <h3 className="title">排行榜</h3>
                     <ul className="rank-list">
                         {overviews.map(overview => {
                             return (

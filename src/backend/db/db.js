@@ -22,8 +22,17 @@ function createTable() {
         singer_id varchar(50),
         singer_img text
     )`;
+
+    let createUserInfoSql = `CREATE TABLE IF NOT EXISTS userinfo (
+        id varchar(50) primary key,
+        name varchar(255),
+        img text,
+        sign text
+    )`;
+
     db.run(createPlaylistSql);
     db.run(createHostorySql);
+    db.run(createUserInfoSql);
 }
 
 module.exports = db;

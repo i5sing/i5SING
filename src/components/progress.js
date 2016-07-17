@@ -6,6 +6,9 @@ import React, {Component} from 'react';
 export default class Progress extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            initial: false
+        }
     }
 
     static formatTime(time) {
@@ -21,6 +24,14 @@ export default class Progress extends Component {
         return `${minute}:${second}`;
     }
 
+    componentWillReceiveProps() {
+        if (this.props.isPlaying) {
+            this.setState({
+                initial: true
+            })
+        }
+    }
+
     render() {
         let currentTime = this.props.currentTime || 0,
             duration = this.props.duration || 0.1,
@@ -29,12 +40,21 @@ export default class Progress extends Component {
         return (
             <div className="elsa-progress">
                 <div className="head-img">
-                    <img src={this.props.picture}/>
+                    {this.state.initial && (<img src={this.props.picture}/>)}
                 </div>
                 <div className="wrapper">
                     <div className="info">
-                        <div className="song-name">{this.props.songName}</div>
-                        <div className="time">{Progress.formatTime(currentTime)}/{Progress.formatTime(duration)}</div>
+                        <div className="song-name">{this.state.initial && this.props.songName}</div>
+                        {this.state.initial && (
+                            <div className="time">
+                                {Progress.formatTime(currentTime)}/{Progress.formatTime(duration)}
+                            </div>
+                        )}
+                        {!this.state.initial && (
+                            <div className="time">
+                                00:00/00:00
+                            </div>
+                        )}
                     </div>
                     <div className="progress">
                         <span className="current-progress buffered" style={{width: 525 * buffered / duration}}/>

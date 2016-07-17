@@ -1,4 +1,15 @@
 .elsa-list {
+  h3.title {
+    font-weight: normal;
+    font-size: 20px;
+    padding: 20px;
+    border-bottom: 1px solid @border-color;
+  }
+
+  .bar {
+    margin: 0 20px;
+  }
+
   .elsa-list-body {
     img {
       float: left;
@@ -54,14 +65,54 @@
     }
   }
 
-  &.comment-list {
-    h3 {
-      font-weight: normal;
-      font-size: 20px;
-      padding: 20px;
-      border-bottom: 1px solid @border-color;
+  &.elsa-list-3 {
+    h3.title {
+      margin-bottom: 0;
     }
 
+    .elsa-list-body {
+      padding: 2px;
+    }
+
+    .bar {
+      position: absolute;
+      top: 30px;
+      right: 5px;
+      margin: 0;
+    }
+
+    table {
+      tr {
+        img {
+          width: 50px !important;
+          height: 50px !important;
+          border-radius: 3px;
+        }
+
+        .song-name {
+          display: block;
+          width: 215px;
+          padding-bottom: 10px;
+        }
+
+        .singer-name {
+          margin-top: 10px;
+        }
+
+        td {
+          vertical-align: middle;
+          line-height: normal;
+
+          .menu-bar {
+            bottom: 5px;
+            right: 10px;
+          }
+        }
+      }
+    }
+  }
+
+  &.comment-list {
     ul {
       background-color: #fff;
     }

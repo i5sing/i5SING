@@ -2,7 +2,6 @@
  * Created by zhaofeng on 7/12/16.
  */
 import SingSdk from '../backend/sing.sdk';
-
 import ACTIONS from '../constants/actions';
 
 const {

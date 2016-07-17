@@ -4,6 +4,16 @@
 import React, {Component} from 'react';
 import {Router, Route, hashHistory, Redirect} from 'react-router'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {Link} from 'react-router'
+import {
+    getPersonalInfo,
+    checkLoginStatus
+} from '../actions/app';
+
+//backend
+const ipc = require('../backend/ipc');
 
 //components
 import Nav from '../components/nav';
@@ -19,6 +29,9 @@ import Collections from './collections';
 import Collection from './collection';
 import WebView from './webview';
 import Square from './square';
+import FavoriteSong from './favorite_song';
+import PlayList from './playlist';
+import Lrc from './lrc';
 
 let routes = (
     <Router>
@@ -30,22 +43,53 @@ let routes = (
         <Route path="/collection/:collectionId" component={Collection}/>
         <Route path="/webview" component={WebView}/>
         <Route path="/square" component={Square}/>
+        <Route path="/favorite_song" component={FavoriteSong}/>
         <Route path="*" component={Appearance}/>
     </Router>
 );
 
-export default class App extends Component {
+const mapStateToProps = state => ({
+    app: state.app
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    action: bindActionCreators({
+        getPersonalInfo,
+        checkLoginStatus
+    }, dispatch),
+    dispatch
+});
+
+class App extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            playListOpen: false
+            playListOpen: false,
+            lrcOpen: false
         };
     }
 
     togglePlayListPanel() {
         this.setState({
             playListOpen: !this.state.playListOpen
+        })
+    }
+
+    toggleLrcPanel() {
+        this.setState({
+            lrcOpen: !this.state.lrcOpen
+        })
+    }
+
+    openLoginWin() {
+        ipc.render.send(`open-login-win`);
+    }
+
+    componentDidMount() {
+        this.props.action.checkLoginStatus();
+        ipc.render.on('login-success-to-main-win', (event, info) => {
+            this.props.action.getPersonalInfo(info.userId, info.sign);
         })
     }
 
@@ -56,22 +100,28 @@ export default class App extends Component {
                     <Header />
                 </header>
                 <nav className="navigator">
-                    <Nav />
+                    <Nav info={this.props.app.info} login={this.openLoginWin.bind(this)}/>
                 </nav>
                 <div className="panel" id="panel">
                     <Router history={hashHistory} routes={routes}/>
                 </div>
                 <footer className="footer">
-                    <Footer openPlayList={this.togglePlayListPanel.bind(this)}/>
+                    <Footer openLrc={this.toggleLrcPanel.bind(this)}
+                            openPlayList={this.togglePlayListPanel.bind(this)}/>
                 </footer>
                 <ReactCSSTransitionGroup transitionName="slide"
                                          transitionEnterTimeout={500}
                                          transitionLeaveTimeout={300}>
                     {this.state.playListOpen && (<div className="play-list" key="play-list">
-
+                        <PlayList />
+                    </div>)}
+                    {this.state.lrcOpen && (<div className="play-list" key="play-list">
+                        <Lrc />
                     </div>)}
                 </ReactCSSTransitionGroup>
             </div>
         )
     }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
