@@ -47,3 +47,19 @@ exports.readSongs = function (tableName) {
         });
     });
 };
+
+exports.deleteSongs = function () {
+    return new Promise((resolve, reject) => {
+        db.run(`delete from playlist`, () => {
+            resolve();
+        });
+    });
+};
+
+exports.deleteSong = function (songId) {
+    return new Promise((resolve, reject) => {
+        db.run(`delete from playlist where id='${songId}'`, () => {
+            resolve();
+        });
+    });
+};

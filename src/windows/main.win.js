@@ -18,6 +18,10 @@ class MainWindows {
 
         this.win.webContents.clearHistory();
 
+        this.win.webContents.on('did-finish-load', () => {
+            this.win.webContents.clearHistory();
+        });
+
         if (process.env.NODE_ENV && process.env.NODE_ENV == 'dev') {
             this.win.webContents.openDevTools();
         }

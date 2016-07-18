@@ -5,6 +5,8 @@ import ACTIONS from '../constants/actions';
 
 const {
     PLAY,
+    PLAY2,
+    CLEAR,
     ADD,
     RESUME,
     PAUSE,
@@ -21,6 +23,22 @@ export default (state = {}, action) => {
             state.playlist = action.data.songs;
             state.current = action.data.current || 0;
             state.status = 1; //加载播放列表成功
+            break;
+        case PLAY2:
+            state.current = action.data.current || 0;
+            state.status = 1; //加载播放列表成功
+            break;
+        case CLEAR:
+            if (action.data.songId) {
+                if (action.data.current < state.current) {
+                    state.current = state.current - 1;
+                }
+                state.playlist.splice(action.data.current, 1);
+            } else {
+                state.playlist = [];
+                state.current = null;
+                state.status = 6; //停止
+            }
             break;
         case ADD:
             state.playlist = action.data.songs;

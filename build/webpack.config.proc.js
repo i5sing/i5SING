@@ -6,13 +6,11 @@ var webpack = require('webpack');
 module.exports = {
     cache: true,
     target: 'electron',
-    devtool: 'source-map',
-    watch: true,
     entry: {
         main: './src/entry.js'
     },
     output: {
-        path: path.join(__dirname, '../src/static'),
+        path: path.join(__dirname, '../dist/static'),
         filename: '[name].js',
         chunkFilename: '[chunkhash].js',
         sourceMapFilename: '[name].map'
@@ -54,10 +52,10 @@ module.exports = {
     },
     plugins: [
         new webpack.DefinePlugin({
-            'process.env.NODE_ENV': "'dev'"
+            'process.env.NODE_ENV': "'production'"
         }),
         new webpack.optimize.DedupePlugin(),
-        // new webpack.optimize.UglifyJsPlugin({comments: false}),
+        new webpack.optimize.UglifyJsPlugin({comments: false}),
         new webpack.ProvidePlugin({
             $: "jquery",
             jQuery: "jquery",

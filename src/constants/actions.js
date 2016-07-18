@@ -25,6 +25,8 @@ export default keyMirror({
     GET_SQUARE: 'GET_SQUARE',
 
     PLAY: 'PLAY',
+    PLAY2: 'PLAY2',
+    CLEAR: 'CLEAR',
     ADD: 'ADD',
     PAUSE: 'PAUSE',
     RESUME: 'RESUME',

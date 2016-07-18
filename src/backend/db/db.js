@@ -2,9 +2,13 @@
  * Created by zhaofeng on 7/12/16.
  */
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('db.sqlite3', createTable);
+const db = new sqlite3.Database(process.resourcesPath + '/db.sqlite3', createTable);
 
-function createTable() {
+function createTable(err) {
+    if (err) {
+        throw new Error(err);
+    }
+
     let createHostorySql = `CREATE TABLE IF NOT EXISTS history (
         id varchar(50) primary key, 
         name varchar(255),

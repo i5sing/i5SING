@@ -3,5 +3,6 @@ node_modules/
 .DS_Store
 npm-debug.log
 dist/
+app/
 db.sqlite3
 src/static

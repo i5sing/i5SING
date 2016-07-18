@@ -4,8 +4,10 @@
   "description": "中国原创音乐基地5sing桌面客户端开原版",
   "main": "index.js",
   "scripts": {
-    "start": "electron ./src/index.js",
-    "dev": "webpack --config build/webpack.config.js"
+    "start": "NODE_ENV=dev electron ./src/index.js",
+    "build": "electron-packager ./dist elsa --platform=all --arch=all --out=app --overwrite",
+    "dev": "webpack --config build/webpack.config.js",
+    "compile": "webpack --config build/webpack.config.proc.js"
   },
   "repository": {
     "type": "git",
@@ -28,6 +30,7 @@
     "babel-preset-react": "^6.3.13",
     "babel-preset-stage-3": "^6.11.0",
     "css-loader": "^0.23.1",
+    "electron-packager": "^7.3.0",
     "electron-prebuilt": "^1.2.6",
     "electron-rebuild": "^1.1.5",
     "file-loader": "^0.9.0",
@@ -51,6 +54,8 @@
     "webpack": "^1.13.1"
   },
   "dependencies": {
-    "5sing-sdk": "0.0.4"
+    "sqlite3": "^3.1.4",
+    "5sing-sdk": "0.0.4",
+    "request": "^2.73.0"
   }
 }

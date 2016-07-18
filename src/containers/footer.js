@@ -99,8 +99,8 @@ export default class Footer extends Component {
         if (common.status == 0) return;
 
         if (common.status == 1) {
-            this.state.index = common.current;
-            let song = this.props.common.playlist[this.state.index];
+            if (!this.props.common.playlist || this.props.common.playlist.length == 0) return;
+            let song = this.props.common.playlist[common.current];
             return this.props.action.getSongInfo(song.id, song.type);
         } else if (common.status == 2) {
             this.setState({playing: true});
@@ -117,6 +117,9 @@ export default class Footer extends Component {
                 this.media.play();
                 this.hasLoad = false;
             }, 150);
+        } else if (common.status == 6) {
+            this.media.currentTime = this.media.duration;
+            this.setState({playing: false});
         }
 
         this.props.action.succeed(0);
@@ -145,7 +148,7 @@ export default class Footer extends Component {
     }
 
     render() {
-        let index = this.state.index;
+        let index = this.props.common.current || 0;
         let playlist = this.props.common.playlist || [];
         let song = this.state.currentSong;
         let name = playlist.length > index ? playlist[index].name + ' - ' + playlist[index].singer : '';

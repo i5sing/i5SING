@@ -8,6 +8,7 @@ import {PlayTable, Button} from '../components';
 import {
     play,
     pause,
+    clear,
     resume,
     readPlayList,
     succeed
@@ -21,6 +22,7 @@ const mapDispatchToProps = (dispatch) => ({
     action: bindActionCreators({
         play,
         pause,
+        clear,
         resume,
         readPlayList,
         succeed
@@ -37,7 +39,10 @@ class Playlist extends Component {
         setTimeout(() => {
             this.props.action.readPlayList();
         }, 500);
+    }
 
+    clear() {
+        this.props.action.clear();
     }
 
     render() {
@@ -48,7 +53,7 @@ class Playlist extends Component {
                     <h3 className="title">播放列表</h3>
                     <div className="bar">
                         <div className="btn-group">
-                            <Button type="primary" size="large">
+                            <Button type="primary" size="large" onClick={this.clear.bind(this)}>
                                 <i className="fa fa-trash"/>清空
                             </Button>
                             <Button type="default" size="large">

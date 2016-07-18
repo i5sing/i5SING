@@ -7,6 +7,8 @@ import db from '../backend/db/song.db';
 
 const {
     PLAY,
+    PLAY2,
+    CLEAR,
     ADD,
     PAUSE,
     RESUME,
@@ -16,14 +18,34 @@ const {
     PREVIOUS
 } = ACTIONS;
 
-export function play(type) {
-    return (dispatch) => {
-        db.readSongs(type || 'playlist').then(result => {
-            dispatch({type: PLAY, data: {songs: result.songs, current: 0}});
-        }, err => {
-
-        });
+export function play(current = 0) {
+    return {
+        type: PLAY2,
+        data: {
+            current: current
+        }
     };
+}
+
+export function clear(songId, index) {
+    return (dispatch) => {
+        if (songId) {
+            db.deleteSong(songId).then(() => {
+                dispatch({
+                    type: CLEAR, data: {
+                        songId: songId,
+                        current: index
+                    }
+                });
+            });
+        } else {
+            db.deleteSongs().then(() => {
+                dispatch({
+                    type: CLEAR, data: {}
+                });
+            })
+        }
+    }
 }
 
 export function playAll(songs, type, current = 0) {

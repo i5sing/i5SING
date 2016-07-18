@@ -5,7 +5,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {play, playAll, add} from '../actions/common';
+import {play, playAll, add, clear} from '../actions/common';
 import toastr from 'toastr';
 
 const mapStateToProps = state => ({
@@ -16,7 +16,8 @@ const mapDispatchToProps = (dispatch) => ({
     action: bindActionCreators({
         add,
         play,
-        playAll
+        playAll,
+        clear
     }, dispatch),
     dispatch
 });
@@ -25,18 +26,8 @@ export default class PlayTable extends Component {
         super(props);
     }
 
-    playAll(index) {
-        let songs = this.props.songs;
-        this.props.action.playAll(songs.map(song => {
-            return {
-                id: song.ID,
-                type: song.SK,
-                name: song.SN,
-                singer: song.user.NN,
-                singerId: song.user.ID,
-                singerImg: song.user.I
-            }
-        }), 'playlist', index);
+    play(index) {
+        this.props.action.play(index);
     }
 
     add(song) {
@@ -51,8 +42,15 @@ export default class PlayTable extends Component {
         toastr.success('添加成功');
     }
 
+    clear(songId, index) {
+        if (index == this.props.common.current) return;
+
+        this.props.action.clear(songId, index);
+    }
+
     render() {
-        let songs = this.props.songs || [];
+        let songs = this.props.songs || [],
+            current = this.props.common.current;
 
         return (
             <table className="table table-elsa">
@@ -67,16 +65,17 @@ export default class PlayTable extends Component {
                                          style={{width: '50px !important', height: '50px !important'}}/>
                                 </Link>
                             </td>
-                            <td className="no-wrap highlight-normal relative">
+                            <td className={`no-wrap highlight-normal relative ${current == index ? 'playing' : ''}`}>
                                 <span className="song-name no-wrap">{song.SN}</span>
                                 <span className="singer-name no-wrap light-color pointer">
                                     <Link to={`/user/${song.user.ID}`}>{song.user.NN}</Link>
                                 </span>
                                 <span className="btn-group menu-bar">
                                     <i className="btn fa fa-play"
-                                       onClick={this.playAll.bind(this, index)}/>
+                                       onClick={this.play.bind(this, index)}/>
                                     <i className="btn fa fa-download"/>
-                                    <i className="btn fa fa-close"/>
+                                    <i className={`btn fa fa-close ${current == index ? 'disabled' : ''}`}
+                                       onClick={this.clear.bind(this, song.ID, index)}/>
                                 </span>
                             </td>
                         </tr>
