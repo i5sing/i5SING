@@ -59,16 +59,13 @@ export default class PlayTable extends Component {
                     return (
                         <tr key={song.ID}>
                             <td className="center light-color no-wrap">
-                                <Link to={`/user/${song.user.ID}`}>
-                                    <img className="pointer"
-                                         src={song.user.I}
-                                         style={{width: '50px !important', height: '50px !important'}}/>
-                                </Link>
+                                <img src={song.user.I}
+                                     style={{width: '50px !important', height: '50px !important'}}/>
                             </td>
                             <td className={`no-wrap highlight-normal relative ${current == index ? 'playing' : ''}`}>
                                 <span className="song-name no-wrap">{song.SN}</span>
-                                <span className="singer-name no-wrap light-color pointer">
-                                    <Link to={`/user/${song.user.ID}`}>{song.user.NN}</Link>
+                                <span className="singer-name no-wrap light-color">
+                                    {song.user.NN}
                                 </span>
                                 <span className="btn-group menu-bar">
                                     <i className="btn fa fa-play"

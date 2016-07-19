@@ -92,6 +92,7 @@ export default class Footer extends Component {
      * state.status = 3; //暂停
      * state.status = 0; //开始播放
      * state.status = 4; //加载歌曲信息成功
+     * state.status = 6; //停止
      */
     componentWillReceiveProps(nextProps) {
         let common = nextProps.common;
@@ -117,7 +118,7 @@ export default class Footer extends Component {
                 this.media.play();
                 this.hasLoad = false;
             }, 150);
-        } else if (common.status == 6) {
+        } else if (common.status == 6 && this.media.currentTime) {
             this.media.currentTime = this.media.duration;
             this.setState({playing: false});
         }

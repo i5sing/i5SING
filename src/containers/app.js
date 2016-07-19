@@ -32,10 +32,12 @@ import Square from './square';
 import FavoriteSong from './favorite_song';
 import PlayList from './playlist';
 import Lrc from './lrc';
+import Columns from './columns';
 
 let routes = (
     <Router>
         <Route path="/appearance" component={Appearance}/>
+        <Route path="/special-column" component={Columns}/>
         <Route path="/user/:userId" component={Singer}/>
         <Route path="/rank/:rankId" component={RankList}/>
         <Route path="/rank" component={Rank}/>

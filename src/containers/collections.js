@@ -5,6 +5,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Link} from 'react-router'
+import {EndScrollLoad} from '../components';
 import {
     getSongCollections
 } from '../actions/collection';
@@ -26,37 +27,22 @@ class Collections extends Component {
         this.state = {
             pageIndex: 1
         };
-        this.timer = null;
-        this.onScroll = this.onScroll.bind(this);
     }
 
     componentDidMount() {
-        let el = document.getElementById('panel');
         this.props.action.getSongCollections(this.state.pageIndex);
-        el.addEventListener('scroll', this.onScroll);
     }
 
-    componentWillUnmount() {
-        let el = document.getElementById('panel');
-        el.removeEventListener('scroll', this.onScroll);
-    }
-
-    onScroll() {
-        let el = document.getElementById('panel');
-        if (el.scrollHeight - 50 <= el.offsetHeight + el.scrollTop) {
-            clearTimeout(this.timer);
-            this.timer = setTimeout(() => {
-                this.state.pageIndex += 2;
-                this.props.action.getSongCollections(this.state.pageIndex, true);
-            }, 300);
-        }
+    onLoad() {
+        this.state.pageIndex += 2;
+        this.props.action.getSongCollections(this.state.pageIndex, true);
     }
 
     render() {
         let collections = this.props.collection.collections || [];
 
         return (
-            <div>
+            <EndScrollLoad target={'panel'} onLoad={this.onLoad.bind(this)}>
                 <div className="elsa-panel collection">
                     <h3 className="title">歌单</h3>
                     <ul className="collection-list">
@@ -76,7 +62,7 @@ class Collections extends Component {
                         })}
                     </ul>
                 </div>
-            </div>
+            </EndScrollLoad>
         );
     }
 }

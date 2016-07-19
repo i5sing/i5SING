@@ -11,6 +11,7 @@ import singer from './singer';
 import collection from './collection';
 import square from './square';
 import favorite from './favorite';
+import columns from './columns';
 
 export default combineReducers({
     app: app,
@@ -20,5 +21,6 @@ export default combineReducers({
     rank: rank,
     singer: singer,
     collection: collection,
-    square: square
+    square: square,
+    columns: columns
 });

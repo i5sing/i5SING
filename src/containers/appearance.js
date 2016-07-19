@@ -6,7 +6,8 @@ import Carousel from 'nuka-carousel';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
 import {bindActionCreators} from 'redux';
-import {play, playAll} from '../actions/common';
+import {play, playAll, add} from '../actions/common';
+import toastr from 'toastr';
 import {
     getCarousel,
     getDailyRecommendSongs,
@@ -28,7 +29,8 @@ const mapDispatchToProps = (dispatch) => ({
         getLatestSingers,
         getSingers,
         play,
-        playAll
+        playAll,
+        add
     }, dispatch),
     dispatch
 });
@@ -52,7 +54,7 @@ class Appearance extends Component {
         this.setState({dailyPage: this.state.dailyPage - 1});
     }
 
-    playAll() {
+    playAll(index) {
         let dailyRecommends = this.props.appearance.dailyRecommends;
         this.props.action.playAll(dailyRecommends.map(song => {
             return {
@@ -63,7 +65,33 @@ class Appearance extends Component {
                 singerId: song.UserId,
                 singerImg: song.Image
             }
-        }));
+        }), 'playlist', index);
+    }
+
+    playColumnAll(index) {
+        let specialColumns = this.props.appearance.specialColumns[0].list;
+        this.props.action.playAll(specialColumns.map(song => {
+            return {
+                id: song.id,
+                type: song.song_type,
+                name: song.name,
+                singer: song.nickname,
+                singerId: song.user_id,
+                singerImg: song.pic
+            }
+        }), 'playlist', index);
+    }
+
+    add(song) {
+        this.props.action.add({
+            id: song.SongId,
+            type: song.SongType,
+            name: song.RecommendName,
+            singer: song.NickName,
+            singerId: song.UserId,
+            singerImg: song.Image
+        });
+        toastr.success('添加成功');
     }
 
     componentDidMount() {
@@ -102,11 +130,6 @@ class Appearance extends Component {
         singers = singers.slice(0, 5);
         return (<div className="elsa-panel daily-recommend singer-list">
             <h3>{name}</h3>
-            <div className="elsa-panel-bar clear-fix">
-                <div className="pull-right">
-                    更多
-                </div>
-            </div>
             <ul>
                 {singers.map(singer => {
                     return (
@@ -135,11 +158,11 @@ class Appearance extends Component {
                 <h3>有声专栏</h3>
                 <div className="elsa-panel-bar clear-fix">
                     <div className="pull-right">
-                        更多
+                        <Link to={`/special-column`}>更多</Link>
                     </div>
                 </div>
                 <ul>
-                    {specialColumns[0].list.map(column => {
+                    {specialColumns[0].list.map((column, index) => {
                         return (
                             <li key={column.id}>
                                 <img src={column.pic}/>
@@ -148,6 +171,8 @@ class Appearance extends Component {
                                     <div className="song-description light-color">{column.words}</div>
                                     <div className="singer-name light-color">{column.nickname}</div>
                                 </div>
+                                <i className="fa fa-play play-btn pointer"
+                                   onClick={this.playColumnAll.bind(this, index)}/>
                             </li>
                         )
                     })}
@@ -175,8 +200,10 @@ class Appearance extends Component {
             <div className="elsa-panel daily-recommend">
                 <h3>每日推荐</h3>
                 <div className="elsa-panel-bar">
-                    <span><i className="fa fa-play btn"
-                             onClick={this.playAll.bind(this, dailyRecommends)}/>播放全部</span>
+                    <span className="pointer"
+                          onClick={this.playAll.bind(this, 0)}>
+                        <i className="fa fa-play btn"/>播放全部
+                    </span>
                     <div className="pull-right">
                         <i className={leftBtnClasses}
                            onClick={this.previousDailyPage.bind(this)}/>
@@ -185,7 +212,7 @@ class Appearance extends Component {
                     </div>
                 </div>
                 <ul>
-                    {dailyRecommends.map(daily => {
+                    {dailyRecommends.map((daily, index) => {
                         return (
                             <li key={daily.SongId}>
                                 <img src={daily.Image}/>
@@ -193,6 +220,13 @@ class Appearance extends Component {
                                     <div className="song-name">{daily.RecommendName}</div>
                                     <div className="singer-name light-color">{daily.NickName}</div>
                                 </div>
+                                <span className="btn-group menu-bar">
+                                    <i className="btn fa fa-play"
+                                       onClick={this.playAll.bind(this, index)}/>
+                                    <i className="btn fa fa-download"/>
+                                    <i className={`btn fa fa-plus`}
+                                       onClick={this.add.bind(this, daily)}/>
+                                </span>
                             </li>
                         )
                     })}
@@ -204,7 +238,9 @@ class Appearance extends Component {
     _buildCarousel(carousels) {
         return (
             <Carousel autoplay={true} wrapAround={true}>
-                {carousels.map(item => {
+                {carousels.filter(item => {
+                    return item.url_type != 6;
+                }).map(item => {
                     let webViewType = ['1', '4'];
                     let to;
                     if (~webViewType.indexOf(item.url_type))

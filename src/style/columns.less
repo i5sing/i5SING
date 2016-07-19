@@ -1,0 +1,82 @@
+.columns {
+  h3 {
+    font-weight: normal;
+    font-size: 20px;
+    padding: 20px;
+    border-bottom: 1px solid @border-color;
+  }
+
+  .column-list {
+    padding: 0;
+
+    li {
+      position: relative;
+      width: 302px;
+      margin-right: 40px;
+
+      img {
+        float: left;
+        width: 80px;
+        height: 80px;
+      }
+
+      .info-wrapper {
+        float: right;
+
+        .song-name {
+          margin: 10px 5px 5px 5px;
+          width: 205px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .singer-name {
+          font-size: 12px;
+          margin: 10px 5px 5px 5px;
+          width: 205px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .song-description {
+          font-size: 12px;
+          margin: 10px 5px 5px 5px;
+          width: 205px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      &:hover {
+        .play-btn {
+          display: block;
+        }
+      }
+
+      .play-btn {
+        display: none;
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        font-size: 40px;
+        width: 80px;
+        height: 80px;
+        color: @highlight-color;
+        background-color: rgba(0, 0, 0, 0.6);
+
+        &:before {
+          position: relative;
+          left: 27px;
+          top: 20px;
+        }
+      }
+    }
+  }
+}

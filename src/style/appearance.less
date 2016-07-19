@@ -19,8 +19,22 @@
     ul {
 
       li {
+        position: relative;
         width: 205px;
         margin-right: 3px;
+
+        &:hover {
+          .btn-group {
+            display: block;
+          }
+        }
+
+        .btn-group {
+          display: none;
+          position: absolute;
+          bottom: 10px;
+          right: 10px;
+        }
 
         img {
           float: left;
@@ -92,6 +106,30 @@
 
           .singer-name {
             width: 148px;
+          }
+        }
+
+        &:hover {
+          .play-btn {
+            display: block;
+          }
+        }
+
+        .play-btn {
+          display: none;
+          position: absolute;
+          left: 10px;
+          top: 10px;
+          font-size: 40px;
+          width: 136px;
+          height: 80px;
+          color: @highlight-color;
+          background-color: rgba(0, 0, 0, 0.6);
+
+          &:before {
+            position: relative;
+            left: 50px;
+            top: 20px;
           }
         }
       }
