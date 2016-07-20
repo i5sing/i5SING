@@ -1,13 +1,16 @@
 {
-  "name": "elsa",
+  "name": "5sing",
   "version": "0.0.1",
   "description": "中国原创音乐基地5sing桌面客户端开原版",
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=dev electron ./src/index.js",
-    "build": "electron-packager ./dist elsa --platform=all --arch=all --out=app --overwrite",
-    "dev": "webpack --config build/webpack.config.js",
-    "compile": "webpack --config build/webpack.config.proc.js"
+    "clean": "gulp clean",
+    "build": "gulp build",
+    "dev": "gulp dev",
+    "_build": "electron-packager ./dist elsa --platform=all --arch=all --out=app --overwrite",
+    "_dev": "webpack --config build/webpack.config.js",
+    "_compile": "webpack --config build/webpack.config.proc.js"
   },
   "repository": {
     "type": "git",
@@ -16,7 +19,9 @@
   "keywords": [
     "5sing",
     "5singClient",
-    "5singPC"
+    "5singPC",
+    "5sing for mac",
+    "5sing for win"
   ],
   "author": "zfeng217",
   "license": "MIT",

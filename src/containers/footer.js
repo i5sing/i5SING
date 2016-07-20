@@ -15,7 +15,8 @@ import {
     next,
     previous,
     getSongInfo,
-    succeed
+    succeed,
+    changePlayType
 } from '../actions/common';
 
 const mapStateToProps = state => ({
@@ -30,7 +31,8 @@ const mapDispatchToProps = (dispatch) => ({
         succeed,
         getSongInfo,
         next,
-        previous
+        previous,
+        changePlayType
     }, dispatch),
     dispatch
 });
@@ -44,7 +46,8 @@ export default class Footer extends Component {
             duration: 0,
             buffered: 0,
             playing: false,
-            currentSong: null
+            currentSong: null,
+            playType: 0 // 0:顺序 1: 随机 2:重复
         };
         this.hasLoad = false; //avoid mulity load song info
     }
@@ -52,9 +55,9 @@ export default class Footer extends Component {
     componentDidMount() {
         ipc.render.on('change-song', (evt, type) => {
             if (type == 'next') {
-                this.next();
+                this.props.action.next();
             } else if (type == 'pre') {
-                this.previous()
+                this.props.action.previous()
             } else {
                 this.play();
             }
@@ -78,7 +81,7 @@ export default class Footer extends Component {
         });
 
         this.media.addEventListener('ended', () => {
-            this.next();
+            this.props.action.next();
         });
     }
 
@@ -136,30 +139,19 @@ export default class Footer extends Component {
         }
     }
 
-    previous() {
-        if (this.props.common.current) {
-            this.props.action.previous();
-        }
-    }
-
-    next() {
-        if (this.props.common.current < this.props.common.playlist.length - 1) {
-            this.props.action.next();
-        }
-    }
-
     render() {
         let index = this.props.common.current || 0;
         let playlist = this.props.common.playlist || [];
-        let song = this.state.currentSong;
         let name = playlist.length > index ? playlist[index].name + ' - ' + playlist[index].singer : '';
         let img = playlist.length > index ? playlist[index].singerImg : '';
         return (
             <div className="elsa-footer">
                 <div className="player">
                     <Player play={this.play.bind(this)}
-                            previous={this.previous.bind(this)}
-                            next={this.next.bind(this)}
+                            onPlayTypeChange={this.props.action.changePlayType}
+                            previous={this.props.action.previous}
+                            next={this.props.action.next}
+                            playType={this.props.common.playType}
                             isPlaying={this.state.playing}/>
                 </div>
                 <div className="control-bar">

@@ -15,7 +15,8 @@ const {
     ACTION,
     GET_SONG_INFO,
     NEXT,
-    PREVIOUS
+    PREVIOUS,
+    CHANGE_PLAY_TYPE
 } = ACTIONS;
 
 export function play(current = 0) {
@@ -113,6 +114,12 @@ export function next() {
 export function previous() {
     return {
         type: PREVIOUS
+    }
+}
+
+export function changePlayType() {
+    return {
+        type: CHANGE_PLAY_TYPE
     }
 }
 

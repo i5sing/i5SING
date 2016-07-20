@@ -11,6 +11,7 @@ const {
     RESUME,
     PAUSE,
     ACTION,
+    CHANGE_PLAY_TYPE,
     GET_PERSONAL_INFO,
     GET_SONG_INFO,
     NEXT,
@@ -44,11 +45,25 @@ export default (state = {}, action) => {
             state.playlist = action.data.songs;
             break;
         case NEXT:
-            state.current = state.current + 1;
+            if (state.playType == 1) {
+                state.current = parseInt(Math.random() * state.playlist.length);
+            } else if (!state.playType || state.playType == 0) {
+                state.current == state.playlist.length ?
+                    state.current = 0 :
+                    state.current = state.current + 1;
+            }
+
             state.status = 1; //加载播放列表成功
             break;
         case PREVIOUS:
-            state.current = state.current - 1;
+            if (state.playType == 1) {
+                state.current = parseInt(Math.random() * state.playlist.length);
+            } else if (!state.playType || state.playType == 0) {
+                state.current == state.playlist.length ?
+                    state.current = 0 :
+                    state.current = state.current - 1;
+            }
+
             state.status = 1; //加载播放列表成功
             break;
         case RESUME:
@@ -59,6 +74,12 @@ export default (state = {}, action) => {
             break;
         case ACTION:
             state.status = action.status || 0; //开始播放
+            break;
+        case CHANGE_PLAY_TYPE:
+            state.playType = state.playType || 0; // 0:顺序 1: 随机 2:重复
+            state.playType == 2 ?
+                state.playType = 0 :
+                state.playType++;
             break;
         case GET_PERSONAL_INFO:
             state.info = action.data;

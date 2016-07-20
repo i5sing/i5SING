@@ -7,10 +7,12 @@ var install = require("gulp-install");
 var packager = require('electron-packager');
 var webpack = require('webpack');
 var gutil = require('gulp-util');
+var exec = require('child_process').exec;
 
-var webpackConfig = require('./build/webpack.config.proc.js');
+var webpackConfig = require('./build/webpack.config.proc.js'),
+    webpackConfigForDev = require('./build/webpack.config');
 
-gulp.task('clean', function () {
+gulp.task('clean', () => {
     return gulp.src(['./dist'], {read: false})
         .pipe(clean());
 });
@@ -43,17 +45,17 @@ gulp.task('copy-modules', ['copy-windows'], () => {
         .pipe(gulp.dest('./dist/node_modules/sqlite3'));
 });
 
-gulp.task('copy', ['copy-modules'], function (callback) {
+gulp.task('copy', ['copy-modules'], callback => {
     callback();
 });
 
-gulp.task('install', ['copy'], function () {
+gulp.task('install', ['copy'], () => {
     return gulp.src('./dist/package.json')
         .pipe(gulp.dest('./dist'))
         .pipe(install({production: true}));
 });
 
-gulp.task('compile', ['copy'], function (callback) {
+gulp.task('compile', ['copy'], callback => {
     webpack(webpackConfig, function (err, stats) {
         if (err) {
             throw new gutil.PluginError('webpack', err);
@@ -63,7 +65,18 @@ gulp.task('compile', ['copy'], function (callback) {
     });
 });
 
-gulp.task('build_package', ['install', 'compile'], function (callback) {
+gulp.task('compile_dev', callback => {
+    webpack(webpackConfigForDev, (err, stats) => {
+        if (err) {
+            throw new gutil.PluginError('webpack', err);
+        }
+        gutil.log('[webpack]', stats.toString({modules: false, colors: true}));
+        callback();
+    });
+});
+
+
+gulp.task('build_package', ['install', 'compile'], callback => {
 
     //electron-packager ./dist elsa --platform=all --arch=all --out=app --overwrite
     packager({
@@ -77,12 +90,18 @@ gulp.task('build_package', ['install', 'compile'], function (callback) {
         overwrite: true
     }, function (err, appPath) {
         if (appPath) {
-            var distPath = appPath[0];
             callback && callback();
         }
     });
 });
 
-gulp.task('build', ['build_package'], function () {
+gulp.task('build', ['build_package'], () => {
     gutil.log('[build]', '打包成功!');
+});
+
+gulp.task('dev', ['compile_dev'], () => {
+    exec('NODE_ENV=dev electron ./src/index.js', err => {
+        if (err) return gutil.log('[error]', err); // 返回 error
+        gutil.log('[run]', '启动成功!');
+    });
 });
