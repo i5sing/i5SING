@@ -1,4 +1,5 @@
 /**
+ * Collection Action 歌单
  * Created by zhaofeng on 7/14/16.
  */
 import SingSdk from '../backend/sing.sdk';
@@ -10,6 +11,12 @@ const {
     GET_COLLECTION_SONG
 } = ACTIONS;
 
+/**
+ * 获取歌单列表
+ * @param pageIndex
+ * @param isIncrement
+ * @returns {function(*)}
+ */
 export function getSongCollections(pageIndex, isIncrement) {
     return (dispatch) => {
         SingSdk.getSongCollections({
@@ -27,6 +34,11 @@ export function getSongCollections(pageIndex, isIncrement) {
     };
 }
 
+/**
+ * 获取歌单详情
+ * @param collectionId
+ * @returns {function(*)}
+ */
 export function getSongCollection(collectionId) {
     return (dispatch) => {
         SingSdk.getSongCollection({
@@ -39,6 +51,11 @@ export function getSongCollection(collectionId) {
     };
 }
 
+/**
+ * 获取歌单中歌曲列表
+ * @param collectionId
+ * @returns {function(*)}
+ */
 export function getSongsInSongCollections(collectionId) {
     return (dispatch) => {
         SingSdk.getSongsInSongCollections({

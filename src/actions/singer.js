@@ -1,4 +1,5 @@
 /**
+ * Singer Action 音乐人
  * Created by zhaofeng on 7/13/16.
  */
 import SingSdk from '../backend/sing.sdk';
@@ -9,7 +10,11 @@ const {
     GET_USER_SONGS
 } = ACTIONS;
 
-
+/**
+ * 获取音乐人信息
+ * @param userId
+ * @returns {function(*)}
+ */
 export function getUserInfo(userId) {
     return (dispatch) => {
         SingSdk.getUserInfo({
@@ -23,6 +28,14 @@ export function getUserInfo(userId) {
     };
 }
 
+/**
+ * 获取音乐人歌曲列表
+ * @param userId
+ * @param songType
+ * @param pageIndex
+ * @param pageSize
+ * @returns {function(*)}
+ */
 export function getUserSongs(userId, songType, pageIndex, pageSize) {
     return (dispatch) => {
         SingSdk.getUserSongs({

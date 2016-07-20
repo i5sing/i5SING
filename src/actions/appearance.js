@@ -1,4 +1,5 @@
 /**
+ * Appearance Action 发现
  * Created by zhaofeng on 7/12/16.
  */
 import SingSdk from '../backend/sing.sdk';
@@ -10,10 +11,15 @@ const {
     GET_SPECIAL_COLUMN,
     GET_LATEST_SINGERS,
     GET_SINGERS,
-    
+
     APPEARANCE_ERROR
 } = ACTIONS;
 
+/**
+ * 获取轮播图列表
+ * @param advertId
+ * @returns {function(*)}
+ */
 export function getCarousel(advertId) {
     return (dispatch) => {
         SingSdk.getAdvertisements({
@@ -26,6 +32,12 @@ export function getCarousel(advertId) {
     };
 }
 
+/**
+ * 获取每日推荐列表
+ * @param pageIndex
+ * @param pageSize
+ * @returns {function(*)}
+ */
 export function getDailyRecommendSongs(pageIndex, pageSize) {
     return (dispatch) => {
         SingSdk.getDailyRecommendSongs({
@@ -39,6 +51,10 @@ export function getDailyRecommendSongs(pageIndex, pageSize) {
     };
 }
 
+/**
+ * 获取专栏
+ * @returns {function(*)}
+ */
 export function getSpecialColumn() {
     return (dispatch) => {
         SingSdk.getSpecialColumn().then(result => {
@@ -49,6 +65,12 @@ export function getSpecialColumn() {
     };
 }
 
+/**
+ * 获取热门歌手
+ * @param pageIndex
+ * @param pageSize
+ * @returns {function(*)}
+ */
 export function getSingers(pageIndex, pageSize) {
     return (dispatch) => {
         SingSdk.getSingers({
@@ -62,6 +84,12 @@ export function getSingers(pageIndex, pageSize) {
     };
 }
 
+/**
+ * 获取新入驻歌手
+ * @param pageIndex
+ * @param pageSize
+ * @returns {function(*)}
+ */
 export function getLatestSingers(pageIndex, pageSize) {
     return (dispatch) => {
         SingSdk.getLatestSingers({

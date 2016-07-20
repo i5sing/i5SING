@@ -1,4 +1,5 @@
 /**
+ * App Action
  * Created by zhaofeng on 7/16/16.
  */
 import ACTIONS from '../constants/actions';
@@ -9,6 +10,12 @@ const {
     GET_PERSONAL_INFO
 } = ACTIONS;
 
+/**
+ * 获取个人信息
+ * @param userId
+ * @param sign
+ * @returns {function(*)}
+ */
 export function getPersonalInfo(userId, sign) {
     return (dispatch) => {
         SingSdk.getUserInfo({
@@ -33,6 +40,10 @@ export function getPersonalInfo(userId, sign) {
     };
 }
 
+/**
+ * 检查登录状态,登录Token是否有效
+ * @returns {function(*)}
+ */
 export function checkLoginStatus() {
     return (dispatch) => {
         return db.readUser().then(result => {

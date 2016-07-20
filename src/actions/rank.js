@@ -1,4 +1,5 @@
 /**
+ * Rank Action 排行榜
  * Created by zhaofeng on 7/12/16.
  */
 import SingSdk from '../backend/sing.sdk';
@@ -12,6 +13,10 @@ const {
 
 const year = new Date().getFullYear();
 
+/**
+ * 获取排行榜种类
+ * @returns {function(*)}
+ */
 export function getRankOverview() {
     return (dispatch) => {
         SingSdk.getRankOverview().then(result => {
@@ -22,6 +27,13 @@ export function getRankOverview() {
     };
 }
 
+/**
+ * 获取排行榜详情
+ * @param rankId
+ * @param pageIndex
+ * @param pageSize
+ * @returns {function(*)}
+ */
 export function getRankDetail(rankId, pageIndex, pageSize) {
     return (dispatch) => {
         let time = '';
