@@ -5,7 +5,7 @@
 * mac os
 * windows
 
-![5sing截图](http://7xpilz.com1.z0.glb.clouddn.com/5sing.png)
+![5sing截图](http://7xpilz.com1.z0.glb.clouddn.com/5sing.jpg)
 
 # Download
 Coming Soon!
