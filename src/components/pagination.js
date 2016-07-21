@@ -1,4 +1,13 @@
 /**
+ * 分页组件
+ * Example:
+ * <Pagination current={} count={} pageSize={} onChange={}/>
+ *
+ * current: 当前页数
+ * count: 总条数
+ * pageSize: 每页条数
+ * onChange: 翻页回调
+ *
  * Created by zhaofeng on 7/13/16.
  */
 import React, {Component} from 'react';

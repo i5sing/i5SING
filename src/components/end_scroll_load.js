@@ -1,4 +1,11 @@
 /**
+ * EndScrollLoad组件
+ *
+ * Example:
+ * <EndScrollLoad target="elementId" onLoad={() => {}}>
+ *
+ * </EndScrollLoad>
+ *
  * Created by zhaofeng on 7/19/16.
  */
 import React, {Component} from 'react';

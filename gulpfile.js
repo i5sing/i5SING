@@ -78,13 +78,13 @@ gulp.task('compile_dev', callback => {
 
 gulp.task('build_package', ['install', 'compile'], callback => {
 
-    //electron-packager ./dist elsa --platform=all --arch=all --out=app --overwrite
+    //electron-packager ./dist 5sing --platform=all --arch=all --out=app --overwrite
     packager({
         arch: 'all',
         // icon: icon,
         dir: './dist',
         out: 'app',
-        name: 'elsa',
+        name: '5sing',
         version: '1.2.6',
         platform: 'all',
         overwrite: true
