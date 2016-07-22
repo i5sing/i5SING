@@ -15,6 +15,7 @@ exports.create = function (winName) {
             break;
         case 'login':
             win = new LoginWindow(openWinMap['main']);
+            break;
         case 'about':
             win = new AboutWindow(openWinMap['main']);
             break;

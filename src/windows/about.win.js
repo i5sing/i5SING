@@ -11,6 +11,7 @@ class AboutWindow {
             height: 250,
             width: 300,
             alwaysOnTop: true,
+            parent: parent
         });
 
         this.win.loadURL(`file://${__dirname}/about.html`);
