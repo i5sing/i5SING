@@ -76,23 +76,47 @@ gulp.task('compile_dev', callback => {
 });
 
 
-gulp.task('build_package', ['install', 'compile'], callback => {
+gulp.task('build_package', ['install', 'compile'], () => {
 
     //electron-packager ./dist 5sing --platform=all --arch=all --out=app --overwrite
-    packager({
-        arch: 'all',
-        // icon: icon,
-        dir: './dist',
-        out: 'app',
-        name: '5sing',
-        version: '1.2.6',
-        platform: 'all',
-        overwrite: true
-    }, function (err, appPath) {
-        if (appPath) {
-            callback && callback();
-        }
-    });
+    return new Promise((resolve, reject) => {
+        packager({
+            arch: 'all',
+            icon: './dist/assets/logo.icns',
+            dir: './dist',
+            out: 'app',
+            name: '5sing',
+            version: '1.2.6',
+            platform: 'darwin',
+            overwrite: true
+        }, function (err, appPath) {
+            if (err) return reject(err);
+            if (appPath) {
+                resolve();
+            }
+        });
+    }).then(() => {
+        return new Promise((resolve, reject) => {
+            packager({
+                arch: 'all',
+                // TODO
+                // mac os 10.12 无法安装wine
+                // icon: './dist/assets/logo.ico',
+                dir: './dist',
+                out: 'app',
+                name: '5sing',
+                version: '1.2.6',
+                platform: 'win32',
+                overwrite: true
+            }, function (err, appPath) {
+                if (err) return reject(err);
+                if (appPath) {
+                    resolve();
+                }
+            });
+        });
+    })
+
 });
 
 gulp.task('build', ['build_package'], () => {

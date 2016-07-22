@@ -3,6 +3,7 @@
  */
 const MainWindow = require('./main.win');
 const LoginWindow = require('./login.win');
+const AboutWindow = require('./about.win');
 
 let openWinMap = {};
 
@@ -14,6 +15,9 @@ exports.create = function (winName) {
             break;
         case 'login':
             win = new LoginWindow(openWinMap['main']);
+        case 'about':
+            win = new AboutWindow(openWinMap['main']);
+            break;
     }
 
     win && (openWinMap[winName] = win);

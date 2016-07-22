@@ -33,6 +33,7 @@ import FavoriteSong from './favorite_song';
 import PlayList from './playlist';
 import Lrc from './lrc';
 import Columns from './columns';
+import Search from './search';
 
 let routes = (
     <Router>
@@ -46,6 +47,7 @@ let routes = (
         <Route path="/webview" component={WebView}/>
         <Route path="/square" component={Square}/>
         <Route path="/favorite_song" component={FavoriteSong}/>
+        <Route path="/search" component={Search}/>
         <Route path="*" component={Appearance}/>
     </Router>
 );

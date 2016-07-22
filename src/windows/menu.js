@@ -4,6 +4,7 @@
 const path = require('path');
 const {Menu, app} = require('electron');
 const ipc = require('./../backend/ipc');
+const WinManager = require('./manager');
 
 // cache win obj
 let win;
@@ -15,6 +16,7 @@ const menuTemplate = [
             {
                 label: '关于',
                 click: () => {
+                    WinManager.create('about');
                 }
             },
             {

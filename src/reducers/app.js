@@ -10,7 +10,6 @@ const {
 export default (state = {}, action) => {
     switch (action.type) {
         case GET_PERSONAL_INFO:
-            console.log(action);
             state.info = action.data;
             break;
     }
