@@ -10,11 +10,14 @@ let win, tray;
 
 app.on('ready', () => {
     win = WindowsManager.create('main');
-    win.on('closed', () => {
-        win = null;
+    win.on('close', (e) => {
+        if (win.isVisible()) {
+            e.preventDefault();
+            win.hide();
+        }
     });
 
-    tray = Tray.createTray();
+    tray = Tray.createTray(win);
 
     Event.registerEvent();
 });
@@ -22,10 +25,14 @@ app.on('ready', () => {
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
         tray.destroy();
-        app.quit();
+        app.exit(0);
     }
 });
 
 app.on('activate', () => {
-
+    if (win == null) {
+        win = WindowsManager.create('main');
+    } else {
+        win.show();
+    }
 });

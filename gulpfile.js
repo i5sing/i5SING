@@ -123,9 +123,10 @@ gulp.task('build', ['build_package'], () => {
     gutil.log('[build]', '打包成功!');
 });
 
-gulp.task('dev', ['compile_dev'], () => {
+gulp.task('dev', ['compile_dev'], (callback) => {
+    gutil.log('[run]', '启动成功!');
+    callback();
     exec('NODE_ENV=dev electron ./src/index.js', err => {
         if (err) return gutil.log('[error]', err); // 返回 error
-        gutil.log('[run]', '启动成功!');
     });
 });

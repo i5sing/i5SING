@@ -44,7 +44,7 @@ const menuTemplate = [
                 label: '退出',
                 accelerator: 'Cmd+Q',
                 click: function () {
-                    app.quit();
+                    app.exit(0);
                 }
             }
         ]
