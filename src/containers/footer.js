@@ -119,6 +119,14 @@ export default class Footer extends Component {
             this.media.src = result.data.squrl || result.data.hqurl || result.data.lqurl;
             this.media.play();
             this.hasLoad = false;
+
+            console.log(result);
+            let notification = new Notification(result.data.SN, {
+                body: result.data.S,
+                icon: result.data.user.I,
+                silent: true
+            });
+
         } else if (common.status == 6 && this.media.currentTime) {
             this.media.currentTime = this.media.duration;
             this.setState({playing: false});
