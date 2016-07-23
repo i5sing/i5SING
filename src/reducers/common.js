@@ -48,7 +48,7 @@ export default (state = {}, action) => {
             if (state.playType == 1) {
                 state.current = parseInt(Math.random() * state.playlist.length);
             } else if (!state.playType || state.playType == 0) {
-                state.current == state.playlist.length ?
+                state.current + 1 == state.playlist.length ?
                     state.current = 0 :
                     state.current = state.current + 1;
             }
@@ -59,7 +59,7 @@ export default (state = {}, action) => {
             if (state.playType == 1) {
                 state.current = parseInt(Math.random() * state.playlist.length);
             } else if (!state.playType || state.playType == 0) {
-                state.current == state.playlist.length ?
+                state.current + 1 == state.playlist.length ?
                     state.current = 0 :
                     state.current = state.current - 1;
             }

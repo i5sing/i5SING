@@ -31,3 +31,38 @@
     margin-right: -300px;
   }
 }
+
+.opacity-enter {
+  animation: opacity-in 500ms;
+}
+
+.opacity-enter.opacity-enter-active {
+  opacity: 1;
+}
+
+.opacity-leave {
+  animation: opacity-out 300ms;
+}
+
+.opacity-leave.opacity-leave-active {
+  opacity: 0;
+}
+
+
+@keyframes opacity-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes opacity-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

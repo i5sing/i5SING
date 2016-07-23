@@ -22,10 +22,6 @@ class MainWindows {
             this.win.webContents.clearHistory();
         });
 
-        if (process.env.NODE_ENV && process.env.NODE_ENV == 'dev') {
-            this.win.webContents.openDevTools();
-        }
-
         if (process.platform == "darwin") {
             MenuBuilder.build(this.win);
         }

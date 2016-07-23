@@ -19,6 +19,10 @@
     outline: 0;
   }
 
+  &:hover {
+    background-color: #eee;
+  }
+
   .fa {
     margin-right: 10px;
   }
@@ -26,6 +30,11 @@
   &.btn-primary {
     color: rgba(255, 255, 255, 0.9);
     background-color: @highlight-color;
+
+    &:hover {
+      color: rgba(255, 255, 255, 1);
+      background-color: @highlight-color + 22;
+    }
   }
 
   &.btn-lg {

@@ -116,11 +116,9 @@ export default class Footer extends Component {
             this.hasLoad = true;
             let result = common.currentSong;
             this.setState({playing: true});
-            setTimeout(() => {
-                this.media.src = result.data.squrl || result.data.hqurl || result.data.lqurl;
-                this.media.play();
-                this.hasLoad = false;
-            }, 150);
+            this.media.src = result.data.squrl || result.data.hqurl || result.data.lqurl;
+            this.media.play();
+            this.hasLoad = false;
         } else if (common.status == 6 && this.media.currentTime) {
             this.media.currentTime = this.media.duration;
             this.setState({playing: false});

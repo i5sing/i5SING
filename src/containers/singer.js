@@ -100,6 +100,9 @@ class Singer extends Component {
                                     <i className="fa fa-play"/>播放全部
                                 </Button>
                                 <Button type="default" size="large">
+                                    <i className="fa fa-heart"/>关注
+                                </Button>
+                                <Button type="default" size="large">
                                     <i className="fa fa-download"/>下载
                                 </Button>
                             </div>
