@@ -10,6 +10,7 @@ class AboutWindow {
             resizable: false,
             height: 250,
             width: 300,
+            center: true,
             alwaysOnTop: true,
             parent: parent
         });

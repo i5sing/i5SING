@@ -6,7 +6,7 @@
     <style>
         body {
             font-size: 12px;
-            font-family: "Helvetica Neue","Microsoft YaHei","微软雅黑","Hiragino Sans GB",Arial,SimSun,"宋体",STXihei,"华文细黑",sans-serif;
+            font-family: "Helvetica Neue", "Microsoft YaHei", "微软雅黑", "Hiragino Sans GB", Arial, SimSun, "宋体", STXihei, "华文细黑", sans-serif;
             color: #555;
             margin: 0;
             padding: 0;
@@ -31,12 +31,18 @@
 <div id="title"></div>
 <div id="electron"></div>
 <div id="chrome"></div>
-<div id="license">MIT License</div>
+<div id="license">License: MIT License</div>
 <div>
-    Github: <a href="https://github.com/i5sing/5sing">https://github.com/i5sing/5sing</a>
+    Github: <a
+        href="javascript:shell.openExternal('https://github.com/i5sing/5sing');">https://github.com/i5sing/5sing</a>
+</div>
+<div>
+    Author: <a
+        href="javascript:shell.openExternal('http://weibo.com/zfeng217');">赵小小峰</a>
 </div>
 
 <script>
+    var shell = require('electron').shell;
     var titleEl = document.getElementById('title');
     var electronEl = document.getElementById('electron');
     var chromeEl = document.getElementById('chrome');

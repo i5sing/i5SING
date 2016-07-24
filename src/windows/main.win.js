@@ -13,6 +13,7 @@ class MainWindows {
             resizable: false,
             height: 670,
             width: 980,
+            center: true,
             titleBarStyle: 'hidden-inset'
         });
         this.win.loadURL(`file://${__dirname}/index.html`);

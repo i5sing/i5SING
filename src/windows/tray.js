@@ -16,6 +16,8 @@ exports.createTray = function (win) {
         if (!win.isVisible()) {
             e.preventDefault();
             win.show();
+        } else {
+            win.focus();
         }
     });
 

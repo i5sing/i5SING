@@ -31,3 +31,9 @@ exports.readUser = function () {
         });
     });
 };
+
+exports.deleteUser = function () {
+    return new Promise((resolve, reject) => {
+        db.run(`delete from userinfo`, resolve);
+    });
+};

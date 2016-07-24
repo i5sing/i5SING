@@ -160,5 +160,10 @@ export default keyMirror({
     /**
      * 获取收藏的歌单
      */
-    GET_ATTENTION_COLLECTION: 'GET_ATTENTION_COLLECTION'
+    GET_ATTENTION_COLLECTION: 'GET_ATTENTION_COLLECTION',
+
+    /**
+     * 退出登录
+     */
+    LOGOUT: 'LOGOUT'
 })

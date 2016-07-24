@@ -8,7 +8,7 @@
             margin: 0;
             padding: 0;
             font-size: 12px;
-            font-family: "Helvetica Neue","Microsoft YaHei","微软雅黑","Hiragino Sans GB",Arial,SimSun,"宋体",STXihei,"华文细黑",sans-serif;
+            font-family: "Helvetica Neue", "Microsoft YaHei", "微软雅黑", "Hiragino Sans GB", Arial, SimSun, "宋体", STXihei, "华文细黑", sans-serif;
             color: #555;
         }
 
@@ -42,8 +42,15 @@
         #reason {
             display: none;
         }
+
+        .reg {
+            float: right;
+            margin-right: 5px;
+        }
     </style>
     <script>
+        var shell = require('electron').shell;
+        var time = parseInt(new Date().getTime() / 1000);
         const SingSdk = require('../backend/sing.sdk');
         const ipc = require('../backend/ipc');
 
@@ -76,8 +83,9 @@
 <div class="row">
     <input class="button" type="button" value="登录" onclick="login()">
 </div>
-<div class="row" id="reason">
-    用户名或密码错误
+<div class="row">
+    <a class="reg" href="javascript:shell.openExternal(`http://5sing.kugou.com/reg/?time=${time}`);">注册</a>
+    <span id="reason">用户名或密码错误</span>
 </div>
 </body>
 </html>

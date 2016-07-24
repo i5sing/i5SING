@@ -1,8 +1,19 @@
 .elsa-navigator {
   font-size: 13px;
 
+  .logout {
+    display: none;
+    font-size: 12px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    -webkit-app-region: no-drag;
+  }
+
   .user-info {
+    position: relative;
     padding-top: 50px;
+    padding-bottom: 20px;
     text-align: center;
     -webkit-app-region: drag;
 
@@ -11,17 +22,25 @@
       border-radius: @user-img-size;
       height: @user-img-size;
       width: @user-img-size;
+      -webkit-app-region: no-drag;
     }
 
     .user-name {
       font-size: 12px;
+      -webkit-app-region: no-drag;
+    }
+
+    &:hover {
+      .logout {
+        display: block;
+      }
     }
   }
 
   .nav {
     border-top: 1px solid @border-color;
     padding: 10px;
-    margin: 20px 10px 10px 10px;
+    margin: 0 10px 10px 10px;
 
     .btn {
       margin-right: 10px;

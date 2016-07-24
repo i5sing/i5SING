@@ -9,7 +9,8 @@ import {bindActionCreators} from 'redux';
 import {Link} from 'react-router'
 import {
     getPersonalInfo,
-    checkLoginStatus
+    checkLoginStatus,
+    logout
 } from '../actions/app';
 
 //backend
@@ -65,7 +66,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch) => ({
     action: bindActionCreators({
         getPersonalInfo,
-        checkLoginStatus
+        checkLoginStatus,
+        logout
     }, dispatch),
     dispatch
 });
@@ -121,7 +123,9 @@ class App extends Component {
                     <Header />
                 </header>
                 <nav className="navigator" onClick={this.closePanel.bind(this)}>
-                    <Nav info={this.props.app.info} login={this.openLoginWin.bind(this)}/>
+                    <Nav info={this.props.app.info}
+                         logout={this.props.action.logout}
+                         login={this.openLoginWin.bind(this)}/>
                 </nav>
                 <div className="panel" id="panel" onClick={this.closePanel.bind(this)}>
                     <Router history={hashHistory} routes={routes}/>

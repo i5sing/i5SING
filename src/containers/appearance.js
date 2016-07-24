@@ -200,10 +200,10 @@ class Appearance extends Component {
             <div className="elsa-panel daily-recommend">
                 <h3>每日推荐</h3>
                 <div className="elsa-panel-bar">
-                    <span className="pointer"
-                          onClick={this.playAll.bind(this, 0)}>
+                    <a className="pointer"
+                       onClick={this.playAll.bind(this, 0)}>
                         <i className="fa fa-play btn"/>播放全部
-                    </span>
+                    </a>
                     <div className="pull-right">
                         <i className={leftBtnClasses}
                            onClick={this.previousDailyPage.bind(this)}/>
@@ -215,10 +215,12 @@ class Appearance extends Component {
                     {dailyRecommends.map((daily, index) => {
                         return (
                             <li key={daily.SongId}>
-                                <img src={daily.Image}/>
+                                <Link to={`/user/${daily.UserId}`}><img src={daily.Image}/></Link>
                                 <div className="info-wrapper">
                                     <div className="song-name">{daily.RecommendName}</div>
-                                    <div className="singer-name light-color">{daily.NickName}</div>
+                                    <Link to={`/user/${daily.UserId}`}>
+                                        <div className="singer-name light-color">{daily.NickName}</div>
+                                    </Link>
                                 </div>
                                 <span className="btn-group menu-bar">
                                     <i className="btn fa fa-play"

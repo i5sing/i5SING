@@ -7,7 +7,8 @@ import SingSdk from '../backend/sing.sdk';
 import db from '../backend/db/user.db';
 
 const {
-    GET_PERSONAL_INFO
+    GET_PERSONAL_INFO,
+    LOGOUT
 } = ACTIONS;
 
 /**
@@ -60,6 +61,20 @@ export function checkLoginStatus() {
             })
         }).then(user => {
             dispatch({type: GET_PERSONAL_INFO, data: user});
+        }, err => {
+
+        })
+    };
+}
+
+/**
+ * 退出登录
+ * @returns {function(*)}
+ */
+export function logout() {
+    return (dispatch) => {
+        return db.deleteUser().then(() => {
+            dispatch({type: LOGOUT});
         }, err => {
 
         })

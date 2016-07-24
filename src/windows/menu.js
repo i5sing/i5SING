@@ -94,7 +94,7 @@ const menuTemplate = [
                 label: '刷新',
                 accelerator: 'Command+R',
                 click: () => {
-                    WinManager.getWin('main').reload();
+
                 }
             },
             {
@@ -168,7 +168,7 @@ const menuTemplate = [
             }, {
                 label: 'Report Issues',
                 click: () => {
-                    shell.openExternal('https://github.com/i5sing/5sing/issues');
+                    shell.openExternal('https://github.com/i5sing/5sing');
                 }
             }
         ]

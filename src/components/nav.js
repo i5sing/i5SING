@@ -44,6 +44,7 @@ export default class Nav extends Component {
                     <img className="user-img" src={info.img}/>
                     {!info.name && (<div className="user-name pointer" onClick={this.props.login}>登录</div>)}
                     {info.name && (<div className="user-name">{info.name}</div>)}
+                    {info.name && (<a className="logout light-color pointer" onClick={this.props.logout}>退出</a>)}
                 </div>
                 <div className="nav">
                     <h3>乐库</h3>
@@ -67,27 +68,31 @@ export default class Nav extends Component {
                     </ul>
                     <h3>我的音乐</h3>
                     <ul>
-                        <li onClick={this.handleClick.bind(this, `user/${info.id}`, '')}
-                            className={this.state.current == `user/${info.id}` && 'active'}>
-                            <i className="fa fa-user btn"/>我的音乐
-                        </li>
-                        <li><i className="fa fa-rss btn"/>动态</li>
-                        <li onClick={this.handleClick.bind(this, 'my_song', `?userId=${info.id}`)}
-                            className={this.state.current == 'my_song' && 'active'}>
-                            <i className="fa fa-music btn"/>收藏音乐
-                        </li>
-                        <li onClick={this.handleClick.bind(this, 'my_collections', `?sign=${info.sign}`)}
-                            className={this.state.current == 'my_collections' && 'active'}>
-                            <i className="fa fa-star btn"/>收藏歌单
-                        </li>
-                        <li onClick={this.handleClick.bind(this, 'my_attention', `?userId=${info.id}`)}
-                            className={this.state.current == 'my_attention' && 'active'}>
-                            <i className="fa fa-heart btn"/>我的关注
-                        </li>
-                        <li onClick={this.handleClick.bind(this, 'my_fans', `?userId=${info.id}`)}
-                            className={this.state.current == 'my_fans' && 'active'}>
-                            <i className="fa fa-leaf btn"/>我的粉丝
-                        </li>
+                        {!!info.sign && (
+                            <span>
+                                <li onClick={this.handleClick.bind(this, `user/${info.id}`, '')}
+                                    className={this.state.current == `user/${info.id}` && 'active'}>
+                                    <i className="fa fa-user btn"/>我的音乐
+                                </li>
+                                <li><i className="fa fa-rss btn"/>动态</li>
+                                <li onClick={this.handleClick.bind(this, 'my_song', `?userId=${info.id}`)}
+                                    className={this.state.current == 'my_song' && 'active'}>
+                                    <i className="fa fa-music btn"/>收藏音乐
+                                </li>
+                                <li onClick={this.handleClick.bind(this, 'my_collections', `?sign=${info.sign}`)}
+                                    className={this.state.current == 'my_collections' && 'active'}>
+                                    <i className="fa fa-star btn"/>收藏歌单
+                                </li>
+                                <li onClick={this.handleClick.bind(this, 'my_attention', `?userId=${info.id}`)}
+                                    className={this.state.current == 'my_attention' && 'active'}>
+                                    <i className="fa fa-heart btn"/>我的关注
+                                </li>
+                                <li onClick={this.handleClick.bind(this, 'my_fans', `?userId=${info.id}`)}
+                                    className={this.state.current == 'my_fans' && 'active'}>
+                                    <i className="fa fa-leaf btn"/>我的粉丝
+                                </li>
+                            </span>
+                        )}
                         <li><i className="fa fa-download btn"/>下载</li>
                     </ul>
                 </div>
