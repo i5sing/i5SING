@@ -5,6 +5,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Link} from 'react-router'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import {
     getRankOverview
 } from '../actions/rank';
@@ -36,11 +37,17 @@ class Rank extends Component {
             <div>
                 <div className="elsa-panel rank-overview">
                     <h3 className="title">排行榜</h3>
-                    <ul className="rank-list">
+                    <ReactCSSTransitionGroup transitionName="opacity"
+                                             component="ul"
+                                             className="rank-list"
+                                             transitionAppear={true}
+                                             transitionAppearTimeout={500}
+                                             transitionEnterTimeout={500}
+                                             transitionLeaveTimeout={300}>
                         {overviews.map(overview => {
                             return (
-                                <Link to={`/rank/${overview.id}`} key={overview.id}>
-                                    <li className="rank-item clear-fix pointer">
+                                <li className="rank-item clear-fix pointer" key={overview.id}>
+                                    <Link to={`/rank/${overview.id}`}>
                                         <img src={overview.photo}/>
                                         <div className="info-wrapper">
                                             <ul>
@@ -51,11 +58,11 @@ class Rank extends Component {
                                                 })}
                                             </ul>
                                         </div>
-                                    </li>
-                                </Link>
+                                    </Link>
+                                </li>
                             )
                         })}
-                    </ul>
+                    </ReactCSSTransitionGroup>
                 </div>
             </div>
         );

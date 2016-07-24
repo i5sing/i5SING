@@ -29,11 +29,14 @@ import Collections from './collections';
 import Collection from './collection';
 import WebView from './webview';
 import Square from './square';
-import FavoriteSong from './favorite_song';
+import MySong from './my_song';
 import PlayList from './playlist';
 import Lrc from './lrc';
 import Columns from './columns';
 import Search from './search';
+import Attention from './my_attention';
+import Fans from './my_fans';
+import MyCollectons from './my_collection';
 
 let routes = (
     <Router>
@@ -46,7 +49,10 @@ let routes = (
         <Route path="/collection/:collectionId" component={Collection}/>
         <Route path="/webview" component={WebView}/>
         <Route path="/square" component={Square}/>
-        <Route path="/favorite_song" component={FavoriteSong}/>
+        <Route path="/my_song" component={MySong}/>
+        <Route path="/my_attention" component={Attention}/>
+        <Route path="/my_fans" component={Fans}/>
+        <Route path="/my_collections" component={MyCollectons}/>
         <Route path="/search" component={Search}/>
         <Route path="*" component={Appearance}/>
     </Router>

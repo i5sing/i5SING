@@ -1,5 +1,5 @@
 /**
- * Created by zhaofeng on 7/14/16.
+ * Created by zhaofeng on 2016/7/24.
  */
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
@@ -7,16 +7,16 @@ import {bindActionCreators} from 'redux';
 import {Link} from 'react-router'
 import {EndScrollLoad, CollectionList} from '../components';
 import {
-    getSongCollections
-} from '../actions/collection';
+    getMySongCollections
+} from '../actions/favorite';
 
 const mapStateToProps = state => ({
-    collection: state.collection
+    favorite: state.favorite
 });
 
 const mapDispatchToProps = (dispatch) => ({
     action: bindActionCreators({
-        getSongCollections
+        getMySongCollections
     }, dispatch),
     dispatch
 });
@@ -25,27 +25,31 @@ class Collections extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            pageIndex: 1
+            page: 1,
+            pageSize: 20
         };
     }
 
     componentDidMount() {
-        this.props.action.getSongCollections(this.state.pageIndex);
+        this.sign = this.props.location.query.sign;
+        let {page, pageSize} = this.state;
+        this.props.action.getMySongCollections(this.sign, page, pageSize);
     }
 
     onLoad() {
-        this.state.pageIndex += 2;
-        this.props.action.getSongCollections(this.state.pageIndex, true);
+        this.state.pageIndex++;
+        let {page, pageSize} = this.state;
+        this.props.action.getMySongCollections(this.sign, page, pageSize);
     }
 
     render() {
-        let collections = this.props.collection.collections || [];
+        let attentionCollections = this.props.favorite.attentionCollections || [];
 
         return (
             <EndScrollLoad target={'panel'} onLoad={this.onLoad.bind(this)}>
                 <div className="elsa-panel collection">
-                    <h3 className="title">歌单</h3>
-                    <CollectionList collections={collections}/>
+                    <h3 className="title">收藏歌单</h3>
+                    <CollectionList collections={attentionCollections}/>
                 </div>
             </EndScrollLoad>
         );

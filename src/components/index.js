@@ -10,6 +10,8 @@ import Pagination from './pagination';
 import Player from './player';
 import Progress from './progress';
 import EndScrollLoad from './end_scroll_load';
+import UserList from './user_list';
+import CollectionList from './collection_list';
 
 exports.SongTable = SongTable;
 exports.Button = Button;
@@ -19,3 +21,5 @@ exports.Player = Player;
 exports.Progress = Progress;
 exports.PlayTable = PlayTable;
 exports.EndScrollLoad = EndScrollLoad;
+exports.UserList = UserList;
+exports.CollectionList = CollectionList;

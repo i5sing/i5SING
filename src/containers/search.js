@@ -7,7 +7,7 @@ import {bindActionCreators} from 'redux';
 import {Link} from 'react-router'
 import ipc from '../backend/ipc';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import {SongTable, EndScrollLoad} from '../components';
+import {SongTable, EndScrollLoad, UserList} from '../components';
 import {
     search
 } from '../actions/search';
@@ -55,7 +55,6 @@ class Search extends Component {
 
     render() {
         let searchResult = this.props.search.searchResult || {songArray: [], user: [], songMenu: []};
-        console.log(searchResult);
         return (
             <EndScrollLoad target="panel" onLoad={this.nextPage.bind(this)}>
                 <div className="elsa-panel rank-overview search">
@@ -73,26 +72,13 @@ class Search extends Component {
                             }
                         })}/>
                     }
-                    {!!searchResult.user.length && <ul className="elsa-list user-list">
-                        <ReactCSSTransitionGroup transitionName="opacity"
-                                                 transitionEnterTimeout={500}
-                                                 transitionLeaveTimeout={300}>
-                            {searchResult.user.map((user, index) => {
-                                index++;
-                                return (
-                                    <li className={`user-item ${index % 5 == 0 ? 'last-child' : ''}`}
-                                        key={`${user.userId}`}>
-                                        <Link to={`/user/${user.userId}`}>
-                                            <img src={user.url}/>
-                                        </Link>
-                                        <div className="user-item-title highlight-normal no-wrap">
-                                            <Link to={`/user/${user.userId}`}>{user.nickName}</Link>
-                                        </div>
-                                    </li>
-                                )
-                            })}
-                        </ReactCSSTransitionGroup>
-                    </ul>}
+                    {!!searchResult.user.length && <UserList users={searchResult.user.map(user => {
+                        return {
+                            ID: user.userId,
+                            I: user.url,
+                            NN: user.nickName
+                        }
+                    })}/>}
                     {!!searchResult.songMenu.length && <ul className="elsa-list collection-list">
                         <ReactCSSTransitionGroup transitionName="opacity"
                                                  transitionEnterTimeout={500}

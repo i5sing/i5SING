@@ -48,6 +48,14 @@
   opacity: 0;
 }
 
+.opacity-appear {
+  opacity: 0.01;
+}
+
+.opacity-appear.opacity-appear-active {
+  opacity: 1;
+  transition: opacity .5s ease-in;
+}
 
 @keyframes opacity-in {
   from {

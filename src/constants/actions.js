@@ -145,5 +145,20 @@ export default keyMirror({
     /**
      * 搜索
      */
-    SEARCH: 'SEARCH'
+    SEARCH: 'SEARCH',
+
+    /**
+     * 获取我的关注
+     */
+    GET_MY_ATTENTION: 'GET_MY_ATTENTION',
+
+    /**
+     * 获取我的粉丝
+     */
+    GET_MY_FANS: 'GET_MY_FANS',
+
+    /**
+     * 获取收藏的歌单
+     */
+    GET_ATTENTION_COLLECTION: 'GET_ATTENTION_COLLECTION'
 })
