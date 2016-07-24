@@ -168,7 +168,7 @@ const menuTemplate = [
             }, {
                 label: 'Report Issues',
                 click: () => {
-                    shell.openExternal('https://github.com/i5sing/5sing');
+                    shell.openExternal('https://github.com/i5sing/5sing/issues');
                 }
             }
         ]
