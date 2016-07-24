@@ -46,7 +46,7 @@ class Collections extends Component {
             <EndScrollLoad target={'panel'} onLoad={this.onLoad.bind(this)}>
                 <div className="elsa-panel collection">
                     <h3 className="title">歌单</h3>
-                    <ul className="collection-list">
+                    <ul className="elsa-list collection-list">
                         <ReactCSSTransitionGroup transitionName="opacity"
                                                  transitionEnterTimeout={500}
                                                  transitionLeaveTimeout={300}>

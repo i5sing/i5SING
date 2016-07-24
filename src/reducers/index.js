@@ -12,6 +12,7 @@ import collection from './collection';
 import square from './square';
 import favorite from './favorite';
 import columns from './columns';
+import search from './search';
 
 export default combineReducers({
     app: app,
@@ -22,5 +23,6 @@ export default combineReducers({
     singer: singer,
     collection: collection,
     square: square,
-    columns: columns
+    columns: columns,
+    search: search
 });

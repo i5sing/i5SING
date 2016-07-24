@@ -93,6 +93,8 @@ class App extends Component {
     }
 
     closePanel() {
+        if (!this.state.playListOpen && !this.state.lrcOpen) return;
+
         this.setState({
             playListOpen: false,
             lrcOpen: false

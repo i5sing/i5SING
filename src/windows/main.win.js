@@ -9,11 +9,11 @@ const ipc = require('../backend/ipc');
 class MainWindows {
     constructor() {
         this.win = new BrowserWindow({
-            frame: true,
+            frame: false,
             resizable: false,
             height: 670,
             width: 980,
-            titleBarStyle: 'hidden-inset',
+            titleBarStyle: 'hidden-inset'
         });
         this.win.loadURL(`file://${__dirname}/index.html`);
 

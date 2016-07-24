@@ -27,7 +27,8 @@ class Lrc extends Component {
             <div>
                 <div className="elsa-panel elsa-panel-no-margin elsa-list elsa-list-3 relative">
                     <h3 className="title">歌词</h3>
-                    <div className="elsa-panel-body elsa-list-body clear-fix lrc-body">
+                    <div className="elsa-panel-body elsa-list-body clear-fix lrc-body"
+                         style={{overflowY: 'auto', height: 545}}>
                         <div dangerouslySetInnerHTML={{__html: lrc.replace(/\r\n/g, '<br/>')}}/>
                     </div>
                 </div>

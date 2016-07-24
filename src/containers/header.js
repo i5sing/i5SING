@@ -3,10 +3,15 @@
  */
 import React, {Component} from 'react';
 import ipc from '../backend/ipc';
+import {getRemote} from '../backend/electron';
 
 export default class Header extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            keyword: '',
+            type: 'yc'
+        }
     }
 
     componentDidMount() {
@@ -19,6 +24,19 @@ export default class Header extends Component {
 
     back() {
         ipc.render.send('go-back-forward', 'back');
+    }
+
+    search(evt) {
+        if (evt.which == 13) {
+            if (location.hash.replace(/\?.*/, '') != '#/search') {
+                location.hash = `#/search`;
+            }
+
+            ipc.send(getRemote().getCurrentWindow(), 'search.event', {
+                type: this.state.type,
+                keyword: this.state.keyword
+            });
+        }
     }
 
     /*
@@ -37,7 +55,20 @@ export default class Header extends Component {
                     <i className="fa fa-arrow-right btn btn-right"
                        onClick={this.forward.bind(this)}/>
                 </div>
-
+                <div className="search-box pull-left">
+                    <select value={this.state.type}
+                            onChange={evt => this.setState({type: evt.target.value})}>
+                        <option value="yc">原创</option>
+                        <option value="fc">翻唱</option>
+                        <option value="bz">伴奏</option>
+                        <option value="collection">歌单</option>
+                        <option value="user">用户</option>
+                    </select>
+                    <input type="text" placeholder="歌曲/用户/歌单"
+                           value={this.state.keyword}
+                           onChange={evt => this.setState({keyword: evt.target.value})}
+                           onKeyDown={this.search.bind(this)}/>
+                </div>
             </div>
         );
     }

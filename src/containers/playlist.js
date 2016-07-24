@@ -61,7 +61,8 @@ class Playlist extends Component {
                             </Button>
                         </div>
                     </div>
-                    <div className="elsa-panel-body elsa-list-body clear-fix">
+                    <div className="elsa-panel-body elsa-list-body clear-fix"
+                         style={{overflowY: 'auto', height: 545}}>
                         <PlayTable songs={songs.map(song => {
                             return {
                                 ID: song.id,
