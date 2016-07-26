@@ -36,15 +36,15 @@ export default class Progress extends Component {
         let currentTime = this.props.currentTime || 0,
             duration = this.props.duration || 0.1,
             buffered = this.props.buffered || 0;
-
+        let song = this.props.song || {};
         return (
             <div className="elsa-progress">
                 <div className="head-img">
-                    {this.state.initial && (<img src={this.props.picture}/>)}
+                    {this.state.initial && (<img src={song.user.I}/>)}
                 </div>
                 <div className="wrapper">
                     <div className="info">
-                        <div className="song-name">{this.state.initial && this.props.songName}</div>
+                        <div className="song-name">{this.state.initial && song.SN + ' - ' + song.user.NN}</div>
                         {this.state.initial && (
                             <div className="time">
                                 {Progress.formatTime(currentTime)}/{Progress.formatTime(duration)}

@@ -15,7 +15,8 @@ const {
     GET_PERSONAL_INFO,
     GET_SONG_INFO,
     NEXT,
-    PREVIOUS
+    PREVIOUS,
+    SYNC_SONG
 } = ACTIONS;
 
 export default (state = {}, action) => {
@@ -87,6 +88,12 @@ export default (state = {}, action) => {
         case GET_SONG_INFO:
             state.currentSong = action.data;
             state.status = 4; //加载歌曲信息成功
+            break;
+        case SYNC_SONG:
+            if (state.currentSong) {
+                state.currentSong.data.favorite = state.currentSong.data.favorite ? 0 : 1;
+            }
+            state.status = 0;
             break;
     }
 

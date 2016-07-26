@@ -17,7 +17,8 @@ const {
     GET_SONG_INFO,
     NEXT,
     PREVIOUS,
-    CHANGE_PLAY_TYPE
+    CHANGE_PLAY_TYPE,
+    SYNC_SONG
 } = ACTIONS;
 
 /**
@@ -181,23 +182,53 @@ export function changePlayType() {
  * 获取歌曲详细信息,包括歌曲地址
  * @param songId
  * @param songType
+ * @param sign
  * @returns {function(*=)}
  */
-export function getSongInfo(songId, songType) {
+export function getSongInfo(songId, songType, sign) {
     return (dispatch) => {
         return SingSdk.getSongAddr({
             songId: songId,
             songType: songType
         }).then(result => {
-            SingSdk.getSong({
+            return SingSdk.getSong({
                 songId: songId,
                 songType: songType
             }).then(res => {
-                Object.assign(result.data, res.data);
-                dispatch({type: GET_SONG_INFO, data: result});
-            }, err => {
-
+                return Object.assign(result.data, res.data);
             });
-        });
+        }).then(data => {
+            if (sign) {
+                SingSdk.checkSong({
+                    songId: songId,
+                    songType: songType,
+                    sign: sign
+                }).then(result => {
+                    Object.assign(data, result.data);
+                    dispatch({type: GET_SONG_INFO, data: {data: data}});
+                })
+            } else {
+                dispatch({type: GET_SONG_INFO, data: {data: data}});
+            }
+        })
     };
+}
+
+/**
+ * 同步歌曲到收藏
+ * @param userId
+ * @param add
+ * @param del
+ * @returns {function(*)}
+ */
+export function syncMySongs(userId, add, del) {
+    return dispatch => {
+        return SingSdk.syncMySongs({
+            userId: userId,
+            add: add,
+            del: del
+        }).then(result => {
+            dispatch({type: SYNC_SONG, data: result});
+        })
+    }
 }

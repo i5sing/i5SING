@@ -1,6 +1,7 @@
 /**
  * Created by zhaofeng on 7/18/16.
  */
+"use strict";
 var gulp = require('gulp');
 var clean = require('gulp-clean');
 var install = require("gulp-install");
@@ -66,12 +67,15 @@ gulp.task('compile', ['copy'], callback => {
 });
 
 gulp.task('compile_dev', callback => {
+    var start = false;
     webpack(webpackConfigForDev, (err, stats) => {
         if (err) {
             throw new gutil.PluginError('webpack', err);
         }
         gutil.log('[webpack]', stats.toString({modules: false, colors: true}));
-        callback();
+        !start && callback();
+        start && gutil.log('[recompile]', '编译成功');
+        start = true;
     });
 });
 

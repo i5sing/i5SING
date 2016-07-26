@@ -16,7 +16,8 @@ import {
     previous,
     getSongInfo,
     succeed,
-    changePlayType
+    changePlayType,
+    syncMySongs
 } from '../actions/common';
 
 const mapStateToProps = state => ({
@@ -32,7 +33,8 @@ const mapDispatchToProps = (dispatch) => ({
         getSongInfo,
         next,
         previous,
-        changePlayType
+        changePlayType,
+        syncMySongs
     }, dispatch),
     dispatch
 });
@@ -105,7 +107,8 @@ export default class Footer extends Component {
         if (common.status == 1) {
             if (!this.props.common.playlist || this.props.common.playlist.length == 0) return;
             let song = this.props.common.playlist[common.current];
-            return this.props.action.getSongInfo(song.id, song.type);
+            let info = this.props.info || {};
+            return this.props.action.getSongInfo(song.id, song.type, info.sign);
         } else if (common.status == 2) {
             this.setState({playing: true});
             this.media.play();
@@ -120,8 +123,7 @@ export default class Footer extends Component {
             this.media.play();
             this.hasLoad = false;
 
-            console.log(result);
-            let notification = new Notification(result.data.SN, {
+            new Notification(result.data.SN, {
                 body: result.data.S,
                 icon: result.data.user.I,
                 silent: true
@@ -145,11 +147,33 @@ export default class Footer extends Component {
         }
     }
 
+    syncSong(song) {
+        if (!this.props.info || !song) return;
+        let userId = parseInt(this.props.info.id),
+            add = [],
+            del = [];
+
+        if (song.favorite) {
+            del.push({
+                "ID": song.ID,
+                "SK": song.SK,
+                "SN": song.SN
+            });
+        } else {
+            add.push({
+                "ID": song.ID,
+                "SK": song.SK,
+                "SN": song.SN
+            });
+        }
+
+        this.props.action.syncMySongs(userId, add, del);
+    }
+
     render() {
-        let index = this.props.common.current || 0;
-        let playlist = this.props.common.playlist || [];
-        let name = playlist.length > index ? playlist[index].name + ' - ' + playlist[index].singer : '';
-        let img = playlist.length > index ? playlist[index].singerImg : '';
+        let currentSongResult = this.props.common.currentSong || {},
+            song = currentSongResult.data || {};
+
         return (
             <div className="elsa-footer">
                 <div className="player">
@@ -161,14 +185,14 @@ export default class Footer extends Component {
                             isPlaying={this.state.playing}/>
                 </div>
                 <div className="control-bar">
-                    <Progress songName={name}
-                              picture={img}
+                    <Progress song={song}
                               isPlaying={this.state.playing}
                               buffered={this.state.buffered}
                               currentTime={this.state.currentTime}
                               duration={this.state.duration}/>
                     <div className="btn-group">
-                        <i className="fa fa-heart btn btn-heart"/>
+                        <i className={`fa fa-heart btn btn-heart ${song.favorite == 1 ? 'red' : ''}`}
+                           onClick={this.syncSong.bind(this, song)}/>
                         <i className="fa fa-download btn"/>
                         <span className="lrc btn" onClick={this.props.openLrc.bind(this)}>歌词</span>
                         <i className="fa fa-list-ul btn btn-list" onClick={this.props.openPlayList}/>

@@ -165,5 +165,10 @@ export default keyMirror({
     /**
      * 退出登录
      */
-    LOGOUT: 'LOGOUT'
+    LOGOUT: 'LOGOUT',
+
+    /**
+     * 同步歌曲到收藏
+     */
+    SYNC_SONG: 'SYNC_SONG'
 })

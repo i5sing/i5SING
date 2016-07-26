@@ -131,7 +131,8 @@ class App extends Component {
                     <Router history={hashHistory} routes={routes}/>
                 </div>
                 <footer className="footer">
-                    <Footer openLrc={this.toggleLrcPanel.bind(this)}
+                    <Footer info={this.props.app.info}
+                            openLrc={this.toggleLrcPanel.bind(this)}
                             openPlayList={this.togglePlayListPanel.bind(this)}/>
                 </footer>
                 <ReactCSSTransitionGroup transitionName="slide"
