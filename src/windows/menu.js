@@ -12,7 +12,7 @@ let win;
 
 const menuTemplate = [
     {
-        label: '5SING',
+        label: 'i5SING',
         submenu: [
             {
                 label: '关于',

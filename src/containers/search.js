@@ -36,7 +36,6 @@ class Search extends Component {
 
     componentDidMount() {
         ipc.render.on('search.event', (evt, searchObj) => {
-            console.log('receive');
             let {type, keyword} = searchObj;
             this.setState({type: type, keyword: keyword, page: 1});
             this.props.action.search(keyword, type, 1, this.state.pageSize);
@@ -60,6 +59,7 @@ class Search extends Component {
                 <div className="elsa-panel rank-overview search">
                     <h3 className="title">搜索</h3>
                     {!!searchResult.songArray.length && <SongTable
+                        inSearch={true}
                         songs={searchResult.songArray.map(song => {
                             return {
                                 ID: song.songId,

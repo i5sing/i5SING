@@ -8,7 +8,9 @@ import ACTIONS from '../constants/actions';
 const {
     GET_COLLECTIONS,
     GET_COLLECTION,
-    GET_COLLECTION_SONG
+    GET_COLLECTION_SONG,
+    ADD_TO_MY_COLLECTIONS,
+    REMOVE_FROM_MY_COLLECTIONS
 } = ACTIONS;
 
 /**
@@ -37,14 +39,23 @@ export function getSongCollections(pageIndex, isIncrement) {
 /**
  * 获取歌单详情
  * @param collectionId
+ * @param sign
  * @returns {function(*)}
  */
-export function getSongCollection(collectionId) {
+export function getSongCollection(collectionId, sign) {
     return (dispatch) => {
         SingSdk.getSongCollection({
             id: collectionId
         }).then(result => {
-            dispatch({type: GET_COLLECTION, data: result.data});
+            return SingSdk.checkSongCollection({
+                id: collectionId,
+                sign: sign
+            }).then(res => {
+                Object.assign(result.data, {isAttention: res.success});
+                dispatch({type: GET_COLLECTION, data: result.data});
+            }, () => {
+                dispatch({type: GET_COLLECTION, data: result.data});
+            });
         }, err => {
 
         });
@@ -62,6 +73,44 @@ export function getSongsInSongCollections(collectionId) {
             id: collectionId
         }).then(result => {
             dispatch({type: GET_COLLECTION_SONG, data: result.data});
+        }, err => {
+
+        });
+    };
+}
+
+/**
+ * 添加歌单到我的收藏
+ * @param collectionId
+ * @param sign
+ * @returns {function(*)}
+ */
+export function addToMyCollections(collectionId, sign) {
+    return (dispatch) => {
+        SingSdk.addToMyCollections({
+            id: collectionId,
+            sign: sign
+        }).then(result => {
+            dispatch({type: ADD_TO_MY_COLLECTIONS, result: result});
+        }, err => {
+
+        });
+    };
+}
+
+/**
+ * 从我的收藏中移除歌单
+ * @param collectionId
+ * @param sign
+ * @returns {function(*)}
+ */
+export function removeFromMyCollections(collectionId, sign) {
+    return (dispatch) => {
+        SingSdk.removeFromMyCollections({
+            id: collectionId,
+            sign: sign
+        }).then(result => {
+            dispatch({type: REMOVE_FROM_MY_COLLECTIONS, result: result});
         }, err => {
 
         });

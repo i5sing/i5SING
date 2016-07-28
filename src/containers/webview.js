@@ -20,7 +20,6 @@ class WebView extends Component {
     }
 
     componentDidMount() {
-        console.log(this);
     }
 
     render() {

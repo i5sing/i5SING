@@ -89,8 +89,8 @@ gulp.task('build_package', ['install', 'compile'], () => {
             icon: './dist/assets/logo.icns',
             dir: './dist',
             out: 'app',
-            name: '5sing',
-            version: '1.2.6',
+            name: 'i5SING',
+            version: '1.3.1',
             platform: 'darwin',
             overwrite: true
         }, function (err, appPath) {
@@ -108,8 +108,8 @@ gulp.task('build_package', ['install', 'compile'], () => {
                 // icon: './dist/assets/logo.ico',
                 dir: './dist',
                 out: 'app',
-                name: '5sing',
-                version: '1.2.6',
+                name: 'i5SING',
+                version: '1.3.1',
                 platform: 'win32',
                 overwrite: true
             }, function (err, appPath) {

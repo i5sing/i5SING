@@ -9,6 +9,7 @@ import db from '../backend/db/song.db';
 const {
     PLAY,
     PLAY2,
+    PLAY_SINGLE,
     CLEAR,
     ADD,
     PAUSE,
@@ -80,6 +81,40 @@ export function playAll(songs, type, current = 0) {
                 }
             });
         });
+    }
+}
+
+/**
+ * 播放搜索结果中的歌曲
+ * @param songId
+ * @param type
+ * @returns {function(*=)}
+ */
+export function playSingle(songId, type) {
+    return (dispatch) => {
+        return SingSdk.getSong({
+            songId: songId,
+            songType: type
+        }).then(res => {
+            let song = res.data;
+            song = {
+                id: song.ID,
+                type: song.SK,
+                name: song.SN,
+                singer: song.user.NN,
+                singerId: song.user.ID,
+                singerImg: song.user.I
+            };
+
+            db.insertSong(song).then(() => {
+                dispatch({
+                    type: PLAY_SINGLE, data: {
+                        song: song
+                    }
+                });
+            });
+        });
+
     }
 }
 

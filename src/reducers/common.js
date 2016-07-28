@@ -16,7 +16,8 @@ const {
     GET_SONG_INFO,
     NEXT,
     PREVIOUS,
-    SYNC_SONG
+    SYNC_SONG,
+    PLAY_SINGLE
 } = ACTIONS;
 
 export default (state = {}, action) => {
@@ -30,6 +31,13 @@ export default (state = {}, action) => {
             state.current = action.data.current || 0;
             state.status = 1; //加载播放列表成功
             break;
+        case PLAY_SINGLE:
+            state.playlist = state.playlist || [];
+            state.playlist.push(action.data.song);
+            console.log(state.playlist);
+            state.current = state.playlist.length - 1;
+            state.status = 1; //加载播放列表成功
+            break;
         case CLEAR:
             if (action.data.songId) {
                 if (action.data.current < state.current) {
@@ -38,8 +46,8 @@ export default (state = {}, action) => {
                 state.playlist.splice(action.data.current, 1);
             } else {
                 state.playlist = [];
-                state.current = null;
-                state.status = 6; //停止
+                state.current = 0;
+                // state.status = 6; //停止
             }
             break;
         case ADD:

@@ -170,5 +170,30 @@ export default keyMirror({
     /**
      * 同步歌曲到收藏
      */
-    SYNC_SONG: 'SYNC_SONG'
+    SYNC_SONG: 'SYNC_SONG',
+
+    /**
+     * 添加到我的关注
+     */
+    ADD_TO_MY_ATTENTION: 'ADD_TO_MY_ATTENTION',
+
+    /**
+     * 从我的关注移除
+     */
+    REMOVE_FROM_MY_ATTENTION: 'REMOVE_FROM_MY_ATTENTION',
+
+    /**
+     * 添加歌单到我的收藏
+     */
+    ADD_TO_MY_COLLECTIONS: 'ADD_TO_MY_COLLECTIONS',
+
+    /**
+     * 从我的收藏中移除歌单
+     */
+    REMOVE_FROM_MY_COLLECTIONS: 'REMOVE_FROM_MY_COLLECTIONS',
+
+    /**
+     * 播放搜索结果中的歌曲
+     */
+    PLAY_SINGLE: 'PLAY_SINGLE'
 })

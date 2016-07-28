@@ -33,13 +33,13 @@ class Collections extends Component {
     componentDidMount() {
         this.sign = this.props.location.query.sign;
         let {page, pageSize} = this.state;
-        this.props.action.getMySongCollections(this.sign, page, pageSize);
+        this.props.action.getMySongCollections(this.sign, page, pageSize, false);
     }
 
     onLoad() {
         this.state.pageIndex++;
         let {page, pageSize} = this.state;
-        this.props.action.getMySongCollections(this.sign, page, pageSize);
+        this.props.action.getMySongCollections(this.sign, page, pageSize, true);
     }
 
     render() {

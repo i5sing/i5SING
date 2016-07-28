@@ -5,7 +5,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {play, playAll, add} from '../actions/common';
+import {play, playAll, add, playSingle} from '../actions/common';
 import toastr from 'toastr';
 
 const mapStateToProps = state => ({
@@ -16,7 +16,8 @@ const mapDispatchToProps = (dispatch) => ({
     action: bindActionCreators({
         add,
         play,
-        playAll
+        playAll,
+        playSingle
     }, dispatch),
     dispatch
 });
@@ -25,7 +26,10 @@ export default class SongTable extends Component {
         super(props);
     }
 
-    playAll(index) {
+    playAll(index, song) {
+        if (this.props.inSearch) {
+            return this.props.action.playSingle(song.ID, song.SK);
+        }
         let songs = this.props.songs;
         this.props.action.playAll(songs.map(song => {
             return {
@@ -78,9 +82,9 @@ export default class SongTable extends Component {
                             </td>
                             <td className="no-wrap highlight-normal relative">
                                 {song.SN}
-                                            <span className="btn-group menu-bar">
+                                <span className="btn-group menu-bar">
                                                 <i className="btn fa fa-play"
-                                                   onClick={this.playAll.bind(this, $index)}/>
+                                                   onClick={this.playAll.bind(this, $index, song)}/>
                                                 <i className="btn fa fa-download"/>
                                                 <i className="btn fa fa-plus"
                                                    onClick={this.add.bind(this, song)}/>

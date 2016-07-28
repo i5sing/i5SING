@@ -7,19 +7,24 @@ import {bindActionCreators} from 'redux';
 import {Link} from 'react-router';
 import {
     getSongCollection,
-    getSongsInSongCollections
+    getSongsInSongCollections,
+    addToMyCollections,
+    removeFromMyCollections
 } from '../actions/collection';
 import {play, playAll} from '../actions/common';
 import {SongTable, Button} from '../components';
 
 const mapStateToProps = state => ({
-    collection: state.collection
+    collection: state.collection,
+    common: state.common
 });
 
 const mapDispatchToProps = (dispatch) => ({
     action: bindActionCreators({
         getSongCollection,
         getSongsInSongCollections,
+        addToMyCollections,
+        removeFromMyCollections,
         play,
         playAll
     }, dispatch),
@@ -33,9 +38,10 @@ class Collection extends Component {
     }
 
     componentDidMount() {
+        this.sign = this.props.common.info ? this.props.common.info.sign : null;
         this.collectionId = this.props.routeParams.collectionId;
         this.props.action.getSongsInSongCollections(this.collectionId);
-        this.props.action.getSongCollection(this.collectionId);
+        this.props.action.getSongCollection(this.collectionId, this.sign);
     }
 
     playAll() {
@@ -70,9 +76,16 @@ class Collection extends Component {
                                 <Button type="primary" size="large" onClick={this.playAll.bind(this)}>
                                     <i className="fa fa-play"/>播放全部
                                 </Button>
-                                <Button type="default" size="large">
-                                    <i className="fa fa-star"/>收藏
-                                </Button>
+                                {!!this.sign && (collectionInfo.isAttention ?
+                                        <Button type="default" size="large"
+                                                onClick={this.props.action.removeFromMyCollections.bind(this, collectionInfo.ID, this.sign)}>
+                                            <i className="fa fa-star red"/>取消收藏
+                                        </Button> :
+                                        <Button type="default" size="large"
+                                                onClick={this.props.action.addToMyCollections.bind(this, collectionInfo.ID, this.sign)}>
+                                            <i className="fa fa-star"/>收藏
+                                        </Button>
+                                )}
                                 <Button type="default" size="large">
                                     <i className="fa fa-download"/>下载
                                 </Button>

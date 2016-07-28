@@ -6,13 +6,16 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
     getUserInfo,
-    getUserSongs
+    getUserSongs,
+    addToMyAttention,
+    removeFromMyAttention
 } from '../actions/singer';
 import {play, playAll} from '../actions/common';
 import {SongTable, Pagination, Button} from '../components';
 
 const mapStateToProps = state => ({
-    singer: state.singer
+    singer: state.singer,
+    common: state.common
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -20,7 +23,9 @@ const mapDispatchToProps = (dispatch) => ({
         getUserInfo,
         getUserSongs,
         play,
-        playAll
+        playAll,
+        addToMyAttention,
+        removeFromMyAttention
     }, dispatch),
     dispatch
 });
@@ -32,13 +37,15 @@ class Singer extends Component {
             songType: 'yc',
             page: 1,
             pageSize: 20
-        }
+        };
     }
 
     componentDidMount() {
         this.userId = this.props.routeParams.userId;
+        this.sign = this.props.common.info ? this.props.common.info.sign : null;
+        this.myId = this.props.common.info ? this.props.common.info.id : null;
         let state = this.state;
-        this.props.action.getUserInfo(this.userId);
+        this.props.action.getUserInfo(this.userId, this.sign);
         this.props.action.getUserSongs(this.userId, state.songType, state.page, state.pageSize);
     }
 
@@ -99,9 +106,16 @@ class Singer extends Component {
                                 <Button type="primary" size="large" onClick={this.playAll.bind(this)}>
                                     <i className="fa fa-play"/>播放全部
                                 </Button>
-                                <Button type="default" size="large">
-                                    <i className="fa fa-heart"/>关注
-                                </Button>
+                                {!!this.sign && userInfo.ID != this.myId && (userInfo.follow == 0 ?
+                                    <Button type="default" size="large"
+                                            onClick={this.props.action.addToMyAttention.bind(this, userInfo.ID, this.sign)}>
+                                        <i className={`fa fa-heart`}/>关注
+                                    </Button> :
+                                    <Button type="default" size="large"
+                                            onClick={this.props.action.removeFromMyAttention.bind(this, userInfo.ID, this.sign)}>
+                                        <i className={`fa fa-heart red`}/>取消关注
+                                    </Button>
+                                )}
                                 <Button type="default" size="large">
                                     <i className="fa fa-download"/>下载
                                 </Button>

@@ -7,21 +7,31 @@ import ACTIONS from '../constants/actions';
 
 const {
     GET_USER,
-    GET_USER_SONGS
+    GET_USER_SONGS,
+    ADD_TO_MY_ATTENTION,
+    REMOVE_FROM_MY_ATTENTION
 } = ACTIONS;
 
 /**
  * 获取音乐人信息
  * @param userId
+ * @param sign
  * @returns {function(*)}
  */
-export function getUserInfo(userId) {
+export function getUserInfo(userId, sign) {
     return (dispatch) => {
         SingSdk.getUserInfo({
             userId: userId
         }).then(result => {
-            console.log(result);
-            dispatch({type: GET_USER, data: result.data});
+            return SingSdk.checkFollowUser({
+                userId: userId,
+                sign: sign
+            }).then(function (res) {
+                Object.assign(result.data, res.data);
+                dispatch({type: GET_USER, data: result.data});
+            }, () => {
+                dispatch({type: GET_USER, data: result.data});
+            });
         }, err => {
 
         });
@@ -45,6 +55,44 @@ export function getUserSongs(userId, songType, pageIndex, pageSize) {
             pageSize: pageSize
         }).then(result => {
             dispatch({type: GET_USER_SONGS, result: result});
+        }, err => {
+
+        });
+    };
+}
+
+/**
+ * 添加到我的关注
+ * @param userId
+ * @param sign
+ * @returns {function(*)}
+ */
+export function addToMyAttention(userId, sign) {
+    return (dispatch) => {
+        SingSdk.addToMyAttention({
+            userId: userId,
+            sign: sign
+        }).then(result => {
+            dispatch({type: ADD_TO_MY_ATTENTION, result: result});
+        }, err => {
+
+        });
+    };
+}
+
+/**
+ * 从我的关注移除
+ * @param userId
+ * @param sign
+ * @returns {function(*)}
+ */
+export function removeFromMyAttention(userId, sign) {
+    return (dispatch) => {
+        SingSdk.removeFromMyAttention({
+            userId: userId,
+            sign: sign
+        }).then(result => {
+            dispatch({type: REMOVE_FROM_MY_ATTENTION, result: result});
         }, err => {
 
         });

@@ -62,6 +62,7 @@ export default class Nav extends Component {
                             <i className="fa fa-reorder btn"/>歌单
                         </li>
                         <li onClick={this.handleClick.bind(this, 'square', '')}
+                            style={{display: 'none'}}
                             className={this.state.current == 'square' && 'active'}>
                             <i className="fa fa-square btn"/>广场
                         </li>
@@ -74,7 +75,7 @@ export default class Nav extends Component {
                                     className={this.state.current == `user/${info.id}` && 'active'}>
                                     <i className="fa fa-user btn"/>我的音乐
                                 </li>
-                                <li><i className="fa fa-rss btn"/>动态</li>
+                                <li style={{display: 'none'}}><i className="fa fa-rss btn"/>动态</li>
                                 <li onClick={this.handleClick.bind(this, 'my_song', `?userId=${info.id}`)}
                                     className={this.state.current == 'my_song' && 'active'}>
                                     <i className="fa fa-music btn"/>收藏音乐
@@ -93,7 +94,7 @@ export default class Nav extends Component {
                                 </li>
                             </span>
                         )}
-                        <li><i className="fa fa-download btn"/>下载</li>
+                        <li style={{display: 'none'}}><i className="fa fa-download btn"/>下载</li>
                     </ul>
                 </div>
             </div>

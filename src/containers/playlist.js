@@ -38,7 +38,7 @@ class Playlist extends Component {
     componentDidMount() {
         setTimeout(() => {
             this.props.action.readPlayList();
-        }, 500);
+        }, 800);
     }
 
     clear() {
