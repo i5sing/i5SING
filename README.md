@@ -1,5 +1,5 @@
 # i5SING
-中国原创音乐基地5sing PC版。
+中国原创音乐基地5sing PC版。爱生活,爱音乐,爱5SING。
 
 # Support Platform
 * mac os
