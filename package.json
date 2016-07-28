@@ -1,7 +1,7 @@
 {
-  "name": "5sing",
+  "name": "i5SING",
   "version": "0.0.1",
-  "description": "中国原创音乐基地5sing桌面客户端开原版",
+  "description": "中国原创音乐基地5sing pc版",
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=dev electron ./src/index.js",
@@ -10,7 +10,7 @@
     "dev": "gulp dev",
     "rebuild-sqlite3": "cd node_modules/sqlite3 && npm run prepublish && node-gyp configure --module_name=node_sqlite3 --module_path=../lib/binding/node-v47-darwin-x64 && node-gyp rebuild --target=0.36.4 --arch=x64 --target_platform=darwin --dist-url=https://atom.io/download/atom-shell --module_name=node_sqlite3 --module_path=../lib/binding/node-v47-darwin-x64",
     "rebuild-sqlite3-win": "cd node_modules/sqlite3 && npm run prepublish && node-gyp configure --module_name=node_sqlite3 --module_path=../lib/binding/node-v47-win32-x64 && node-gyp node-gyp rebuild --target=0.36.0 --arch=x64 --target_platform=win32 --dist-url=https://atom.io/download/atom-shell --module_name=node_sqlite3 --module_path=../lib/binding/node-v47-win32-x64",
-    "_build": "electron-packager ./dist 5sing --platform=all --arch=all --out=app --overwrite",
+    "_build": "electron-packager ./dist i5SING --platform=all --arch=all --out=app --overwrite",
     "_dev": "webpack --config build/webpack.config.js",
     "_compile": "webpack --config build/webpack.config.proc.js"
   },
@@ -28,9 +28,9 @@
   "author": "zfeng217",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/i5sing/elsa/issues"
+    "url": "https://github.com/i5sing/i5SING/issues"
   },
-  "homepage": "https://github.com/i5sing/elsa#readme",
+  "homepage": "https://github.com/i5sing/i5SING#readme",
   "devDependencies": {
     "babel-core": "^6.3.26",
     "babel-loader": "^6.2.0",
@@ -39,7 +39,7 @@
     "babel-preset-stage-3": "^6.11.0",
     "css-loader": "^0.23.1",
     "electron-packager": "^7.3.0",
-    "electron-prebuilt": "^1.2.6",
+    "electron-prebuilt": "^1.3.1",
     "electron-rebuild": "^1.1.5",
     "file-loader": "^0.9.0",
     "font-awesome": "^4.6.3",

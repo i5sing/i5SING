@@ -24,7 +24,7 @@ const menuTemplate = [
                 type: 'separator'
             },
             {
-                label: '隐藏5SING',
+                label: '隐藏i5SING',
                 accelerator: 'Command+H',
                 selector: 'hide:'
             },
@@ -153,7 +153,7 @@ const menuTemplate = [
             {
                 label: 'GitHub',
                 click: () => {
-                    shell.openExternal('https://github.com/i5sing/5sing');
+                    shell.openExternal('https://github.com/i5sing/i5SING');
                 }
             },
             {
@@ -161,7 +161,7 @@ const menuTemplate = [
             }, {
                 label: 'Report Issues',
                 click: () => {
-                    shell.openExternal('https://github.com/i5sing/5sing/issues');
+                    shell.openExternal('https://github.com/i5sing/i5SING/issues');
                 }
             }
         ]
