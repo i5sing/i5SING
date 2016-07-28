@@ -1,11 +1,11 @@
-# 5sing
-中国原创音乐基地5sing桌面版
+# i5SING
+中国原创音乐基地5sing PC版。
 
 # Support Platform
 * mac os
 * windows
 
-![5sing截图](http://7xpilz.com1.z0.glb.clouddn.com/5sing.jpg)
+![5sing截图](http://7xpilz.com1.z0.glb.clouddn.com/5sing.png)
 
 # Download
 Coming Soon!

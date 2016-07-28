@@ -91,13 +91,6 @@ const menuTemplate = [
         label: '视图',
         submenu: [
             {
-                label: '刷新',
-                accelerator: 'Command+R',
-                click: () => {
-
-                }
-            },
-            {
                 label: 'DevTools',
                 accelerator: 'Alt+Command+I',
                 click: () => {

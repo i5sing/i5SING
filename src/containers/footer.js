@@ -119,8 +119,13 @@ export default class Footer extends Component {
             this.hasLoad = true;
             let result = common.currentSong;
             this.setState({playing: true});
-            this.media.src = result.data.squrl || result.data.hqurl || result.data.lqurl;
-            this.media.play();
+            try {
+                this.media.src = result.data.squrl || result.data.hqurl || result.data.lqurl;
+                this.media.play();
+            } catch(e) {
+
+            }
+
             this.hasLoad = false;
 
             new Notification(result.data.SN, {
@@ -129,9 +134,6 @@ export default class Footer extends Component {
                 silent: true
             });
 
-        } else if (common.status == 6 && this.media.currentTime) {
-            this.media.currentTime = this.media.duration;
-            this.setState({playing: false});
         }
 
         this.props.action.succeed(0);
