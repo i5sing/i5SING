@@ -1,0 +1,14 @@
+/**
+ * Created by zhaofeng on 2016/7/31.
+ */
+import keyMirror from 'key-mirror';
+
+export default keyMirror({
+    GET_ADVERTISEMENTS: 'GET_ADVERTISEMENTS',
+    GET_DAILY_RECOMMEND: 'GET_DAILY_RECOMMEND',
+    GET_SPECIAL_COLUMN: 'GET_SPECIAL_COLUMN',
+    GET_LATEST_SINGERS: 'GET_LATEST_SINGERS',
+    GET_SINGERS: 'GET_SINGERS',
+
+    APPEARANCE_ERROR: 'APPEARANCE_ERROR'
+})

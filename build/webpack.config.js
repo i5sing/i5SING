@@ -6,13 +6,14 @@ var webpack = require('webpack');
 module.exports = {
     cache: true,
     target: 'electron',
-    devtool: 'source-map',
     watch: true,
+    devtool: 'source-map',
     entry: {
-        main: './src/entry.js'
+        main: './app/render/index.js'
     },
     output: {
-        path: path.join(__dirname, '../src/static'),
+        path: path.join(__dirname, '../app/assets/js/'),
+        publicPath: path.join(__dirname, '../app/assets/js/'),
         filename: '[name].js',
         chunkFilename: '[chunkhash].js',
         sourceMapFilename: '[name].map'
@@ -22,7 +23,7 @@ module.exports = {
             {
                 loader: 'babel-loader',
                 include: [
-                    path.resolve(__dirname, '../src')
+                    path.resolve(__dirname, '../app/render')
                 ],
 
                 // Only run `.js` and `.jsx` files through Babel
@@ -30,7 +31,10 @@ module.exports = {
 
                 // Options to configure babel with
                 query: {
-                    presets: ['react', 'es2015']
+                    presets: ['react', 'es2015'],
+                    plugins: [
+                        "add-module-exports"
+                    ]
                 }
             },
             {
@@ -41,6 +45,10 @@ module.exports = {
             {
                 test: /\.less$/,
                 loader: 'style!css!less'
+            },
+            {
+                test: /\.less\?modules$/,
+                loader: 'style!css?module!less'
             },
             {
                 test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/,

@@ -10,7 +10,7 @@ var webpack = require('webpack');
 var gutil = require('gulp-util');
 var exec = require('child_process').exec;
 
-var webpackConfig = require('./build/webpack.config.proc.js'),
+var webpackConfig = require('./build/webpack.config.proc'),
     webpackConfigForDev = require('./build/webpack.config');
 
 gulp.task('clean', () => {
@@ -19,29 +19,30 @@ gulp.task('clean', () => {
 });
 
 gulp.task('copy-assets', ['clean'], () => {
-    return gulp.src(['./src/assets/**'])
-        .pipe(gulp.dest('./dist/assets'));
+    return gulp.src(['./app/assets/img/**'])
+        .pipe(gulp.dest('./dist/assets/img'));
 });
 
 gulp.task('copy-files', ['copy-assets'], () => {
     return gulp.src([
-        './src/index.js',
-        './src/entry.js',
-        './package.json'
+        './package.json',
+        './app/index.js'
     ]).pipe(gulp.dest('./dist'));
 });
 
-gulp.task('copy-backend', ['copy-files'], () => {
-    return gulp.src(['./src/backend/**'])
-        .pipe(gulp.dest('./dist/backend'));
+gulp.task('copy-main', ['copy-files'], () => {
+    return gulp.src([
+        './app/main/**'
+    ]).pipe(gulp.dest('./dist/main'));
 });
 
-gulp.task('copy-windows', ['copy-backend'], () => {
-    return gulp.src(['./src/windows/**'])
-        .pipe(gulp.dest('./dist/windows'));
+gulp.task('copy-common', ['copy-main'], () => {
+    return gulp.src([
+        './app/common/**'
+    ]).pipe(gulp.dest('./dist/common'));
 });
 
-gulp.task('copy-modules', ['copy-windows'], () => {
+gulp.task('copy-modules', ['copy-common'], () => {
     return gulp.src(['./node_modules/sqlite3/**'])
         .pipe(gulp.dest('./dist/node_modules/sqlite3'));
 });
@@ -68,6 +69,7 @@ gulp.task('compile', ['copy'], callback => {
 
 gulp.task('compile_dev', callback => {
     var start = false;
+
     webpack(webpackConfigForDev, (err, stats) => {
         if (err) {
             throw new gutil.PluginError('webpack', err);
@@ -82,32 +84,36 @@ gulp.task('compile_dev', callback => {
 
 gulp.task('build_package', ['install', 'compile'], () => {
 
-    //electron-packager ./dist 5sing --platform=all --arch=all --out=app --overwrite
-    return new Promise((resolve, reject) => {
-        packager({
-            arch: 'all',
-            icon: './dist/assets/logo.icns',
-            dir: './dist',
-            out: 'app',
-            name: 'i5SING',
-            version: '1.3.1',
-            platform: 'darwin',
-            overwrite: true
-        }, function (err, appPath) {
-            if (err) return reject(err);
-            if (appPath) {
-                resolve();
-            }
+    //electron-packager ../dist 5sing --platform=all --arch=all --out=app --overwrite
+    if (process.platform == 'darwin') {
+        return new Promise((resolve, reject) => {
+            packager({
+                arch: 'all',
+                icon: './dist/assets/img/logo.icns',
+                dir: './dist',
+                out: 'release',
+                name: 'i5SING',
+                version: '1.3.1',
+                platform: 'darwin',
+                overwrite: true
+            }, function (err, appPath) {
+                if (err) return reject(err);
+                if (appPath) {
+                    resolve();
+                }
+            });
         });
-    }).then(() => {
+    }
+
+    if (process.platform == 'win32') {
         return new Promise((resolve, reject) => {
             packager({
                 arch: 'all',
                 // TODO
                 // mac os 10.12 无法安装wine
-                // icon: './dist/assets/logo.ico',
-                dir: './dist',
-                out: 'app',
+                // icon: '../dist/assets/logo.ico',
+                dir: '../dist',
+                out: 'release',
                 name: 'i5SING',
                 version: '1.3.1',
                 platform: 'win32',
@@ -119,8 +125,7 @@ gulp.task('build_package', ['install', 'compile'], () => {
                 }
             });
         });
-    })
-
+    }
 });
 
 gulp.task('build', ['build_package'], () => {
@@ -130,7 +135,7 @@ gulp.task('build', ['build_package'], () => {
 gulp.task('dev', ['compile_dev'], (callback) => {
     gutil.log('[run]', '启动成功!');
     callback();
-    exec('NODE_ENV=dev electron ./src/index.js', err => {
+    exec('NODE_ENV=dev electron ./app/index.js', err => {
         if (err) return gutil.log('[error]', err); // 返回 error
     });
 });

@@ -7,12 +7,13 @@
     "start": "NODE_ENV=dev electron ./src/index.js",
     "clean": "gulp clean",
     "build": "gulp build",
-    "dev": "gulp dev",
+    "dev": "NODE_ENV=dev gulp dev",
     "rebuild-sqlite3": "cd node_modules/sqlite3 && npm run prepublish && node-gyp configure --module_name=node_sqlite3 --module_path=../lib/binding/node-v47-darwin-x64 && node-gyp rebuild --target=0.36.4 --arch=x64 --target_platform=darwin --dist-url=https://atom.io/download/atom-shell --module_name=node_sqlite3 --module_path=../lib/binding/node-v47-darwin-x64",
     "rebuild-sqlite3-win": "cd node_modules/sqlite3 && npm run prepublish && node-gyp configure --module_name=node_sqlite3 --module_path=../lib/binding/node-v47-win32-x64 && node-gyp node-gyp rebuild --target=0.36.0 --arch=x64 --target_platform=win32 --dist-url=https://atom.io/download/atom-shell --module_name=node_sqlite3 --module_path=../lib/binding/node-v47-win32-x64",
-    "_build": "electron-packager ./dist i5SING --platform=all --arch=all --out=app --overwrite",
+    "_build": "electron-packager ./dist i5SING --platform=darwin --arch=all --out=release --overwrite",
     "_dev": "webpack --config build/webpack.config.js",
-    "_compile": "webpack --config build/webpack.config.proc.js"
+    "_compile": "webpack --config build/webpack.config.proc.js",
+    "_compile_main": "webpack --config build/webpack.config.main.js"
   },
   "repository": {
     "type": "git",
@@ -34,9 +35,11 @@
   "devDependencies": {
     "babel-core": "^6.3.26",
     "babel-loader": "^6.2.0",
+    "babel-plugin-add-module-exports": "^0.2.1",
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
     "babel-preset-stage-3": "^6.11.0",
+    "classnames": "^2.2.5",
     "css-loader": "^0.23.1",
     "electron-packager": "^7.3.0",
     "electron-prebuilt": "^1.3.1",
@@ -59,14 +62,13 @@
     "react-router": "^2.5.2",
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0",
+    "sqlite3": "^3.1.4",
     "style-loader": "^0.13.1",
     "toastr": "^2.1.2",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.1"
   },
   "dependencies": {
-    "sqlite3": "^3.1.4",
-    "5sing-sdk": "0.0.8",
-    "request": "^2.73.0"
+    "5sing-sdk": "0.0.8"
   }
 }

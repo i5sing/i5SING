@@ -7,10 +7,10 @@ module.exports = {
     cache: true,
     target: 'electron',
     entry: {
-        main: './src/entry.js'
+        main: './app/render/index.js'
     },
     output: {
-        path: path.join(__dirname, '../dist/static'),
+        path: path.join(__dirname, '../dist/assets/js'),
         filename: '[name].js',
         chunkFilename: '[chunkhash].js',
         sourceMapFilename: '[name].map'
@@ -20,7 +20,7 @@ module.exports = {
             {
                 loader: 'babel-loader',
                 include: [
-                    path.resolve(__dirname, '../src')
+                    path.resolve(__dirname, '../app')
                 ],
 
                 // Only run `.js` and `.jsx` files through Babel
@@ -28,7 +28,10 @@ module.exports = {
 
                 // Options to configure babel with
                 query: {
-                    presets: ['react', 'es2015']
+                    presets: ['react', 'es2015'],
+                    plugins: [
+                        "add-module-exports"
+                    ]
                 }
             },
             {
