@@ -2,8 +2,12 @@
  * Created by zhaofeng on 7/11/16.
  */
 import React from 'react';
-import {send} from '../../../utils/ipc';
-import {getRemote} from '../../../../common/electron';
+import {
+    broadcast
+} from '../../../../common/event';
+import {
+    remote
+} from '../../../../common/electron';
 
 export default class Header extends React.Component {
     constructor(props) {
@@ -33,7 +37,7 @@ export default class Header extends React.Component {
             }
 
             //noinspection JSUnresolvedFunction
-            send(getRemote().getCurrentWindow(), 'search.event', {
+            broadcast(remote.getCurrentWindow(), 'search.event', {
                 type: this.state.type,
                 keyword: this.state.keyword
             });

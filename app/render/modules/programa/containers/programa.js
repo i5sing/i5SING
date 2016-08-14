@@ -10,10 +10,10 @@ import {
 } from '../../../components';
 import {
     getSpecialColumnDetail
-} from '../actions/programa';
+} from '../../../redux/action/programa';
 import {
     playAll
-} from '../../core/actions/common';
+} from '../../../redux/action/common';
 
 const mapStateToProps = state => ({
     programa: state.programa

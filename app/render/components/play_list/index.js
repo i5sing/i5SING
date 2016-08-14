@@ -11,7 +11,7 @@ import {
     playAll,
     add,
     clear
-} from '../../modules/core/actions/common';
+} from '../../redux/action/common';
 
 
 const mapStateToProps = state => ({

@@ -11,14 +11,14 @@ import toastr from 'toastr';
 import {
     play,
     playAll,
-    add} from '../../core/actions/common';
+    add} from '../../../redux/action/common';
 import {
     getCarousel,
     getDailyRecommendSongs,
     getSpecialColumn,
     getLatestSingers,
     getSingers
-} from '../actions/dashboard';
+} from '../../../redux/action/dashboard';
 
 const mapStateToProps = state => ({
     dashboard: state.dashboard,

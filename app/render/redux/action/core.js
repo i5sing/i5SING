@@ -3,8 +3,8 @@
  * Created by zhaofeng on 7/16/16.
  */
 import ACTIONS from '../constants/type';
-import SingSdk from '../../../../common/sdk';
-import db from '../../../../common/db/user.db';
+import SingSdk from '../../../common/sdk';
+import db from '../../../common/db/user.db';
 
 const {
     GET_PERSONAL_INFO,

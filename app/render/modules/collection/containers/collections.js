@@ -11,7 +11,7 @@ import {
 } from '../../../components';
 import {
     getSongCollections
-} from '../actions/collection';
+} from '../../../redux/action/collection';
 
 const mapStateToProps = state => ({
     collection: state.collection

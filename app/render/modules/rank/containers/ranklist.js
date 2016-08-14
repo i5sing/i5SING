@@ -12,10 +12,10 @@ import {
 } from '../../../components';
 import {
     getRankDetail
-} from '../actions/rank';
+} from '../../../redux/action/rank';
 import {
     playAll
-} from '../../core/actions/common';
+} from '../../../redux/action/common';
 
 const mapStateToProps = state => ({
     rank: state.rank

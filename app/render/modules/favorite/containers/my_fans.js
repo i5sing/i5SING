@@ -11,7 +11,7 @@ import {
 } from '../../../components';
 import {
     getUserFans
-} from '../actions/favorite';
+} from '../../../redux/action/favorite';
 
 
 const mapStateToProps = state => ({

@@ -10,11 +10,11 @@ import {
     getUserSongs,
     addToMyAttention,
     removeFromMyAttention
-} from '../actions/singer';
+} from '../../../redux/action/singer';
 import {
     play,
     playAll
-} from '../../core/actions/common';
+} from '../../../redux/action/common';
 import {
     SongList,
     Pagination,

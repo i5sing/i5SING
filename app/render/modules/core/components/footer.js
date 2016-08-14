@@ -20,7 +20,7 @@ import {
     succeed,
     changePlayType,
     syncMySongs
-} from '../actions/common';
+} from '../../../redux/action/common';
 
 const mapStateToProps = state => ({
     common: state.common

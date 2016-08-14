@@ -11,7 +11,7 @@ import {
     getPersonalInfo,
     checkLoginStatus,
     logout
-} from '../actions/core';
+} from '../../../redux/action/core';
 
 //components
 import Nav from '../../../components/nav';

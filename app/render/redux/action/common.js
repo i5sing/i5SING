@@ -3,8 +3,8 @@
  * Created by zhaofeng on 7/12/16.
  */
 import ACTIONS from '../constants/type';
-import SingSdk from '../../../../common/sdk';
-import db from '../../../../common/db/song.db';
+import SingSdk from '../../../common/sdk';
+import db from '../../../common/db/song.db';
 
 const {
     PLAY,

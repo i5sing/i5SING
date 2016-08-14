@@ -18,7 +18,7 @@ import {
 } from '../../../components';
 import {
     search
-} from '../actions/search';
+} from '../../../redux/action/search';
 
 const mapStateToProps = state => ({
     search: state.search

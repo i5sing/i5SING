@@ -3,7 +3,7 @@
  * Created by zhaofeng on 7/16/16.
  */
 import ACTIONS from '../constants/type';
-import SingSdk from '../../../../common/sdk';
+import SingSdk from '../../../common/sdk';
 
 const {
     GET_MY_SONGS,

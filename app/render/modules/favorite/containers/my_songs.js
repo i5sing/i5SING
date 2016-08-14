@@ -11,11 +11,11 @@ import {
 } from '../../../components';
 import {
     getMySongs
-} from '../actions/favorite';
+} from '../../../redux/action/favorite';
 import {
     play,
     playAll
-} from '../../core/actions/common';
+} from '../../../redux/action/common';
 
 const mapStateToProps = state => ({
     favorite: state.favorite,

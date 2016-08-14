@@ -3,7 +3,7 @@
  */
 import {createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
-import reducer from '../reducers';
+import reducer from '../redux/reducer';
 
 export function createRedux(initialState) {
     let middleware = [thunk];

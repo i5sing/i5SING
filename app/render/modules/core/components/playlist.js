@@ -16,7 +16,7 @@ import {
     resume,
     readPlayList,
     succeed
-} from '../actions/common';
+} from '../../../redux/action/common';
 
 const mapStateToProps = state => ({
     common: state.common

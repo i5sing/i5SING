@@ -9,7 +9,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import {
     getRankOverview
-} from '../actions/rank';
+} from '../../../redux/action/rank';
 
 const mapStateToProps = state => ({
     rank: state.rank

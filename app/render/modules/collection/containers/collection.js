@@ -11,11 +11,11 @@ import {
     getSongsInSongCollections,
     addToMyCollections,
     removeFromMyCollections
-} from '../actions/collection';
+} from '../../../redux/action/collection';
 import {
     play,
     playAll
-} from '../../core/actions/common';
+} from '../../../redux/action/common';
 import {
     SongList,
     Button

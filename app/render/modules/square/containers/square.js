@@ -5,7 +5,9 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getSquareList} from '../actions/square';
+import {
+    getSquareList
+} from '../../../redux/action/square';
 
 const mapStateToProps = state => ({
     square: state.square

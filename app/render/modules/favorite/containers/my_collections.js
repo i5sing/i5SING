@@ -11,7 +11,7 @@ import {
 } from '../../../components';
 import {
     getMySongCollections
-} from '../actions/favorite';
+} from '../../../redux/action/favorite';
 
 const mapStateToProps = state => ({
     favorite: state.favorite
