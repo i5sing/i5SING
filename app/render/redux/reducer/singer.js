@@ -7,7 +7,9 @@ const {
     GET_USER,
     GET_USER_SONGS,
     ADD_TO_MY_ATTENTION,
-    REMOVE_FROM_MY_ATTENTION
+    REMOVE_FROM_MY_ATTENTION,
+    GET_SINGER_ATTENTION,
+    GET_SINGER_FANS
 } = ACTIONS;
 export default (state = {}, action) => {
     switch (action.type) {
@@ -25,6 +27,14 @@ export default (state = {}, action) => {
         case REMOVE_FROM_MY_ATTENTION:
             if (action.result.success)
                 state.userInfo.follow = 0;
+            break;
+        case GET_SINGER_ATTENTION:
+            state.users = action.result.data;
+            state.count = action.result.count;
+            break;
+        case GET_SINGER_FANS:
+            state.users = action.result.data;
+            state.count = action.result.count;
             break;
     }
 

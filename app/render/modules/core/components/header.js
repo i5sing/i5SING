@@ -3,6 +3,9 @@
  */
 import React from 'react';
 import {
+    send
+} from '../../../utils/ipc';
+import {
     broadcast
 } from '../../../../common/event';
 import {

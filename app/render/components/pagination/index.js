@@ -27,26 +27,55 @@ export default class Pagination extends React.Component {
     render() {
         let count = this.props.count || 0,
             current = this.props.page || 1,
-            pageSize = this.props.pageSize || 20;
+            size = this.props.size || 10,
+            pageSize = this.props.pageSize || 20,
+            endPage = parseInt(count / pageSize) + 1;
 
-        let pages = [];
-        for (let page = 0; page < count / pageSize; page++) {
-            pages.push(page + 1);
+        let pages = [],
+            page1 = current,
+            page2 = current + 1;
+
+        while (pages.length < parseInt(size / 2) && page1 > 0) {
+            pages.unshift(page1--);
+        }
+
+        while (pages.length < size && page2 < endPage) {
+            pages.push(page2++);
         }
 
         return (
             <div className="elsa-pagination">
                 <ul>
-                    {pages.map(page => {
+                    <li className={`pointer ${current == 1 ? 'active' : ''}`}
+                        onClick={this.onChange.bind(this, 1)}
+                        key="start">首页
+                    </li>
+                    {current !== 1 &&
+                        <li className="pointer"
+                            onClick={this.onChange.bind(this, current - 1)}
+                            key="previous">上一页
+                        </li>
+                    }
+                    {pages.map((page, index) => {
                         {
                             return (
                                 <li className={`pointer ${current == page ? 'active' : ''}`}
                                     onClick={this.onChange.bind(this, page)}
-                                    key={page}>{page}
+                                    key={page + index}>{page}
                                 </li>
                             )
                         }
                     })}
+                    {current !== endPage &&
+                        <li className="pointer"
+                            onClick={this.onChange.bind(this, current + 1)}
+                            key="next">下一页
+                        </li>
+                    }
+                    <li className={`pointer ${current == endPage ? 'active' : ''}`}
+                        onClick={this.onChange.bind(this, endPage)}
+                        key="end">末页
+                    </li>
                 </ul>
             </div>
         );

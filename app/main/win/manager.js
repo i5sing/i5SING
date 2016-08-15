@@ -22,9 +22,6 @@ exports.create = function (winName) {
     }
 
     win && (openWinMap[winName] = win);
-    win && win.on('close', () => {
-        delete openWinMap[winName];
-    });
 
     return win;
 };

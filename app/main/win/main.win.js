@@ -2,7 +2,7 @@
  * Created by zhaofeng on 7/14/16.
  */
 const {BrowserWindow, globalShortcut}  = require('../../common/electron');
-const {send} = require('../../common/event');
+const {broadcast} = require('../../common/event');
 const MenuBuilder = require('../menu/menu');
 
 class MainWindows {
@@ -37,13 +37,13 @@ class MainWindows {
 
         //注册快捷键
         globalShortcut.register('MediaNextTrack', () => {
-            send(this.win, 'change-song', 'next');
+            broadcast(this.win, 'change-song', 'next');
         });
         globalShortcut.register('MediaPreviousTrack', () => {
-            send(this.win, 'change-song', 'pre');
+            broadcast(this.win, 'change-song', 'pre');
         });
         globalShortcut.register('MediaPlayPause', () => {
-            send(this.win, 'change-song', 'play');
+            broadcast(this.win, 'change-song', 'play');
         });
 
         return this.win;

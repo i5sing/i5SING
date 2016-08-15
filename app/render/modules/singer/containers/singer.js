@@ -9,7 +9,9 @@ import {
     getUserInfo,
     getUserSongs,
     addToMyAttention,
-    removeFromMyAttention
+    removeFromMyAttention,
+    getUserCollections,
+    getUserFans
 } from '../../../redux/action/singer';
 import {
     play,
@@ -18,7 +20,8 @@ import {
 import {
     SongList,
     Pagination,
-    Button
+    Button,
+    UserList
 } from '../../../components';
 
 const mapStateToProps = state => ({
@@ -33,7 +36,9 @@ const mapDispatchToProps = (dispatch) => ({
         play,
         playAll,
         addToMyAttention,
-        removeFromMyAttention
+        removeFromMyAttention,
+        getUserCollections,
+        getUserFans
     }, dispatch),
     dispatch
 });
@@ -44,7 +49,8 @@ class Singer extends React.Component {
         this.state = {
             songType: 'yc',
             page: 1,
-            pageSize: 20
+            pageSize: 20,
+            userPageSize: 42
         };
     }
 
@@ -57,17 +63,50 @@ class Singer extends React.Component {
         this.props.action.getUserSongs(this.userId, state.songType, state.page, state.pageSize);
     }
 
+    componentDidUpdate(prevProps) {
+        let oldId = prevProps.params.userId;
+        let newId = this.props.params.userId;
+        if (newId !== oldId) {
+            let state = this.state;
+            this.userId = newId;
+            this.props.action.getUserInfo(this.userId, this.sign);
+            this.props.action.getUserSongs(this.userId, state.songType, state.page, state.pageSize);
+            this.setState({
+                songType: 'yc',
+                page: 1
+            });
+        }
+    }
+
     changeSongType(type) {
         let state = this.state;
         if (type == state.songType) return;
 
         this.setState({songType: type, page: 1});
+
+        if (type == 'fans') {
+            return this.props.action.getUserFans(this.userId, 1, state.userPageSize);
+        }
+
+        if (type == 'attention') {
+            return this.props.action.getUserCollections(this.userId, 1, state.userPageSize);
+        }
+
         this.props.action.getUserSongs(this.userId, type, 1, state.pageSize);
     }
 
     onPageChange(page) {
         let state = this.state;
         this.setState({page: page});
+
+        if (state.songType == 'fans') {
+            return this.props.action.getUserFans(this.userId, page, state.userPageSize);
+        }
+
+        if (state.songType == 'attention') {
+            return this.props.action.getUserCollections(this.userId, page, state.userPageSize);
+        }
+
         this.props.action.getUserSongs(this.userId, state.songType, page, state.pageSize);
     }
 
@@ -85,9 +124,19 @@ class Singer extends React.Component {
         }));
     }
 
+    getPageSize() {
+        if (this.state.songType == 'fans' || this.state.songType == 'attention') {
+            return this.state.userPageSize;
+        }
+
+        return this.state.pageSize;
+    }
+
     render() {
         let userInfo = this.props.singer.userInfo || {},
-            userSongs = this.props.singer.userSongs || [];
+            userSongs = this.props.singer.userSongs || [],
+            users = this.props.singer.users || [];
+
         return (
             <div>
                 <div className="elsa-panel elsa-panel-no-margin elsa-list elsa-list-2">
@@ -110,11 +159,20 @@ class Singer extends React.Component {
                                     <li className={`pointer ${this.state.songType == 'bz' ? 'active' : ''}`}
                                         onClick={this.changeSongType.bind(this, 'bz')}>伴奏
                                     </li>
+                                    <li className={`pointer ${this.state.songType == 'fans' ? 'active' : ''}`}
+                                        onClick={this.changeSongType.bind(this, 'fans')}>粉丝
+                                    </li>
+                                    <li className={`pointer ${this.state.songType == 'attention' ? 'active' : ''}`}
+                                        onClick={this.changeSongType.bind(this, 'attention')}>关注
+                                    </li>
+                                    <li className={`pointer ${this.state.songType == 'bz' ? 'active' : ''}`}
+                                        onClick={this.changeSongType.bind(this, 'comment')}>评论
+                                    </li>
                                 </ul>
                                 <Button type="primary" size="large" onClick={this.playAll.bind(this)}>
                                     <i className="fa fa-play"/>播放全部
                                 </Button>
-                                {!!this.sign && userInfo.ID != this.myId && (userInfo.follow == 0 ?
+                                {!!this.sign && userInfo.ID != this.myId && (userInfo.follow === 0 ?
                                         <Button type="default" size="large"
                                                 onClick={this.props.action.addToMyAttention.bind(this, userInfo.ID, this.sign)}>
                                             <i className={`fa fa-heart`}/>关注
@@ -132,13 +190,21 @@ class Singer extends React.Component {
                     </div>
 
                     <div className="elsa-panel-body elsa-list-body clear-fix">
-                        <SongList songs={userSongs}
-                                  page={this.state.page}
-                                  pageSize={this.state.pageSize}/>
+                        {this.state.songType !== 'fans' && this.state.songType !== 'comment' &&
+                        this.state.songType !== 'attention' && (
+                            <SongList songs={userSongs}
+                                      page={this.state.page}
+                                      pageSize={this.state.pageSize}/>
+                        )}
+
+                        {(this.state.songType === 'fans' || this.state.songType === 'attention') && (
+                            <UserList users={users}/>
+                        )}
+
                         <Pagination count={this.props.singer.count}
                                     onChange={this.onPageChange.bind(this)}
                                     page={this.state.page}
-                                    pageSize={this.state.pageSize}
+                                    pageSize={this.getPageSize.bind(this).call()}
                         />
                     </div>
                 </div>

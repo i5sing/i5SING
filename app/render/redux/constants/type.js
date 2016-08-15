@@ -195,5 +195,9 @@ export default keyMirror({
     /**
      * 播放搜索结果中的歌曲
      */
-    PLAY_SINGLE: 'PLAY_SINGLE'
+    PLAY_SINGLE: 'PLAY_SINGLE',
+
+    GET_SINGER_ATTENTION: 'GET_SINGER_ATTENTION',
+
+    GET_SINGER_FANS: 'GET_SINGER_FANS'
 })

@@ -9,7 +9,9 @@ const {
     GET_USER,
     GET_USER_SONGS,
     ADD_TO_MY_ATTENTION,
-    REMOVE_FROM_MY_ATTENTION
+    REMOVE_FROM_MY_ATTENTION,
+    GET_SINGER_ATTENTION,
+    GET_SINGER_FANS
 } = ACTIONS;
 
 /**
@@ -97,4 +99,32 @@ export function removeFromMyAttention(userId, sign) {
 
         });
     };
+}
+
+export function getUserCollections(userId, pageIndex, pageSize) {
+    return dispatch => {
+        SingSdk.getUserCollections({
+            userId: userId,
+            pageIndex: pageIndex,
+            pageSize: pageSize
+        }).then(result => {
+            dispatch({type: GET_SINGER_ATTENTION, result: result});
+        }, err => {
+
+        })
+    }
+}
+
+export function getUserFans(userId, pageIndex, pageSize) {
+    return dispatch => {
+        SingSdk.getUserFans({
+            userId: userId,
+            pageIndex: pageIndex,
+            pageSize: pageSize
+        }).then(result => {
+            dispatch({type: GET_SINGER_FANS, result: result});
+        }, err => {
+
+        })
+    }
 }
