@@ -1,9 +1,9 @@
 .slide-enter {
-  animation: slide-in 500ms;
+  animation: slide-in 400ms;
 }
 
 .slide-enter.slide-enter-active {
-  margin-right: 0;
+  transform: translate(0,0);
 }
 
 .slide-leave {
@@ -11,24 +11,24 @@
 }
 
 .slide-leave.slide-leave-active {
-  margin-right: -300px;
+  transform: translate(100%,0);
 }
 
 @keyframes slide-in {
   from {
-    margin-right: -300px;
+    transform: translate(100%,0);
   }
   to {
-    margin-right: 0;
+    transform: translate(0,0);
   }
 }
 
 @keyframes slide-out {
   from {
-    margin-right: 0;
+    transform: translate(0,0);
   }
   to {
-    margin-right: -300px;
+    transform: translate(100%,0);
   }
 }
 

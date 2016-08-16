@@ -97,7 +97,7 @@ class Core extends React.Component {
                             openPlayList={this.togglePlayListPanel.bind(this)}/>
                 </footer>
                 <ReactCSSTransitionGroup transitionName="slide"
-                                         transitionEnterTimeout={500}
+                                         transitionEnterTimeout={400}
                                          transitionLeaveTimeout={300}>
                     {this.state.playListOpen && (<div className="play-list" key="play-list">
                         <PlayList />
