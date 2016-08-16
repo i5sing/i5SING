@@ -7,7 +7,7 @@ import ReactDom from 'react-dom';
 import {Router, hashHistory} from 'react-router'
 
 import {createRedux} from './utils/redux';
-import Core from './modules/core';
+import Core from './page/core';
 import "../assets/style/index.less";
 
 
@@ -15,15 +15,15 @@ let store = createRedux();
 
 let childRoutes = [];
 let tempRoutes = [
-    require('./modules/dashboard/routes/dashboard'),
-    require('./modules/collection/routes/collections'),
-    require('./modules/favorite/routes/favorite'),
-    require('./modules/programa/routes/programa'),
-    require('./modules/rank/routes/rank'),
-    require('./modules/search/routes/search'),
-    require('./modules/singer/routes/singer'),
-    require('./modules/square/routes/square'),
-    require('./modules/web/routes/webview')
+    require('./routes/dashboard'),
+    require('./routes/collections'),
+    require('./routes/favorite'),
+    require('./routes/programa'),
+    require('./routes/rank'),
+    require('./routes/search'),
+    require('./routes/singer'),
+    require('./routes/square'),
+    require('./routes/webview')
 ];
 
 tempRoutes.forEach(route => {
@@ -37,7 +37,7 @@ tempRoutes.forEach(route => {
 let routes = {
     path: '/',
     indexRoutes: {
-        component: require('./modules/dashboard/containers/dashboard')
+        component: require('./page/dashboard')
     },
     childRoutes: childRoutes,
     component: Core

@@ -51,8 +51,8 @@
     <script>
         var shell = require('electron').shell;
         var time = parseInt(new Date().getTime() / 1000);
-        const SingSdk = require('../backend/sing.sdk');
-        const ipc = require('../backend/ipc');
+        const SingSdk = require('../../../common/sdk');
+        const {ipcRenderer} = require('electron');
 
         function login() {
             let username = document.getElementById('username').value;
@@ -65,7 +65,7 @@
                     document.getElementById('reason').style.display = 'block';
                 } else if (result.code == 200) {
                     document.getElementById('reason').style.display = 'none';
-                    ipc.render.send('login-success', result);
+                    ipcRenderer.send('login-success', result);
                 }
             });
         }
