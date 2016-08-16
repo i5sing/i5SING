@@ -8,6 +8,8 @@ const Tray = require('./menu/tray');
 
 let win, tray;
 
+app.disableHardwareAcceleration()
+
 app.on('ready', () => {
     win = WindowsManager.create('main');
 
