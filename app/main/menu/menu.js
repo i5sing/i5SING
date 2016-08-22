@@ -2,9 +2,10 @@
  * Created by zhaofeng on 7/11/16.
  */
 const path = require('path');
-const {app, Menu, shell} = require('../../common/electron');
+const {app, Menu, shell, dialog} = require('../../common/electron');
 const {send} = require('../../common/event');
 const WinManager = require('../win/manager');
+const update = require('../utils/update');
 
 // cache win obj
 let win;
@@ -17,6 +18,38 @@ const menuTemplate = [
                 label: '关于',
                 click: () => {
                     WinManager.create('about');
+                }
+            },
+            {
+                label: '检查更新',
+                click: () => {
+                    update.checkForUpdatesByReq().then(data => {
+                        var title = '',
+                            message = '',
+                            buttons = ['确定', '取消'];
+
+                        if (data) {
+                            title = '检查更新';
+                            message = `发现新版本 ${data.name}, 点击 "确定" 前往下载!`;
+                        } else {
+                            title = '检查更新';
+                            message = '您的版本已经是最新版了!';
+                            buttons = ['确定'];
+                        }
+
+                        dialog.showMessageBox({
+                            type: 'none',
+                            title: title,
+                            message: message,
+                            buttons: buttons
+                        }, index => {
+                            if (index === 0 && data) {
+                                return shell.openExternal(data.url);
+                            }
+                        })
+                    }, error => {
+                        console.log(error);
+                    })
                 }
             },
             {

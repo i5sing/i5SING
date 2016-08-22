@@ -4,7 +4,7 @@
   "description": "中国原创音乐基地5sing pc版",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=dev electron ./src/index.js",
+    "start": "NODE_ENV=dev electron ./app/index.js",
     "clean": "gulp clean",
     "build": "gulp build",
     "dev": "NODE_ENV=dev gulp dev",
@@ -69,6 +69,7 @@
     "webpack": "^1.13.1"
   },
   "dependencies": {
-    "5sing-sdk": "0.0.8"
+    "5sing-sdk": "0.0.8",
+    "request": "^2.74.0"
   }
 }

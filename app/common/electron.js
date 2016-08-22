@@ -9,7 +9,9 @@ const {
     Menu,
     shell,
     Tray,
-    globalShortcut
+    globalShortcut,
+    autoUpdater,
+    dialog
 } = require('electron');
 
 module.exports = {
@@ -20,5 +22,7 @@ module.exports = {
     Menu: Menu,
     shell: shell,
     Tray: Tray,
-    globalShortcut: globalShortcut
+    globalShortcut: globalShortcut,
+    autoUpdater: autoUpdater,
+    dialog
 };
