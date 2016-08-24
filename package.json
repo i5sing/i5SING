@@ -1,6 +1,6 @@
 {
   "name": "i5SING",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "中国原创音乐基地5sing pc版",
   "main": "index.js",
   "scripts": {
