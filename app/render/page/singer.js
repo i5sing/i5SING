@@ -165,9 +165,6 @@ class Singer extends React.Component {
                                     <li className={`pointer ${this.state.songType == 'attention' ? 'active' : ''}`}
                                         onClick={this.changeSongType.bind(this, 'attention')}>关注
                                     </li>
-                                    <li className={`pointer ${this.state.songType == 'comment' ? 'active' : ''}`}
-                                        onClick={this.changeSongType.bind(this, 'comment')}>评论
-                                    </li>
                                 </ul>
                                 <Button type="primary" size="large" onClick={this.playAll.bind(this)}>
                                     <i className="fa fa-play"/>播放全部

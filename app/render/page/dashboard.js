@@ -58,7 +58,7 @@ class Dashboard extends React.Component {
         this.setState({dailyPage: this.state.dailyPage - 1});
     }
 
-    playAll(index) {
+    playAll(index, page) {
         let dailyRecommends = this.props.dashboard.dailyRecommends;
         this.props.action.playAll(dailyRecommends.map(song => {
             return {
@@ -69,7 +69,7 @@ class Dashboard extends React.Component {
                 singerId: song.UserId,
                 singerImg: song.Image
             }
-        }), 'playlist', index);
+        }), 'playlist', index + page * 9);
     }
 
     playColumnAll(index) {
@@ -228,7 +228,7 @@ class Dashboard extends React.Component {
                                 </div>
                                 <span className="btn-group menu-bar">
                                     <i className="btn fa fa-play"
-                                       onClick={this.playAll.bind(this, index)}/>
+                                       onClick={this.playAll.bind(this, index, this.state.dailyPage)}/>
                                     <i className="btn fa fa-download"/>
                                     <i className={`btn fa fa-plus`}
                                        onClick={this.add.bind(this, daily)}/>
