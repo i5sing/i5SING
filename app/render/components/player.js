@@ -22,7 +22,7 @@ export default class Player extends React.Component {
                 <i className={`fa fa-play btn btn-play btn-highlight ${this.props.isPlaying ? 'fa-pause' : 'fa-play'}`}
                    onClick={this.props.play}/>
                 <i className="fa fa-step-forward btn btn-backward btn-highlight" onClick={this.props.next}/>
-                <i className="fa fa-volume-down btn btn-volume"/>
+                <i className="fa fa-volume-down-2 btn btn-volume" />
                 <i className={`fa btn btn-play-type ${playTypeBtnIcon}`}
                     onClick={this.props.onPlayTypeChange}/>
             </div>

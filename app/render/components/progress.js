@@ -2,6 +2,7 @@
  * Created by zhaofeng on 7/11/16.
  */
 import React from 'react';
+import {Link} from 'react-router';
 
 export default class Progress extends React.Component {
     constructor(props) {
@@ -37,10 +38,11 @@ export default class Progress extends React.Component {
             duration = this.props.duration || 0.1,
             buffered = this.props.buffered || 0;
         let song = this.props.song || {};
+
         return (
             <div className="elsa-progress">
                 <div className="head-img">
-                    {this.state.initial && (<img src={song.user.I}/>)}
+                    {this.state.initial && <Link to={`/user/${song.user.ID}`}>{<img src={song.user.I}/>}</Link>}
                 </div>
                 <div className="wrapper">
                     <div className="info">

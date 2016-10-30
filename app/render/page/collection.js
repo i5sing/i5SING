@@ -65,6 +65,11 @@ class Collection extends React.Component {
         }));
     }
 
+    /*
+     <Button type="default" size="large">
+        <i className="fa fa-download"/>下载
+     </Button>
+     */
     render() {
         let collectionInfo = this.props.collection.collectionInfo || {user: {}},
             songlist = this.props.collection.songlist || [];
@@ -93,9 +98,6 @@ class Collection extends React.Component {
                                             <i className="fa fa-star"/>收藏
                                         </Button>
                                 )}
-                                <Button type="default" size="large">
-                                    <i className="fa fa-download"/>下载
-                                </Button>
                             </div>
                         </div>
                     </div>

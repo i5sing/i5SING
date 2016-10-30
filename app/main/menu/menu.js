@@ -44,7 +44,7 @@ const menuTemplate = [
                             buttons: buttons
                         }, index => {
                             if (index === 0 && data) {
-                                return shell.openExternal(data.url);
+                                return shell.openExternal("http://i5sing.com");
                             }
                         })
                     }, error => {

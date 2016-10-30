@@ -132,6 +132,11 @@ class Singer extends React.Component {
         return this.state.pageSize;
     }
 
+    /*
+     <Button type="default" size="large">
+        <i className="fa fa-download"/>下载
+     </Button>
+     */
     render() {
         let userInfo = this.props.singer.userInfo || {},
             userSongs = this.props.singer.userSongs || [],
@@ -179,9 +184,6 @@ class Singer extends React.Component {
                                             <i className={`fa fa-heart red`}/>取消关注
                                         </Button>
                                 )}
-                                <Button type="default" size="large">
-                                    <i className="fa fa-download"/>下载
-                                </Button>
                             </div>
                         </div>
                     </div>

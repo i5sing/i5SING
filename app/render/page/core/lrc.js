@@ -34,12 +34,14 @@ class Lrc extends React.Component {
         lrc = lrc || '';
         msg = msg || '';
 
+        /*
+         <span onClick={this.switchTab.bind(this, 'message')}>灵感</span>
+         */
         return (
             <div>
                 <div className="elsa-panel elsa-panel-no-margin elsa-list elsa-list-3 relative">
                     <h3 className="title">
-                        <span onClick={this.switchTab.bind(this, 'lrc')}>歌词</span> |
-                        <span onClick={this.switchTab.bind(this, 'message')}>灵感</span>
+                        <span onClick={this.switchTab.bind(this, 'lrc')}>歌词</span>
                     </h3>
                     {this.state.tab == 'lrc' &&
                         <div className="elsa-panel-body elsa-list-body clear-fix lrc-body"

@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import {connect} from 'react-redux';
+import {Link} from 'react-router';
 import {bindActionCreators} from 'redux';
 import toastr from 'toastr';
 
@@ -10,7 +11,8 @@ import {
     play,
     playAll,
     add,
-    clear
+    clear,
+    download
 } from '../redux/action/common';
 
 
@@ -23,7 +25,8 @@ const mapDispatchToProps = (dispatch) => ({
         add,
         play,
         playAll,
-        clear
+        clear,
+        download
     }, dispatch),
     dispatch
 });
@@ -49,6 +52,10 @@ class PlayList extends React.Component {
         toastr.success('添加成功');
     }
 
+    download(song) {
+        this.props.action.download(song.ID, song.SongType);
+    }
+
     clear(songId, index) {
         if (index == this.props.common.current) return;
 
@@ -66,18 +73,22 @@ class PlayList extends React.Component {
                     return (
                         <tr key={song.ID}>
                             <td className="center light-color no-wrap">
-                                <img src={song.user.I}
-                                     style={{width: '50px !important', height: '50px !important'}}/>
+                                <Link to={`/user/${song.user.ID}`}>
+                                    <img src={song.user.I}
+                                         style={{width: '50px !important', height: '50px !important'}}/>
+                                </Link>
+
                             </td>
                             <td className={`no-wrap highlight-normal relative ${current == index ? 'playing' : ''}`}>
                                 <span className="song-name no-wrap">{song.SN}</span>
-                                <span className="singer-name no-wrap light-color">
-                                    {song.user.NN}
-                                </span>
+                                <Link to={`/user/${song.user.ID}`}>
+                                    <span className="singer-name no-wrap light-color">{song.user.NN}</span>
+                                </Link>
                                 <span className="btn-group menu-bar">
                                     <i className="btn fa fa-play"
                                        onClick={this.play.bind(this, index)}/>
-                                    <i className="btn fa fa-download"/>
+                                    <i className="btn fa fa-download"
+                                       onClick={this.download.bind(this, song)}/>
                                     <i className={`btn fa fa-close ${current == index ? 'disabled' : ''}`}
                                        onClick={this.clear.bind(this, song.ID, index)}/>
                                 </span>

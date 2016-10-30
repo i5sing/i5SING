@@ -19,7 +19,8 @@ import {
     getSongInfo,
     succeed,
     changePlayType,
-    syncMySongs
+    syncMySongs,
+    download
 } from '../../redux/action/common';
 
 const mapStateToProps = state => ({
@@ -36,7 +37,8 @@ const mapDispatchToProps = (dispatch) => ({
         next,
         previous,
         changePlayType,
-        syncMySongs
+        syncMySongs,
+        download
     }, dispatch),
     dispatch
 });
@@ -124,7 +126,7 @@ class Footer extends React.Component {
             try {
                 this.media.src = result.data.squrl || result.data.hqurl || result.data.lqurl;
                 this.media.play();
-            } catch(e) {
+            } catch (e) {
 
             }
 
@@ -174,6 +176,10 @@ class Footer extends React.Component {
         this.props.action.syncMySongs(userId, add, del);
     }
 
+    download(song) {
+        this.props.action.download(song.songid, song.songtype);
+    }
+
     render() {
         let currentSongResult = this.props.common.currentSong || {},
             song = currentSongResult.data || {};
@@ -197,7 +203,8 @@ class Footer extends React.Component {
                     <div className="btn-group">
                         <i className={`fa fa-heart btn btn-heart ${song.favorite == 1 ? 'red' : ''}`}
                            onClick={this.syncSong.bind(this, song)}/>
-                        <i className="fa fa-download btn"/>
+                        <i className="fa fa-download btn"
+                           onClick={this.download.bind(this, song)}/>
                         <span className="lrc btn" onClick={this.props.openLrc.bind(this)}>歌词</span>
                         <i className="fa fa-list-ul btn btn-list" onClick={this.props.openPlayList}/>
                     </div>

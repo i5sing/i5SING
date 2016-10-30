@@ -3,7 +3,7 @@
 }
 
 .slide-enter.slide-enter-active {
-  transform: translate(0,0);
+  transform: translate(0, 0);
 }
 
 .slide-leave {
@@ -11,24 +11,24 @@
 }
 
 .slide-leave.slide-leave-active {
-  transform: translate(100%,0);
+  transform: translate(100%, 0);
 }
 
 @keyframes slide-in {
   from {
-    transform: translate(100%,0);
+    transform: translate(100%, 0);
   }
   to {
-    transform: translate(0,0);
+    transform: translate(0, 0);
   }
 }
 
 @keyframes slide-out {
   from {
-    transform: translate(0,0);
+    transform: translate(0, 0);
   }
   to {
-    transform: translate(100%,0);
+    transform: translate(100%, 0);
   }
 }
 
@@ -73,4 +73,8 @@
   to {
     opacity: 0;
   }
+}
+
+.transition-opa-dark {
+  transition: all 0.3s;
 }

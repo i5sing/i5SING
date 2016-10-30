@@ -11,10 +11,13 @@ import toastr from 'toastr';
 import {
     play,
     playAll,
-    add} from '../redux/action/common';
+    add,
+    download
+} from '../redux/action/common';
 import {
     getCarousel,
     getDailyRecommendSongs,
+    getRecommendCollections,
     getSpecialColumn,
     getLatestSingers,
     getSingers
@@ -29,12 +32,14 @@ const mapDispatchToProps = (dispatch) => ({
     action: bindActionCreators({
         getCarousel,
         getDailyRecommendSongs,
+        getRecommendCollections,
         getSpecialColumn,
         getLatestSingers,
         getSingers,
         play,
         playAll,
-        add
+        add,
+        download
     }, dispatch),
     dispatch
 });
@@ -98,12 +103,17 @@ class Dashboard extends React.Component {
         toastr.success('添加成功');
     }
 
+    download(song) {
+        this.props.action.download(song.SongId, song.SongType);
+    }
+
     componentDidMount() {
         this.props.action.getCarousel(26);
         this.props.action.getDailyRecommendSongs(1, 27);
         this.props.action.getSpecialColumn();
         this.props.action.getLatestSingers(1, 5);
         this.props.action.getSingers(1, 5);
+        this.props.action.getRecommendCollections();
     }
 
     render() {
@@ -112,12 +122,15 @@ class Dashboard extends React.Component {
         let specialColumns = this.props.dashboard.specialColumns || [];
         let recommendSingers = this.props.dashboard.recommendSingers || [];
         let latestSingers = this.props.dashboard.latestSingers || [];
+        let collectionRecommends = this.props.dashboard.recommendCollections || [];
 
         return (
             <div className="dashboard">
                 <div className="carousel">
                     {this._buildCarousel(carousels)}
                 </div>
+
+                {this._buildCollections(collectionRecommends)}
 
                 {this._buildDailyRecommend(dailyRecommends)}
 
@@ -128,6 +141,30 @@ class Dashboard extends React.Component {
                 {this._buildSingers(recommendSingers, '热门音乐人')}
             </div>
         );
+    }
+
+    _buildCollections(collections) {
+        collections = collections.slice(0, 5);
+
+        return (<div className="elsa-panel daily-recommend singer-list rect">
+            <h3>推荐歌单</h3>
+            <ul>
+                {collections.map(collection => {
+                    return (
+                        <li key={collection.SongListId}>
+                            <Link to={`/collections/${collection.SongListId}`}>
+                                <img src={collection.Picture}/>
+                            </Link>
+                            <div className="info-wrapper">
+                                <Link to={`/collections/${collection.SongListId}`}>
+                                    <div className="song-name">{collection.Title}</div>
+                                </Link>
+                            </div>
+                        </li>
+                    )
+                })}
+            </ul>
+        </div>);
     }
 
     _buildSingers(singers, name) {
@@ -229,7 +266,8 @@ class Dashboard extends React.Component {
                                 <span className="btn-group menu-bar">
                                     <i className="btn fa fa-play"
                                        onClick={this.playAll.bind(this, index, this.state.dailyPage)}/>
-                                    <i className="btn fa fa-download"/>
+                                    <i className="btn fa fa-download"
+                                       onClick={this.download.bind(this, daily)}/>
                                     <i className={`btn fa fa-plus`}
                                        onClick={this.add.bind(this, daily)}/>
                                 </span>

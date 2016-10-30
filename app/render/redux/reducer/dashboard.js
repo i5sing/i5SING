@@ -8,6 +8,7 @@ const {
     GET_DAILY_RECOMMEND,
     GET_SPECIAL_COLUMN,
     GET_LATEST_SINGERS,
+    GET_RECOMMEND_COLLECTIONS,
     GET_SINGERS
 } = ACTIONS;
 export default (state = {}, action) => {
@@ -26,6 +27,9 @@ export default (state = {}, action) => {
             break;
         case GET_SINGERS:
             state.recommendSingers = action.data;
+            break;
+        case GET_RECOMMEND_COLLECTIONS:
+            state.recommendCollections = action.data;
             break;
     }
 

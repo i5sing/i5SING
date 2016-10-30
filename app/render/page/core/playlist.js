@@ -49,6 +49,11 @@ class Playlist extends React.Component {
         this.props.action.clear();
     }
 
+    /*
+     <Button type="default" size="large">
+         <i className="fa fa-download"/>下载
+     </Button>
+     */
     render() {
         let songs = this.props.common.playlist || [];
         return (
@@ -60,9 +65,6 @@ class Playlist extends React.Component {
                             <Button type="primary" size="large" onClick={this.clear.bind(this)}>
                                 <i className="fa fa-trash"/>清空
                             </Button>
-                            <Button type="default" size="large">
-                                <i className="fa fa-download"/>下载
-                            </Button>
                         </div>
                     </div>
                     <div className="elsa-panel-body elsa-list-body clear-fix"
@@ -71,8 +73,9 @@ class Playlist extends React.Component {
                             return {
                                 ID: song.id,
                                 SN: song.name,
+                                SongType: song.type,
                                 user: {
-                                    ID: song.singerId,
+                                    ID: song.singId,
                                     NN: song.singer,
                                     I: song.singerImg
                                 }

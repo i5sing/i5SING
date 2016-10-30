@@ -11,9 +11,9 @@ import {
     play,
     playAll,
     add,
-    playSingle
+    playSingle,
+    download
 } from '../redux/action/common';
-
 
 const mapStateToProps = state => ({
     common: state.common
@@ -24,11 +24,13 @@ const mapDispatchToProps = (dispatch) => ({
         add,
         play,
         playAll,
-        playSingle
+        playSingle,
+        download
     }, dispatch),
     dispatch
 });
-export default class SongList extends React.Component {
+
+class SongList extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -62,6 +64,10 @@ export default class SongList extends React.Component {
         toastr.success('添加成功');
     }
 
+    download(song) {
+        this.props.action.download(song.ID || song.SongId, song.SK || song.SongType);
+    }
+
     render() {
         let songs = this.props.songs || [],
             page = this.props.page || 1,
@@ -90,12 +96,13 @@ export default class SongList extends React.Component {
                             <td className="no-wrap highlight-normal relative">
                                 {song.SN}
                                 <span className="btn-group menu-bar">
-                                                <i className="btn fa fa-play"
-                                                   onClick={this.playAll.bind(this, $index, song)}/>
-                                                <i className="btn fa fa-download"/>
-                                                <i className="btn fa fa-plus"
-                                                   onClick={this.add.bind(this, song)}/>
-                                            </span>
+                                    <i className="btn fa fa-play"
+                                       onClick={this.playAll.bind(this, $index, song)}/>
+                                    <i className="btn fa fa-download"
+                                       onClick={this.download.bind(this, song)}/>
+                                    <i className="btn fa fa-plus"
+                                       onClick={this.add.bind(this, song)}/>
+                                </span>
                             </td>
                             <td className="no-wrap highlight-normal">
                                 <Link to={`/user/${song.user.ID}`}>{song.user.NN}</Link>

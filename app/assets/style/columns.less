@@ -56,20 +56,21 @@
 
       &:hover {
         .play-btn {
-          display: block;
+          color: @highlight-color;
+          background-color: rgba(0, 0, 0, 0.6);
+          visibility: visible;
         }
       }
 
       .play-btn {
-        display: none;
+        visibility: hidden;
         position: absolute;
         left: 10px;
         top: 10px;
         font-size: 40px;
         width: 80px;
         height: 80px;
-        color: @highlight-color;
-        background-color: rgba(0, 0, 0, 0.6);
+        color: rgba(255, 255, 255, 0);
 
         &:before {
           position: relative;

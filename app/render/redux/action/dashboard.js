@@ -11,6 +11,7 @@ const {
     GET_SPECIAL_COLUMN,
     GET_LATEST_SINGERS,
     GET_SINGERS,
+    GET_RECOMMEND_COLLECTIONS,
 
     APPEARANCE_ERROR
 } = ACTIONS;
@@ -59,6 +60,16 @@ export function getSpecialColumn() {
     return (dispatch) => {
         SingSdk.getSpecialColumn().then(result => {
             dispatch({type: GET_SPECIAL_COLUMN, data: result.data});
+        }, err => {
+            dispatch({type: APPEARANCE_ERROR, error: err});
+        });
+    };
+}
+
+export function getRecommendCollections() {
+    return (dispatch) => {
+        SingSdk.getRecommendCollections().then(result => {
+            dispatch({type: GET_RECOMMEND_COLLECTIONS, data: result.data});
         }, err => {
             dispatch({type: APPEARANCE_ERROR, error: err});
         });

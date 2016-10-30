@@ -100,9 +100,6 @@ class MySongs extends React.Component {
                             <Button type="primary" size="large" onClick={this.playAll.bind(this)}>
                                 <i className="fa fa-play"/>播放全部
                             </Button>
-                            <Button type="default" size="large">
-                                <i className="fa fa-download"/>下载
-                            </Button>
                         </div>
                     </div>
                     <div className="elsa-panel-body elsa-list-body clear-fix">

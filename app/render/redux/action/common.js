@@ -5,6 +5,7 @@
 import ACTIONS from '../constants/type';
 import SingSdk from '../../../common/sdk';
 import db from '../../../common/db/song.db';
+import {shell} from '../../../common/electron';
 
 const {
     PLAY,
@@ -19,7 +20,8 @@ const {
     NEXT,
     PREVIOUS,
     CHANGE_PLAY_TYPE,
-    SYNC_SONG
+    SYNC_SONG,
+    DOWNLOAD
 } = ACTIONS;
 
 /**
@@ -265,5 +267,22 @@ export function syncMySongs(userId, add, del) {
         }).then(result => {
             dispatch({type: SYNC_SONG, data: result});
         })
+    }
+}
+
+/**
+ * 下载歌曲
+ * @param songId
+ * @param songType
+ */
+export function download(songId, songType) {
+    return dispatch => {
+        return SingSdk.getSongAddr({
+            songId: songId,
+            songType: songType
+        }).then(result => {
+            shell.openExternal(result.data.hqurl || result.data.squrl || result.data.lqurl);
+            dispatch({type: DOWNLOAD, data: result});
+        });
     }
 }
