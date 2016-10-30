@@ -5,7 +5,7 @@
 * mac os
 * windows (support in the future)
 
-![i5sing首页](http://static.i5sing.com/images/0.0.1/0.png)
+![i5sing首页](http://static.i5sing.com/image/0.0.1/0.png)
 
 # Download
 Coming Soon!
