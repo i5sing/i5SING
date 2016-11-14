@@ -8,7 +8,7 @@
 ![i5sing首页](https://raw.githubusercontent.com/i5sing/i5sing-images/master/i5sing-readme/0.png)
 
 # Download
-Coming Soon!
+[http://i5sing.com](http://i5sing.com)
 
 # Development
 ```
