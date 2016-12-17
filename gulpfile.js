@@ -93,7 +93,7 @@ gulp.task('build_package', ['install', 'compile'], () => {
                 dir: './dist',
                 out: 'release',
                 name: 'i5SING',
-                version: '1.3.1',
+                version: '1.4.12',
                 platform: 'darwin',
                 overwrite: true
             }, function (err, appPath) {
@@ -115,7 +115,7 @@ gulp.task('build_package', ['install', 'compile'], () => {
                 dir: '../dist',
                 out: 'release',
                 name: 'i5SING',
-                version: '1.3.1',
+                version: '1.4.12',
                 platform: 'win32',
                 overwrite: true
             }, function (err, appPath) {
