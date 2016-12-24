@@ -112,7 +112,7 @@ gulp.task('build_package', ['install', 'compile'], () => {
                 // TODO
                 // mac os 10.12 无法安装wine
                 // icon: '../dist/assets/logo.ico',
-                dir: '../dist',
+                dir: './dist',
                 out: 'release',
                 name: 'i5SING',
                 version: '1.4.12',
@@ -135,7 +135,7 @@ gulp.task('build', ['build_package'], () => {
 gulp.task('dev', ['compile_dev'], (callback) => {
     gutil.log('[run]', '启动成功!');
     callback();
-    exec('NODE_ENV=dev electron ./app/index.js', err => {
+    exec('cross-env NODE_ENV=dev electron ./app/index.js', err => {
         if (err) return gutil.log('[error]', err); // 返回 error
     });
 });
