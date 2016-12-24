@@ -2,17 +2,15 @@
  * Created by zhaofeng on 2016/7/22.
  */
 const {Menu, Tray} = require('../../common/electron');
-const path = require('path');
+const {tray} = require('../../platform');
 
 exports.createTray = function (win) {
-    const iconName = process.platform === 'win32' ? 'trayTemplate.png' : 'trayTemplate.png';
-    const iconPath = path.join(__dirname, '../../assets/img', iconName);
-    let tray = new Tray(iconPath);
-    tray.setToolTip('i5SING');
-    // const contextMenu = Menu.buildFromTemplate([]);
-    // tray.setContextMenu(contextMenu);
+    let trayObj = new Tray(tray.getTrayImage());
+    trayObj.setToolTip('i5SING');
+    const contextMenu = Menu.buildFromTemplate(tray.getMenuTemplate(win));
+    trayObj.setContextMenu(contextMenu);
 
-    tray.on('click', (e) => {
+    trayObj.on('click', e => {
         if (!win.isVisible()) {
             e.preventDefault();
             win.show();
@@ -21,5 +19,9 @@ exports.createTray = function (win) {
         }
     });
 
-    return tray;
+    trayObj.on('right-click', e => {
+        trayObj.popUpContextMenu();
+    });
+
+    return trayObj;
 };

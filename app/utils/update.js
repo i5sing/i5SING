@@ -2,7 +2,7 @@
  * Created by zhaofeng on 22/08/2016.
  */
 const os = require('os');
-const {app, autoUpdater} = require('../../common/electron');
+const {app, autoUpdater} = require('../common/electron');
 const request = require('request');
 const updateUrl = 'http://zfeng-i5sing-auto-update-server.daoapp.io';
 
