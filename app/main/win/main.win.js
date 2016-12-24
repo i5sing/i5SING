@@ -13,10 +13,7 @@ class MainWindows {
             height: 670,
             width: 980,
             center: true,
-            titleBarStyle: 'hidden-inset',
-            webPreferences: {
-                offscreen: true
-            }
+            titleBarStyle: 'hidden-inset'
         });
 
         this.win.loadURL(`file://${__dirname}/views/index.html`);

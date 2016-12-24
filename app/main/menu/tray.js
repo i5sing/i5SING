@@ -5,7 +5,7 @@ const {Menu, Tray} = require('../../common/electron');
 const path = require('path');
 
 exports.createTray = function (win) {
-    const iconName = process.platform === 'win32' ? 'tray.png' : 'tray.png';
+    const iconName = process.platform === 'win32' ? 'trayTemplate.png' : 'trayTemplate.png';
     const iconPath = path.join(__dirname, '../../assets/img', iconName);
     let tray = new Tray(iconPath);
     tray.setToolTip('i5SING');

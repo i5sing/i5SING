@@ -6,16 +6,13 @@ const {ipcMain} = require('./electron');
 /**
  * broadcast
  * @param win
- * @param channel
  * @param args
  * @returns {boolean}
  */
-exports.broadcast = function (win, channel, ...args) {
+exports.broadcast = function (win, ...args) {
     if (!win) return false;
-    let _args = [].slice.call(arguments);
-    _args.shift();
     //noinspection JSUnresolvedVariable
-    win.webContents.send.apply(this, _args);
+    win.webContents.send(...args);
 };
 
 /**

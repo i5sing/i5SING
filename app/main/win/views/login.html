@@ -52,7 +52,7 @@
         var shell = require('electron').shell;
         var time = parseInt(new Date().getTime() / 1000);
         const SingSdk = require('../../../common/sdk');
-        const {ipcRenderer} = require('electron');
+        const ipcRenderer = require('electron').ipcRenderer;
 
         function login() {
             let username = document.getElementById('username').value;
