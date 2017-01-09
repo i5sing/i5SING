@@ -19,12 +19,21 @@
             border: 1px solid #ebebeb;
         }
 
+        .title {
+            text-align: center;
+            padding: 20px;
+            font-size: 20px;
+            background-color: #81d2f2;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
         .row {
-            margin: 20px;
+            margin: 10px 20px;
         }
 
         .button {
-            width: 260px;
+            width: 200px;
             border-radius: 5px;
             background-color: #81d2f2;
             border: 1px solid #ebebeb;
@@ -33,6 +42,10 @@
             cursor: pointer;
             color: #fff;
             outline: 0;
+        }
+
+        .button.cancel-btn {
+            width: 56px;
         }
 
         .button:hover {
@@ -48,31 +61,9 @@
             margin-right: 5px;
         }
     </style>
-    <script>
-        var shell = require('electron').shell;
-        var time = parseInt(new Date().getTime() / 1000);
-        const SingSdk = require('../../../common/sdk');
-        const ipcRenderer = require('electron').ipcRenderer;
-
-        function login() {
-            let username = document.getElementById('username').value;
-            let password = document.getElementById('password').value;
-            SingSdk.login({
-                username: username,
-                password: password
-            }, function (result) {
-                if (result.code == 401) {
-                    document.getElementById('reason').style.display = 'block';
-                } else if (result.code == 200) {
-                    document.getElementById('reason').style.display = 'none';
-                    ipcRenderer.send('login-success', result);
-                }
-            });
-        }
-
-    </script>
 </head>
 <body>
+<div class="title">i5SING</div>
 <div class="row">
     <input class="input" type="text" placeholder="输入帐号/邮箱/手机" id="username">
 </div>
@@ -81,11 +72,39 @@
 </div>
 
 <div class="row">
-    <input class="button" type="button" value="登录" onclick="login()">
+    <input class="button" type="button" value="登录" id="login-btn">
+    <input class="button cancel-btn" type="button" value="取消" id="close-btn">
 </div>
 <div class="row">
     <a class="reg" href="javascript:shell.openExternal(`http://5sing.kugou.com/reg/?time=${time}`);">注册</a>
     <span id="reason">用户名或密码错误</span>
 </div>
+<script>
+    const shell = require('electron').shell;
+    const time = parseInt(new Date().getTime() / 1000);
+    const SingSdk = require('../../../common/sdk');
+    const ipcRenderer = require('electron').ipcRenderer;
+
+    document.getElementById('login-btn').onclick = function () {
+        let username = document.getElementById('username').value;
+        let password = document.getElementById('password').value;
+        SingSdk.login({
+            username: username,
+            password: password
+        }, function (result) {
+            if (result.code == 401) {
+                document.getElementById('reason').style.display = 'block';
+            } else if (result.code == 200) {
+                document.getElementById('reason').style.display = 'none';
+                ipcRenderer.send('login-success', result);
+            }
+        });
+    };
+
+    document.getElementById('close-btn').onclick = function () {
+        console.log('close login window.');
+        ipcRenderer.send('close-win', 'login');
+    };
+</script>
 </body>
 </html>

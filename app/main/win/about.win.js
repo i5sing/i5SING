@@ -6,7 +6,7 @@ const {BrowserWindow}  = require('../../common/electron');
 class AboutWindow {
     constructor(parent) {
         this.win = new BrowserWindow({
-            frame: true,
+            frame: false,
             resizable: false,
             height: 250,
             width: 300,

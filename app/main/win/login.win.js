@@ -6,9 +6,9 @@ const {BrowserWindow}  = require('../../common/electron');
 class LoginWindows {
     constructor(parent) {
         this.win = new BrowserWindow({
-            frame: true,
+            frame: false,
             resizable: false,
-            height: 250,
+            height: 270,
             width: 300,
             center: true,
             alwaysOnTop: true,

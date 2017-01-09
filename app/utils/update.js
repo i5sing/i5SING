@@ -4,13 +4,13 @@
 const os = require('os');
 const {app, autoUpdater} = require('../common/electron');
 const request = require('request');
-const updateUrl = 'http://zfeng-i5sing-auto-update-server.daoapp.io';
+const updateUrl = 'http://i5sing.com';
 
 
 exports.checkForUpdatesByReq = function () {
     let platform = `${os.platform()}_${os.arch()}`;
     let version = app.getVersion();
-    let url = `${updateUrl}/update/${platform}/${version}`;
+    let url = `${updateUrl}/check-version/${platform}/${version}`;
 
     return new Promise((resolve, reject) => {
         request({
@@ -31,6 +31,6 @@ exports.checkForUpdatesByReq = function () {
 exports.checkForUpdates = function () {
     let platform = `${os.platform()}_${os.arch()}`;
     let version = app.getVersion();
-    autoUpdater.setFeedURL(`${updateUrl}/update/${platform}/${version}`);
+    autoUpdater.setFeedURL(`${updateUrl}/check-version/${platform}/${version}`);
     return autoUpdater.checkForUpdates();
 };

@@ -22,5 +22,9 @@ exports.registerEvent = function () {
         } else if (type == 'forward' && win.webContents.canGoForward()) {
             win.webContents.goForward();
         }
+    });
+
+    on('close-win', function (event, winType) {
+        WinManager.close(winType);
     })
 };

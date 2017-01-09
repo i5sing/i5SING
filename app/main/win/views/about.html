@@ -25,12 +25,29 @@
             color: #fff;
             margin-bottom: 10px;
         }
+
+        .btn {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 60px;
+            line-height: 20px;
+            border: none;
+            background-color: #81d2f2;
+            color: #fff;
+            opacity: 0.7;
+            outline: none;
+        }
+
+        .btn:hover {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
 <div id="title"></div>
 <div>
-    中国原创音乐基地5SING PC版（非官方）
+    中国原创音乐基地 5SING 桌面版（非官方）
 </div>
 <div id="electron"></div>
 <div id="chrome"></div>
@@ -45,14 +62,16 @@
     Website:
     <a href="javascript:shell.openExternal('http://i5sing.com');">i5sing.com</a>
 </div>
+<button class="btn" id="close-btn">关闭</button>
 
 <script>
-    var {shell, remote} = require('electron');
-    var app = remote.app;
-    var titleEl = document.getElementById('title');
-    var electronEl = document.getElementById('electron');
-    var chromeEl = document.getElementById('chrome');
-    var str = '';
+    const {shell, remote} = require('electron');
+    const ipcRenderer = require('electron').ipcRenderer;
+    const app = remote.app;
+    const titleEl = document.getElementById('title');
+    const electronEl = document.getElementById('electron');
+    const chromeEl = document.getElementById('chrome');
+    let str = '';
 
     if (process.platform == "darwin") {
         str = `i5SING for Mac V${app.getVersion()}`;
@@ -64,6 +83,11 @@
     chromeEl.textContent = `chrome: V${process.versions.chrome}`;
 
     titleEl.textContent = str;
+
+    document.getElementById('close-btn').onclick = function () {
+        console.log('close about window.');
+        ipcRenderer.send('close-win', 'about');
+    }
 </script>
 </body>
 </html>

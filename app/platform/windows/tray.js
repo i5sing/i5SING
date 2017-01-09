@@ -57,9 +57,9 @@ exports.getMenuTemplate = win => {
                         message = '',
                         buttons = ['确定', '取消'];
 
-                    if (data) {
+                    if (!data.latest) {
                         title = '检查更新';
-                        message = `发现新版本 ${data.name}, 点击 "确定" 前往下载!`;
+                        message = `发现新版本 ${data.app.version}, 点击 "确定" 前往下载!`;
                     } else {
                         title = '检查更新';
                         message = '您的版本已经是最新版了!';
@@ -72,7 +72,7 @@ exports.getMenuTemplate = win => {
                         message: message,
                         buttons: buttons
                     }, index => {
-                        if (index === 0 && data) {
+                        if (index === 0 && !data.latest) {
                             return shell.openExternal("http://i5sing.com");
                         }
                     })
