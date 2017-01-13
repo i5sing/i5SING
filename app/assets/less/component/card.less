@@ -1,0 +1,58 @@
+@card-img-size: 125px;
+@card-margin: 10px;
+
+.card-list {
+  background-color: #fff;
+
+  &-item {
+    position: relative;
+    width: 50%;
+    display: inline-block;
+    margin-bottom: 20px;
+
+    &-img {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: @card-img-size;
+      height: @card-img-size;
+      float: left;
+    }
+
+    &-desc {
+      font-size: 12px;
+
+      li {
+        width: 100%;
+        padding: 10px;
+      }
+    }
+
+    .adapter {
+      height: @card-img-size;
+      background-color: @panel-bg-color;
+      border: 1px solid @panel-bg-color;
+      overflow: hidden;
+
+      &:hover {
+        border: 1px solid #eee;
+      }
+    }
+
+    &:nth-child(odd) .adapter {
+      margin-right: @card-margin;
+    }
+
+    &:nth-child(even) {
+      .card-list-item-desc{
+        padding-left: @card-img-size;
+      }
+    }
+
+    &:nth-child(odd) {
+      .card-list-item-desc{
+        padding-left: @card-img-size + @card-margin;
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+.dashboard {
+  .list-2-columns {
+
+    .list-item {
+      &:hover {
+        background-color: #ebebeb;
+
+        .play-btn {
+          display: block;
+        }
+      }
+    }
+    .play-btn {
+      display: none;
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-size: 40px;
+      width: 136px;
+      height: 84px;
+      color: @highlight-color;
+      background-color: rgba(0, 0, 0, 0.6);
+
+      &:before {
+        position: relative;
+        left: 58px;
+        top: 20px;
+      }
+    }
+  }
+}

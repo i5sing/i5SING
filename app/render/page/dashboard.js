@@ -114,6 +114,9 @@ class Dashboard extends React.Component {
         this.props.action.getLatestSingers(1, 5);
         this.props.action.getSingers(1, 5);
         this.props.action.getRecommendCollections();
+
+        const ele = document.querySelector('.list-item');
+        console.log(ele);
     }
 
     render() {
@@ -125,67 +128,69 @@ class Dashboard extends React.Component {
         let collectionRecommends = this.props.dashboard.recommendCollections || [];
 
         return (
-            <div className="dashboard">
-                <div className="carousel">
-                    {this._buildCarousel(carousels)}
+            <article className="i-panel dashboard">
+                <div className="i-panel-body">
+                    <section className="carousel">
+                        {this._buildCarousel(carousels)}
+                    </section>
+
+                    {this._buildCollections(collectionRecommends)}
+
+                    {this._buildDailyRecommend(dailyRecommends)}
+
+                    {this._buildSpecialColumn(specialColumns)}
+
+                    {this._buildSingers(latestSingers, '新入驻音乐人')}
+
+                    {this._buildSingers(recommendSingers, '热门音乐人')}
                 </div>
-
-                {this._buildCollections(collectionRecommends)}
-
-                {this._buildDailyRecommend(dailyRecommends)}
-
-                {this._buildSpecialColumn(specialColumns)}
-
-                {this._buildSingers(latestSingers, '新入驻音乐人')}
-
-                {this._buildSingers(recommendSingers, '热门音乐人')}
-            </div>
+            </article>
         );
     }
 
     _buildCollections(collections) {
         collections = collections.slice(0, 5);
 
-        return (<div className="elsa-panel daily-recommend singer-list rect">
-            <h3>推荐歌单</h3>
-            <ul>
-                {collections.map(collection => {
-                    return (
-                        <li key={collection.SongListId}>
-                            <Link to={`/collections/${collection.SongListId}`}>
-                                <img src={collection.Picture}/>
-                            </Link>
-                            <div className="info-wrapper">
+        return (<section className="box">
+            <div className="box-header"><h3>推荐歌单</h3></div>
+            <div className="box-body">
+                <ul className="list list-rect">
+                    {collections.map(collection => {
+                        return (
+                            <li className="list-item" key={collection.SongListId}>
                                 <Link to={`/collections/${collection.SongListId}`}>
-                                    <div className="song-name">{collection.Title}</div>
+                                    <img className="list-item-img" src={collection.Picture}/>
                                 </Link>
-                            </div>
-                        </li>
-                    )
-                })}
-            </ul>
-        </div>);
+                                <div className="list-item-word">
+                                    <Link to={`/collections/${collection.SongListId}`}>{collection.Title}</Link>
+                                </div>
+                            </li>
+                        )
+                    })}
+                </ul>
+            </div>
+        </section>);
     }
 
     _buildSingers(singers, name) {
         singers = singers.slice(0, 5);
-        return (<div className="elsa-panel daily-recommend singer-list">
-            <h3>{name}</h3>
-            <ul>
-                {singers.map(singer => {
-                    return (
-                        <li key={singer.ID}>
-                            <Link to={`/user/${singer.ID}`}><img src={singer.I}/></Link>
-                            <div className="info-wrapper">
-                                <Link to={`/user/${singer.ID}`}>
-                                    <div className="song-name">{singer.NN}</div>
-                                </Link>
-                            </div>
-                        </li>
-                    )
-                })}
-            </ul>
-        </div>);
+        return (<section className="box">
+            <div className="box-header"><h3>{name}</h3></div>
+            <div className="box-body">
+                <ul className="list list-circle">
+                    {singers.map(singer => {
+                        return (
+                            <li className="list-item" key={singer.ID}>
+                                <Link to={`/user/${singer.ID}`}><img className="list-item-img" src={singer.I}/></Link>
+                                <div className="list-item-word">
+                                    <Link to={`/user/${singer.ID}`}>{singer.NN}</Link>
+                                </div>
+                            </li>
+                        )
+                    })}
+                </ul>
+            </div>
+        </section>);
     }
 
     _buildSpecialColumn(specialColumns) {
@@ -195,30 +200,34 @@ class Dashboard extends React.Component {
             })
         }
 
-        return specialColumns.length > 0 && (<div className="elsa-panel daily-recommend special-column">
-                <h3>有声专栏</h3>
-                <div className="elsa-panel-bar clear-fix">
-                    <div className="pull-right">
-                        <Link to={`/programa`}>更多</Link>
+        return specialColumns.length > 0 && (<section className="box">
+                <div className="box-header">
+                    <h3>有声专栏</h3>
+                    <div className="tools">
+                        <div className="pull-right">
+                            <Link to={`/programa`}>更多</Link>
+                        </div>
                     </div>
                 </div>
-                <ul>
-                    {specialColumns[0].list.map((column, index) => {
-                        return (
-                            <li key={column.id}>
-                                <img src={column.pic}/>
-                                <div className="info-wrapper">
-                                    <div className="song-name">{column.song_name}</div>
-                                    <div className="song-description light-color">{column.words}</div>
-                                    <div className="singer-name light-color">{column.nickname}</div>
-                                </div>
-                                <i className="fa fa-play play-btn pointer"
-                                   onClick={this.playColumnAll.bind(this, index)}/>
-                            </li>
-                        )
-                    })}
-                </ul>
-            </div>);
+                <div className="box-body">
+                    <ul className="list list-2-columns">
+                        {specialColumns[0].list.map((column, index) => {
+                            return (
+                                <li className="list-item" key={column.id}>
+                                    <img className="list-item-img" src={column.pic}/>
+                                    <div className="list-item-desc">
+                                        <div className="list-item-desc-title no-wrap">{column.song_name}</div>
+                                        <div className="list-item-desc-content no-wrap light-color">{column.words}</div>
+                                        <div className="list-item-desc-content no-wrap light-color">{column.nickname}</div>
+                                    </div>
+                                    <i className="fa fa-play play-btn pointer"
+                                       onClick={this.playColumnAll.bind(this, index)}/>
+                                </li>
+                            )
+                        })}
+                    </ul>
+                </div>
+            </section>);
     }
 
     _buildDailyRecommend(dailyRecommends) {
@@ -238,32 +247,37 @@ class Dashboard extends React.Component {
         }
 
         return (
-            <div className="elsa-panel daily-recommend">
-                <h3>每日推荐</h3>
-                <div className="elsa-panel-bar">
-                    <a className="pointer"
-                       onClick={this.playAll.bind(this, 0)}>
-                        <i className="fa fa-play btn"/>播放全部
-                    </a>
-                    <div className="pull-right">
-                        <i className={leftBtnClasses}
-                           onClick={this.previousDailyPage.bind(this)}/>
-                        <i className={rightBtnClasses}
-                           onClick={this.nextDailyPage.bind(this)}/>
+            <section className="box">
+                <div className="box-header">
+                    <h3>每日推荐</h3>
+                    <div className="tools">
+                        <a className="pointer"
+                           onClick={this.playAll.bind(this, 0)}>
+                            <i className="fa fa-play btn"/>播放全部
+                        </a>
+                        <div className="pull-right">
+                            <i className={leftBtnClasses}
+                               onClick={this.previousDailyPage.bind(this)}/>
+                            <i className={rightBtnClasses}
+                               onClick={this.nextDailyPage.bind(this)}/>
+                        </div>
                     </div>
                 </div>
-                <ul>
-                    {dailyRecommends.map((daily, index) => {
-                        return (
-                            <li key={daily.SongId}>
-                                <Link to={`/user/${daily.UserId}`}><img src={daily.Image}/></Link>
-                                <div className="info-wrapper">
-                                    <div className="song-name">{daily.RecommendName}</div>
+                <div className="box-body">
+                    <ul className="list list-3-columns">
+                        {dailyRecommends.map((daily, index) => {
+                            return (
+                                <li className="list-item" key={daily.SongId}>
                                     <Link to={`/user/${daily.UserId}`}>
-                                        <div className="singer-name light-color">{daily.NickName}</div>
+                                        <img className="list-item-img" src={daily.Image}/>
                                     </Link>
-                                </div>
-                                <span className="btn-group menu-bar">
+                                    <div className="list-item-desc">
+                                        <div className="list-item-desc-title">{daily.RecommendName}</div>
+                                        <Link to={`/user/${daily.UserId}`}>
+                                            <div className="list-item-desc-content light-color">{daily.NickName}</div>
+                                        </Link>
+                                    </div>
+                                    <span className="btn-group list-item-desc-tools hidden">
                                     <i className="btn fa fa-play"
                                        onClick={this.playAll.bind(this, index, this.state.dailyPage)}/>
                                     <i className="btn fa fa-download"
@@ -271,11 +285,12 @@ class Dashboard extends React.Component {
                                     <i className={`btn fa fa-plus`}
                                        onClick={this.add.bind(this, daily)}/>
                                 </span>
-                            </li>
-                        )
-                    })}
-                </ul>
-            </div>
+                                </li>
+                            )
+                        })}
+                    </ul>
+                </div>
+            </section>
         );
     }
 

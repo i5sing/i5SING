@@ -65,25 +65,27 @@ class Programa extends React.Component {
 
         return (
             <EndScrollLoad target={'panel'} onLoad={this.onLoad.bind(this)}>
-                <div className="elsa-panel columns">
-                    <h3 className="title">有声专栏</h3>
-                    <ul className="column-list">
-                        {specialColumns.map((column, index)=> {
-                            return (
-                                <li key={column.id}>
-                                    <img src={column.pic}/>
-                                    <div className="info-wrapper">
-                                        <div className="song-name">{column.song_name}</div>
-                                        <div className="song-description light-color">{column.words}</div>
-                                        <div className="singer-name light-color">{column.nickname}</div>
-                                    </div>
-                                    <i className="fa fa-play play-btn pointer"
-                                       onClick={this.playColumnAll.bind(this, index)}/>
-                                </li>
-                            )
-                        })}
-                    </ul>
-                </div>
+                <article className="i-panel programa">
+                    <div className="i-panel-header"><h3 className="i-panel-header-title">有声专栏</h3></div>
+                    <div className="i-panel-body">
+                        <ul className="list list-2-columns">
+                            {specialColumns.map((column, index)=> {
+                                return (
+                                    <li className="list-item" key={column.id}>
+                                        <img className="list-item-img" src={column.pic}/>
+                                        <div className="list-item-desc">
+                                            <div className="list-item-desc-title no-wrap">{column.song_name}</div>
+                                            <div className="list-item-desc-content no-wrap light-color">{column.words}</div>
+                                            <div className="list-item-desc-content no-wrap light-color">{column.nickname}</div>
+                                        </div>
+                                        <i className="fa fa-play play-btn pointer"
+                                           onClick={this.playColumnAll.bind(this, index)}/>
+                                    </li>
+                                )
+                            })}
+                        </ul>
+                    </div>
+                </article>
             </EndScrollLoad>
         );
     }

@@ -12,6 +12,9 @@
 
   .elsa-list-body {
     img {
+      position: absolute;
+      left: 20px;
+      top: 20px;
       float: left;
       width: 320px;
       height: 210px;
@@ -21,7 +24,8 @@
       position: relative;
       float: left;
       height: 210px;
-      width: 405px;
+      width: 100%;
+      padding-left: 320px;
 
       .elsa-list-title {
         font-size: 30px;
@@ -51,20 +55,36 @@
         width: 100%;
         bottom: 0;
         left: 20px;
+        padding-left: 320px;
       }
     }
   }
 
   &.elsa-list-2 {
     .elsa-list-body {
+      position: relative;
+
       img {
+        position: absolute;
+        left: 20px;
+        top: 20px;
         width: 210px !important;
         height: 210px !important;
         border-radius: 210px;
+
       }
 
       .elsa-list-info {
-        width: 515px;
+        width: 100%;
+        padding-left: 220px;
+
+        .btn-group {
+          position: absolute;
+          width: 100%;
+          bottom: 0;
+          left: 20px;
+          padding-left: 220px;
+        }
       }
     }
   }
@@ -200,13 +220,9 @@
 
     li {
       padding: 0;
-      margin-right: 25px;
-      width: 125px;
+      width: 20%;
       margin-bottom: 20px;
-
-      &.last-child {
-        margin-right: 0;
-      }
+      text-align: center;
 
       img {
         width: 125px;

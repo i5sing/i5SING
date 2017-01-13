@@ -7,7 +7,13 @@
     "start": "cross-env NODE_ENV=dev electron ./app/index.js",
     "clean": "gulp clean",
     "build": "./build/build.sh",
-    "dev": "cross-env NODE_ENV=dev node ./build/dev.js"
+    "dev": "cross-env NODE_ENV=dev node ./build/dev.js",
+
+    "_build:win32": "electron-packager ./dist i5SING --platform=win32 --arch=all --out=release --overwrite --icon=./dist/assets/img/logo.png",
+    "_build:darwin": "electron-packager ./dist i5SING --platform=darwin --arch=all --out=release --overwrite --icon=./dist/assets/img/logo.png",
+    "_dev": "webpack --config build/webpack.config.js",
+    "_compile": "webpack --config build/webpack.config.proc.js",
+    "_compile_main": "webpack --config build/webpack.config.main.js"
   },
   "repository": {
     "type": "git",

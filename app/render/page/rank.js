@@ -36,35 +36,40 @@ class Rank extends React.Component {
 
         return (
             <div>
-                <div className="elsa-panel rank-overview">
-                    <h3 className="title">排行榜</h3>
-                    <ReactCSSTransitionGroup transitionName="opacity"
-                                             component="ul"
-                                             className="rank-list"
-                                             transitionAppear={true}
-                                             transitionAppearTimeout={500}
-                                             transitionEnterTimeout={500}
-                                             transitionLeaveTimeout={300}>
-                        {overviews.map(overview => {
-                            return (
-                                <li className="rank-item clear-fix pointer" key={overview.id}>
-                                    <Link to={`/rank/${overview.id}`}>
-                                        <img src={overview.photo}/>
-                                        <div className="info-wrapper">
-                                            <ul>
-                                                {overview.songs.map(song => {
-                                                    return (
-                                                        <li className="no-wrap" key={song}>{song}</li>
-                                                    )
-                                                })}
-                                            </ul>
+                <article className="i-panel rank-overview">
+                    <header className="i-panel-header">
+                        <h3 className="i-panel-header-title">排行榜</h3>
+                    </header>
+                    <section className="i-panel-body">
+                        <ReactCSSTransitionGroup transitionName="opacity"
+                                                 component="ul"
+                                                 className="card-list"
+                                                 transitionAppear={true}
+                                                 transitionAppearTimeout={500}
+                                                 transitionEnterTimeout={500}
+                                                 transitionLeaveTimeout={300}>
+                            {overviews.map(overview => {
+                                return (
+                                    <li className="card-list-item pointer" key={overview.id}>
+                                        <div className="adapter clear-fix">
+                                            <Link to={`/rank/${overview.id}`}>
+                                                <img className="card-list-item-img" src={overview.photo}/>
+                                                <ul className="card-list-item-desc">
+                                                    {overview.songs.map(song => {
+                                                        return (
+                                                            <li className="no-wrap"
+                                                                key={song}>{song}</li>
+                                                        )
+                                                    })}
+                                                </ul>
+                                            </Link>
                                         </div>
-                                    </Link>
-                                </li>
-                            )
-                        })}
-                    </ReactCSSTransitionGroup>
-                </div>
+                                    </li>
+                                )
+                            })}
+                        </ReactCSSTransitionGroup>
+                    </section>
+                </article>
             </div>
         );
     }

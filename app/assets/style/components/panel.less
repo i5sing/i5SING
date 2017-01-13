@@ -1,30 +1,31 @@
 .elsa-panel {
+  position: relative;
   margin: 0 20px 20px;
 
-  &.elsa-panel-no-margin {
+  &-no-margin {
     margin: 0;
   }
 
-  &.elsa-panel-bg {
+  &-bg {
     background-color: @panel-bg-color;
   }
 
   .elsa-panel-body {
     padding: 20px;
 
-    &.elsa-panel-body-bg {
+    &-bg {
       background-color: @panel-bg-color;
     }
-  }
-
-  h3 {
-    margin-bottom: 20px;
   }
 
   .elsa-panel-bar {
     padding: 10px 20px;
     background-color: @panel-bg-color;
     border-bottom: 1px solid @border-color;
+  }
+
+  h3 {
+    margin-bottom: 20px;
   }
 
   ul {

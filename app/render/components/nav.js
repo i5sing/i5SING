@@ -44,7 +44,7 @@ export default class Nav extends React.Component {
         return (
             <div className="elsa-navigator">
                 <div className="user-info">
-                    <img className="user-img" src={info.img}/>
+                    <img className="user-img" src={info.img || '../../../assets/img/logo.png'}/>
                     {!info.name && (<div className="user-name pointer" onClick={this.props.login}>登录</div>)}
                     {info.name && (<div className="user-name">{info.name}</div>)}
                     {info.name && (<a className="logout light-color pointer" onClick={this.props.logout}>退出</a>)}
@@ -63,6 +63,10 @@ export default class Nav extends React.Component {
                         <li onClick={this.handleClick.bind(this, 'collections', '')}
                             className={this.state.current == 'collections' && 'active'}>
                             <i className="fa fa-reorder btn"/>歌单
+                        </li>
+                        <li onClick={this.handleClick.bind(this, 'programa', '')}
+                            className={this.state.current == 'programa' && 'active'}>
+                            <i className="fa fa-reorder btn"/>有声专栏
                         </li>
                         <li onClick={this.handleClick.bind(this, 'square', '')}
                             style={{display: 'none'}}
