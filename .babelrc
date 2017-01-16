@@ -1,0 +1,11 @@
+{
+  "presets": [
+    "latest",
+    "react"
+  ],
+  "plugins": [
+    "add-module-exports"
+  ],
+  "ignore": [
+  ]
+}

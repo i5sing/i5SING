@@ -1,0 +1,169 @@
+.pull-right {
+  float: right;
+}
+
+.pull-left {
+  float: left;
+}
+
+.clear-fix:after {
+  content: '';
+  clear: both;
+  display: block;
+}
+
+.disabled {
+  opacity: 0.3 !important;
+}
+
+.light-color {
+  color: #555;
+  opacity: 0.7;
+}
+
+.highlight-color {
+  color: #555;
+  opacity: 1;
+}
+
+.highlight-bold {
+  color: #000;
+  font-weight: bold;
+  opacity: 1;
+}
+
+.highlight-normal {
+  color: #000;
+  opacity: 1;
+
+  a {
+    color: #000 !important;
+
+    &:hover {
+      color: @highlight-color !important;
+    }
+  }
+}
+
+.red {
+  color: #f00 !important;
+}
+
+.rect {
+  border-radius: 0 !important;
+}
+
+.no-wrap {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.center {
+  text-align: center !important;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.relative {
+  position: relative;
+}
+
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.btn {
+  opacity: 0.7;
+  color: #555;
+  cursor: pointer;
+
+  &.btn-primary {
+    color: #3ac17e;
+  }
+
+  &.btn-word {
+    position: relative;
+    top: -2px;
+    border: 1px solid @footer-border-color;
+    border-radius: 2px;
+    height: 14px;
+    padding: 2px 5px;
+    font-size: 12px;
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.tab {
+  vertical-align: middle;
+  display: inline-block;
+  padding: 0 !important;
+  margin-right: 10px;
+
+  li {
+    padding: 5px 8px !important;
+    line-height: 16px !important;
+    border: 1px solid @border-color;
+
+    &:first-child {
+      border-radius: 3px 0 0 3px;
+    }
+
+    &:last-child {
+      border-radius: 0 3px 3px 0;
+    }
+
+    &.active {
+      background-color: @highlight-color;
+      color: #fff;
+      border: 1px solid @highlight-color;
+    }
+
+    &:hover {
+      &.active {
+        background-color: @highlight-color;
+      }
+    }
+  }
+}
+
+a, a:link {
+  color: #555;
+  text-decoration: none;
+
+  &:hover {
+    color: @highlight-color;
+
+    i {
+      color: @highlight-color;
+    }
+  }
+
+  &:after {
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+  }
+}
+
+.btn-group {
+  i, button {
+    margin-right: 10px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  button {
+    i {
+      margin-right: 5px !important;
+    }
+  }
+}

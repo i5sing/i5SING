@@ -1,0 +1,18 @@
+{
+  "name": "i5SING",
+  "productName": "i5SING",
+  "identifier": "com.i5sing.app",
+  "description": "中国原创音乐基地5sing桌面版",
+  "version": "0.0.2",
+  "author": "miaowing <i@zfeng.net>",
+  "main": "./i5sing/bootstrap.js",
+  "config": {
+    "target": "development"
+  },
+  "dependencies": {
+    "5sing-sdk": "0.0.9",
+    "electron-json-storage": "^3.0.0",
+    "electron-sqlite3": "0.0.2",
+    "request": "^2.74.0"
+  }
+}

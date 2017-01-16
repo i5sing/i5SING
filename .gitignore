@@ -2,7 +2,9 @@
 node_modules/
 .DS_Store
 npm-debug.log
-dist/
-release/
+build/
+!tasks/build
+releases/
 src/static
 app/assets/js
+src/i5sing/react/bundle

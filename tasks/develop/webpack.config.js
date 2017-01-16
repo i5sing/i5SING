@@ -1,0 +1,64 @@
+/**
+ * Created by zhaofeng on 7/11/16.
+ */
+const path = require('path');
+const webpack = require('webpack');
+module.exports = {
+    // cache: true,
+    watch: true,
+    target: 'electron',
+    devtool: 'source-map',
+    entry: {
+        i5sing: ['./src/i5sing/entry.js'],
+        i5sing_login: ['./src/i5sing/react/win/login.js'],
+        i5sing_about: ['./src/i5sing/react/win/about.js']
+    },
+    output: {
+        path: path.join(__dirname, '../../src/i5sing/react/bundle'),
+        filename: '[name].js',
+        sourceMapFilename: '[name].map'
+    },
+    module: {
+        loaders: [
+            {
+                loader: 'babel-loader',
+                test: /\.js|jsx?$/,
+            },
+            {
+                test: /\.css$/,
+                loader: 'style!css'
+            },
+            {
+                test: /\.less$/,
+                loader: 'style!css!less'
+            },
+            {
+                test: /\.less\?modules$/,
+                loader: 'style!css?module!less'
+            },
+            {
+                test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/,
+                loader: "url?limit=8192000"
+            },
+            {
+                loader: 'json-loader',
+                test: /\.json?$/
+            }
+        ]
+    },
+    plugins: [
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': "'development'"
+        }),
+        new webpack.optimize.DedupePlugin(),
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery",
+            "window.jQuery": "jquery"
+        })
+    ],
+    "externals": {
+        "electron-sqlite3": "require('electron-sqlite3')",
+        "5sing-sdk": "require('5sing-sdk')"
+    }
+};

@@ -1,19 +1,19 @@
 {
   "name": "i5SING",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "中国原创音乐基地5sing桌面版",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=dev electron ./app/index.js",
+    "start": "cross-env NODE_ENV=development electron ./src/i5sing/dev_boot.js",
     "clean": "gulp clean",
     "build": "./build/build.sh",
     "dev": "cross-env NODE_ENV=dev node ./build/dev.js",
-
-    "_build:win32": "electron-packager ./dist i5SING --platform=win32 --arch=all --out=release --overwrite --icon=./dist/assets/img/logo.png",
+    "_build:win32": "electron-packager ./dist i5SING --platform=win32 --arch=all --out=release --overwrite --icon=./dist/assets/img/code.ico",
     "_build:darwin": "electron-packager ./dist i5SING --platform=darwin --arch=all --out=release --overwrite --icon=./dist/assets/img/logo.png",
     "_dev": "webpack --config build/webpack.config.js",
     "_compile": "webpack --config build/webpack.config.proc.js",
-    "_compile_main": "webpack --config build/webpack.config.main.js"
+    "_compile_main": "webpack --config build/webpack.config.main.js",
+    "compile_to_es5": "babel ./src/i5sing --out-dir ./build/i5sing --ignore ./src/i5sing/react"
   },
   "repository": {
     "type": "git",
@@ -33,23 +33,30 @@
   },
   "homepage": "https://github.com/i5sing/i5SING#readme",
   "devDependencies": {
+    "appdmg": "^0.4.5",
+    "asar": "^0.13.0",
+    "babel-cli": "^6.18.0",
     "babel-core": "^6.3.26",
     "babel-loader": "^6.2.0",
     "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-latest": "^6.16.0",
     "babel-preset-react": "^6.3.13",
-    "babel-preset-stage-3": "^6.11.0",
+    "babel-register": "^6.18.0",
     "classnames": "^2.2.5",
     "css-loader": "^0.23.1",
+    "devtron": "^1.4.0",
     "electron-packager": "^7.3.0",
     "electron-rebuild": "^1.4.0",
     "file-loader": "^0.9.0",
     "font-awesome": "^4.6.3",
+    "fs-jetpack": "^0.10.5",
     "jquery": "^3.1.0",
+    "json-loader": "^0.5.4",
     "key-mirror": "^1.0.1",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
     "nuka-carousel": "^2.0.2",
+    "rcedit": "^0.7.0",
     "react": "^15.2.1",
     "react-addons-css-transition-group": "^15.2.1",
     "react-dom": "^15.2.1",
@@ -61,13 +68,21 @@
     "style-loader": "^0.13.1",
     "toastr": "^2.1.2",
     "url-loader": "^0.5.7",
-    "webpack": "^1.13.1"
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.16.2",
+    "yargs": "^6.6.0"
   },
   "dependencies": {
     "5sing-sdk": "0.0.9",
     "cross-env": "^3.1.3",
-    "electron": "^1.4.13",
+    "electron": "^1.4.14",
+    "electron-json-storage": "^3.0.0",
+    "electron-rebuild": "^1.5.6",
+    "electron-sqlite3": "0.0.2",
     "nslog": "^3.0.0",
+    "react": "^15.4.2",
+    "react-addons-css-transition-group": "^15.4.2",
+    "react-dom": "^15.4.2",
     "request": "^2.74.0"
   }
 }

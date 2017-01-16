@@ -1,0 +1,80 @@
+.slide-enter {
+  animation: slide-in 400ms;
+}
+
+.slide-enter.slide-enter-active {
+  transform: translate(0, 0);
+}
+
+.slide-leave {
+  animation: slide-out 300ms;
+}
+
+.slide-leave.slide-leave-active {
+  transform: translate(100%, 0);
+}
+
+@keyframes slide-in {
+  from {
+    transform: translate(100%, 0);
+  }
+  to {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes slide-out {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(100%, 0);
+  }
+}
+
+.opacity-enter {
+  animation: opacity-in 500ms;
+}
+
+.opacity-enter.opacity-enter-active {
+  opacity: 1;
+}
+
+.opacity-leave {
+  animation: opacity-out 300ms;
+}
+
+.opacity-leave.opacity-leave-active {
+  opacity: 0;
+}
+
+.opacity-appear {
+  opacity: 0.01;
+}
+
+.opacity-appear.opacity-appear-active {
+  opacity: 1;
+  transition: opacity .5s ease-in;
+}
+
+@keyframes opacity-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes opacity-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.transition-opa-dark {
+  transition: all 0.3s;
+}
