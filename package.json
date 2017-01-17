@@ -33,7 +33,6 @@
   },
   "homepage": "https://github.com/i5sing/i5SING#readme",
   "devDependencies": {
-    "appdmg": "^0.4.5",
     "asar": "^0.13.0",
     "babel-cli": "^6.18.0",
     "babel-core": "^6.3.26",
@@ -69,6 +68,10 @@
     "url-loader": "^0.5.7",
     "webpack": "^2.1.0-beta.28",
     "yargs": "^6.6.0"
+  },
+  "optionalDependencies": {
+    "appdmg": "^0.4.5",
+    "rcedit": "^0.7.0"
   },
   "dependencies": {
     "5sing-sdk": "0.0.9",
