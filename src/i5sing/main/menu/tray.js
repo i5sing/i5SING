@@ -8,7 +8,7 @@ exports.createTray = function (win) {
     let trayObj = new Tray(tray.getTrayImage());
     trayObj.setToolTip('i5SING');
     const contextMenu = Menu.buildFromTemplate(tray.getMenuTemplate(win));
-    trayObj.setContextMenu(contextMenu);
+    trayObj.popUpContextMenu(contextMenu);
 
     trayObj.on('click', e => {
         if (!win.isVisible()) {

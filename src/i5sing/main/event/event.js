@@ -24,7 +24,11 @@ exports.registerEvent = function () {
         }
     });
 
-    on('close-win', function (event, winType) {
-        WinManager.close(winType);
-    })
+    on('close-win', function (event, win) {
+        WinManager.close(win);
+    });
+
+    on('hide-win', function (event, win) {
+        WinManager.getWin(win).hide();
+    });
 };

@@ -13,7 +13,7 @@ const update = require('../../utils/update');
  */
 const ICON_NAME = 'tray.png';
 
-exports.getTrayImage = function() {
+exports.getTrayImage = function () {
     return path.join(__dirname, '../../../resources/windows/tray', ICON_NAME);
 };
 
@@ -90,7 +90,10 @@ exports.getMenuTemplate = win => {
         {
             label: '关闭',
             accelerator: 'Command+W',
-            selector: 'performClose:'
+            selector: 'performClose:',
+            click: () => {
+                app.quit(0);
+            }
         }
     ];
 };

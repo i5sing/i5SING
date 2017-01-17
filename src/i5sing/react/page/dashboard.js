@@ -256,7 +256,7 @@ class Dashboard extends React.Component {
                             <i className="fa fa-play btn"/>播放全部
                         </a>
                         <div className="pull-right">
-                            <i className={leftBtnClasses}
+                            <i className={leftBtnClasses} style={{marginRight: 5}}
                                onClick={this.previousDailyPage.bind(this)}/>
                             <i className={rightBtnClasses}
                                onClick={this.nextDailyPage.bind(this)}/>

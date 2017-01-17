@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/i5sing/elsa.git"
+    "url": "git+https://github.com/i5sing/i5SING.git"
   },
   "keywords": [
     "5sing",
@@ -26,7 +26,7 @@
     "5sing for mac",
     "5sing for win"
   ],
-  "author": "zfeng217",
+  "author": "miaowing",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/i5sing/i5SING/issues"
@@ -37,7 +37,7 @@
     "asar": "^0.13.0",
     "babel-cli": "^6.18.0",
     "babel-core": "^6.3.26",
-    "babel-loader": "^6.2.0",
+    "babel-loader": "^6.2.10",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-preset-latest": "^6.16.0",
     "babel-preset-react": "^6.3.13",
@@ -45,7 +45,6 @@
     "classnames": "^2.2.5",
     "css-loader": "^0.23.1",
     "devtron": "^1.4.0",
-    "electron-packager": "^7.3.0",
     "electron-rebuild": "^1.4.0",
     "file-loader": "^0.9.0",
     "font-awesome": "^4.6.3",
@@ -57,9 +56,9 @@
     "less-loader": "^2.2.3",
     "nuka-carousel": "^2.0.2",
     "rcedit": "^0.7.0",
-    "react": "^15.2.1",
-    "react-addons-css-transition-group": "^15.2.1",
-    "react-dom": "^15.2.1",
+    "react": "^15.4.2",
+    "react-addons-css-transition-group": "^15.4.2",
+    "react-dom": "^15.4.2",
     "react-redux": "^4.4.5",
     "react-router": "^2.5.2",
     "redux": "^3.5.2",
@@ -68,8 +67,7 @@
     "style-loader": "^0.13.1",
     "toastr": "^2.1.2",
     "url-loader": "^0.5.7",
-    "webpack": "^1.13.1",
-    "webpack-dev-server": "^1.16.2",
+    "webpack": "^2.1.0-beta.28",
     "yargs": "^6.6.0"
   },
   "dependencies": {
@@ -80,9 +78,6 @@
     "electron-rebuild": "^1.5.6",
     "electron-sqlite3": "0.0.2",
     "nslog": "^3.0.0",
-    "react": "^15.4.2",
-    "react-addons-css-transition-group": "^15.4.2",
-    "react-dom": "^15.4.2",
     "request": "^2.74.0"
   }
 }

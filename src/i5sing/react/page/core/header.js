@@ -5,6 +5,7 @@ import React from 'react';
 import {send} from '../../utils/ipc';
 import {broadcast} from '../../../utils/event';
 import {remote} from 'electron';
+import {getSystem} from '../../../utils/system'
 
 export default class Header extends React.Component {
     constructor(props) {
@@ -27,6 +28,10 @@ export default class Header extends React.Component {
         send('go-back-forward', 'back');
     }
 
+    close() {
+        send('hide-win', 'main');
+    }
+
     search(evt) {
         if (evt.which == 13) {
             if (location.hash.replace(/\?.*/, '') != '#/search') {
@@ -40,13 +45,6 @@ export default class Header extends React.Component {
             });
         }
     }
-
-    /*
-     <div className="btn-group pull-right">
-     <i className="fa fa-cog btn btn-setting"/>
-     <i className="fa fa-remove btn btn-close"/>
-     </div>
-     */
 
     render() {
         return (
@@ -71,6 +69,9 @@ export default class Header extends React.Component {
                            onChange={evt => this.setState({keyword: evt.target.value})}
                            onKeyDown={this.search.bind(this)}/>
                 </div>
+                {getSystem() == 'win32' && (<div className="btn-group fixed-right">
+                    <i className="fa fa-remove btn btn-close" onClick={this.close.bind(this)}/>
+                </div>)}
             </div>
         );
     }
