@@ -41,6 +41,13 @@ exports.getMenuTemplate = win => {
             }
         },
         {
+            label: 'DevTools',
+            accelerator: 'Alt+Command+I',
+            click: () => {
+                WinManager.getWin('main').toggleDevTools();
+            }
+        },
+        {
             label: '反馈',
             click: () => {
                 shell.openExternal('https://github.com/i5sing/i5SING/issues');
@@ -92,7 +99,7 @@ exports.getMenuTemplate = win => {
             accelerator: 'Command+W',
             selector: 'performClose:',
             click: () => {
-                app.quit(0);
+                app.exit(0);
             }
         }
     ];

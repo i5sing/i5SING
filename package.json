@@ -79,7 +79,7 @@
     "electron": "^1.4.14",
     "electron-json-storage": "^3.0.0",
     "electron-rebuild": "^1.5.6",
-    "electron-sqlite3": "0.0.2",
+    "electron-sqlite3": "0.0.3",
     "nslog": "^3.0.0",
     "request": "^2.74.0"
   }

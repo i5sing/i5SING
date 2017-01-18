@@ -12,7 +12,7 @@
   "dependencies": {
     "5sing-sdk": "0.0.9",
     "electron-json-storage": "^3.0.0",
-    "electron-sqlite3": "0.0.2",
+    "electron-sqlite3": "0.0.3",
     "request": "^2.74.0"
   }
 }

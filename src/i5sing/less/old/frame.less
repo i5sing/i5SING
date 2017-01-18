@@ -8,7 +8,6 @@
   }
 
   .header {
-    -webkit-app-region: drag;
     position: fixed;
     padding-left: @navigator-width;
     top: 0;
@@ -17,6 +16,13 @@
     border-bottom: 1px solid @header-border-color;
     z-index: 100;
     background-color: #fff;
+
+    .drag-layer {
+      width: 410px;
+      height: 45px;
+      float: left;
+      -webkit-app-region: drag;
+    }
   }
 
   .navigator {

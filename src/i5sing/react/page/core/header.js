@@ -29,6 +29,7 @@ export default class Header extends React.Component {
     }
 
     close() {
+        console.log('hide win');
         send('hide-win', 'main');
     }
 
@@ -69,8 +70,9 @@ export default class Header extends React.Component {
                            onChange={evt => this.setState({keyword: evt.target.value})}
                            onKeyDown={this.search.bind(this)}/>
                 </div>
-                {getSystem() == 'win32' && (<div className="btn-group fixed-right">
-                    <i className="fa fa-remove btn btn-close" onClick={this.close.bind(this)}/>
+                <div className="drag-layer"></div>
+                {getSystem() == 'win32' && (<div className="btn-group fixed-right" onClick={this.close.bind(this)}>
+                    <i className="fa fa-remove btn btn-close"/>
                 </div>)}
             </div>
         );
