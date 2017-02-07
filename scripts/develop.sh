@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-node tasks/develop/bootstrap.js
+node ./tasks/develop/bootstrap.js

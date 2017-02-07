@@ -5,14 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=development electron ./src/i5sing/dev_boot.js",
-    "clean": "gulp clean",
-    "build": "./build/build.sh",
-    "dev": "cross-env NODE_ENV=dev node ./build/dev.js",
-    "_build:win32": "electron-packager ./dist i5SING --platform=win32 --arch=all --out=release --overwrite --icon=./dist/assets/img/code.ico",
-    "_build:darwin": "electron-packager ./dist i5SING --platform=darwin --arch=all --out=release --overwrite --icon=./dist/assets/img/logo.png",
-    "_dev": "webpack --config build/webpack.config.js",
-    "_compile": "webpack --config build/webpack.config.proc.js",
-    "_compile_main": "webpack --config build/webpack.config.main.js",
+    "build": "./scripts/build.sh",
+    "dev": "cross-env NODE_ENV=development ./scripts/develop.sh",
     "compile_to_es5": "babel ./src/i5sing --out-dir ./build/i5sing --ignore ./src/i5sing/react"
   },
   "repository": {
