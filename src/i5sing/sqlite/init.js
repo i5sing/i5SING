@@ -1,7 +1,7 @@
 /**
  * Created by zhaofeng on 7/12/16.
  */
-const sqlite3 = require('electron-sqlite3').verbose();
+const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database(process.resourcesPath + '/db.sqlite3', createTable);
 
 function createTable(err) {

@@ -49,7 +49,7 @@ class Singer extends React.Component {
         this.state = {
             songType: 'yc',
             page: 1,
-            pageSize: 20,
+            pageSize: 10,
             userPageSize: 42
         };
     }

@@ -50,7 +50,7 @@ module.exports = {
 		})
 	],
 	"externals": {
-		"electron-sqlite3": "require('electron-sqlite3')",
+		"sqlite3": "require('sqlite3')",
 		"5sing-sdk": "require('5sing-sdk')"
 	}
 };

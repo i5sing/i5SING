@@ -1,6 +1,6 @@
 {
   "name": "i5SING",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "中国原创音乐基地5sing桌面版",
   "main": "index.js",
   "scripts": {
@@ -73,7 +73,6 @@
     "electron": "^1.4.14",
     "electron-json-storage": "^3.0.0",
     "electron-rebuild": "^1.5.6",
-    "electron-sqlite3": "0.0.3",
     "nslog": "^3.0.0",
     "request": "^2.74.0"
   }
