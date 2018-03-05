@@ -18,6 +18,7 @@ cp -r src/resources build/resources
 echo -e "\033[32m \n> install dependencies. \033[0m"
 cd build
 npm install
+npm install sqlite3 --runtime=electron --target=1.8.2 --dist-url=https://atom.io/download/electron
 
 echo -e "\033[32m \n> build. \033[0m"
 cd ../
