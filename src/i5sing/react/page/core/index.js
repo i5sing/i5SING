@@ -5,7 +5,7 @@
  */
 import React from 'react';
 
-import Core from './core';
+import Core from './Frame';
 
 export default class Container extends React.Component {
 

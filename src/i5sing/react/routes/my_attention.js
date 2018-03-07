@@ -1,7 +1,7 @@
 /**
  * Created by zhaofeng on 2016/8/1.
  */
-import MyAttention from '../page/my_attention';
+import MyAttention from '../page/MyAttention';
 
 export default {
     path: 'attention',

@@ -2,16 +2,16 @@
  * Created by zhaofeng on 7/16/16.
  */
 
-import SongList from './songlist';
-import PlayList from './playlist';
-import Button from './button';
-import Nav from './nav';
-import Pagination from './pagination';
-import Player from './player';
-import Progress from './progress';
-import EndScrollLoad from './scroll_load';
-import UserList from './userlist';
-import CollectionList from './collectionlist';
+import SongList from './SongList';
+import PlayList from './PlayList';
+import Button from './Button';
+import Nav from './Navigator';
+import Pagination from './Pagination';
+import Player from './Player';
+import Progress from './Progress';
+import EndScrollLoad from './EndLoader';
+import UserList from './UserList';
+import CollectionList from './CollectionList';
 
 exports.SongList = SongList;
 exports.Button = Button;

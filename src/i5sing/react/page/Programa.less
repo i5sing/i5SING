@@ -1,0 +1,43 @@
+@import "../../less/variables";
+
+.programa {
+  .list-2-columns {
+
+    .list-item {
+      &:hover {
+        background-color: #ebebeb;
+
+        .play-btn {
+          display: block;
+        }
+      }
+
+      &-img {
+        width: 84px;
+      }
+
+      &-desc {
+        width: 100%;
+        padding-left: 84px;
+      }
+    }
+
+    .play-btn {
+      display: none;
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-size: 40px;
+      width: 84px;
+      height: 84px;
+      color: @highlight-color;
+      background-color: rgba(0, 0, 0, 0.6);
+
+      &:before {
+        position: relative;
+        left: 29px;
+        top: 24px;
+      }
+    }
+  }
+}

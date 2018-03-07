@@ -1,0 +1,29 @@
+@import "../../less/variables";
+
+.elsa-player {
+  .btn {
+    margin-right: 20px;
+    font-size: @player-btn-size;
+    color: @player-btn-color;
+    cursor: pointer;
+    opacity: 0.7;
+
+    &.btn-play {
+      position: relative;
+      top: 1px;
+      font-size: @player-btn-play-size;
+    }
+
+    &.btn-highlight {
+      color: @highlight-color;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}

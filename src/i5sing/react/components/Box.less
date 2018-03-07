@@ -1,0 +1,33 @@
+@import "../../less/variables";
+
+.box {
+  margin-bottom: 20px;
+
+  &-header {
+    margin-bottom: 10px;
+
+    h3 {
+      font-size: 16px;
+    }
+
+    .tools {
+      padding: 10px 0 5px 0;
+      border-bottom: 1px solid #eee;
+
+      &:after {
+        clear: both;
+        display: block;
+        content: '';
+      }
+    }
+  }
+
+  &-body {
+    padding: 10px;
+    background-color: @panel-bg-color;
+  }
+
+  &-footer {
+
+  }
+}

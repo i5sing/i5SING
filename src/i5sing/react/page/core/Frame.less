@@ -1,0 +1,86 @@
+@import '../../../less/variables';
+
+.elsa-app-container {
+  .close-btn-group {
+    position: fixed;
+    font-size: 14px;
+    top: 12px;
+    left: 15px;
+    z-index: 3000;
+  }
+
+  .header {
+    position: fixed;
+    padding-left: @navigator-width;
+    top: 0;
+    width: 100%;
+    height: @header-height;
+    border-bottom: 1px solid @header-border-color;
+    z-index: 100;
+    background-color: #fff;
+
+    .drag-layer {
+      width: 410px;
+      height: 45px;
+      float: left;
+      -webkit-app-region: drag;
+    }
+  }
+
+  .navigator {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: @navigator-width;
+    height: 100%;
+    background-color: @navigator-bg-color;
+    z-index: 100;
+  }
+
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: @footer-height;
+    width: 100%;
+    border-top: 1px solid @border-color;
+    z-index: 200;
+    background-color: #fff;
+
+    .player {
+      width: 200px;
+      background-color: @navigator-bg-color;
+      display: inline-block;
+      padding: 20px 20px 20px 30px;
+    }
+
+    .control-bar {
+      position: fixed;
+      bottom: 0;
+      left: @navigator-width;
+      height: @footer-height;
+    }
+  }
+
+  .panel {
+    background-color: #fff;
+    margin-left: @navigator-width;
+    margin-top: @header-height;
+    margin-bottom: @footer-height;
+    overflow-y: auto;
+    height: 565px;
+  }
+
+  .play-list {
+    position: fixed;
+    right: 0;
+    bottom: 61px;
+    width: 300px;
+    height: 610px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    z-index: 300;
+    background-color: #fff;
+    box-shadow: 0 -3px 15px 2px rgba(0, 0, 0, 0.2);
+  }
+}

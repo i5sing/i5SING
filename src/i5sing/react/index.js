@@ -37,7 +37,7 @@ tempRoutes.forEach(route => {
 let routes = {
     path: '/',
     indexRoutes: {
-        component: require('./page/dashboard')
+        component: require('./page/Dashboard')
     },
     childRoutes: childRoutes,
     component: Core

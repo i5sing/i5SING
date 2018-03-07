@@ -1,8 +1,8 @@
 /**
  * Created by zhaofeng on 2016/8/1.
  */
-import Collections from '../page/collections';
-import Collection from '../page/collection';
+import Collections from '../page/Collections';
+import Collection from '../page/Collection';
 
 export default [{
     path: 'collections',

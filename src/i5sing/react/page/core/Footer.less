@@ -1,0 +1,30 @@
+@import "../../../less/variables";
+
+.elsa-footer {
+  .elsa-progress {
+    display: inline-block;
+  }
+
+  .btn-group {
+    position: absolute;
+    display: inline-block;
+    color: @player-btn-color;
+    width: 224px;
+    padding: 22px;
+
+    .btn {
+      font-size: 14px;
+      margin-right: 20px;
+
+      &.lrc {
+        position: relative;
+        top: -2px;
+        border: 1px solid @border-color;
+        border-radius: 2px;
+        height: 14px;
+        padding: 2px 5px;
+        font-size: 12px;
+      }
+    }
+  }
+}
