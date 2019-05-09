@@ -1,0 +1,54 @@
+@import (reference) "../../styles/variables";
+
+.tops {
+  .tops-item {
+    position: relative;
+    margin-bottom: 20px;
+
+    & > img {
+      height: 174px;
+      width: 174px;
+      border-radius: 4px;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    & > a {
+      margin-left: 214px;
+      line-height: 36px;
+      font-size: 12px;
+    }
+
+    & > ul {
+      list-style-type: none;
+      margin-left: 214px;
+
+      & > li {
+        height: 43.5px;
+        line-height: 43.5px;
+        font-size: 13px;
+        font-weight: 500;
+
+        &:nth-child(odd) {
+          background-color: #f9f9f9;
+        }
+
+        &:hover {
+          background-color: #f4f4f4;
+        }
+
+        & > span {
+          display: inline-block;
+          width: 43.5px;
+          text-align: center;
+          color: @lite_color;
+
+          &.hot {
+            color: @active_color;
+          }
+        }
+      }
+    }
+  }
+}

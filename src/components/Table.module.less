@@ -1,0 +1,66 @@
+@import (reference) "../styles/variables";
+
+.table {
+  font-size: 12px;
+  border-spacing: 0;
+  width: 100%;
+
+  tr th, tr td {
+    height: 32px;
+    text-align: left;
+
+    & > div {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    span {
+      color: #aeaeae;
+      margin-right: 10px;
+      float: right;
+
+      &:first-child {
+        float: left;
+      }
+    }
+
+    :global {
+      .song-icon {
+        cursor: pointer;
+        font-size: 14px;
+        color: #aeaeae;
+
+        &:hover {
+          color: #4b4b4b;
+        }
+
+        &.active {
+          color: @active_color;
+        }
+
+        &.highlight {
+          color: red;
+        }
+      }
+    }
+  }
+
+  tr {
+    background-color: rgba(255, 255, 255, 0.85);
+
+    &:nth-child(even) {
+      background-color: rgba(249, 249, 249, 0.85);
+    }
+
+    &:hover {
+      background-color: rgba(239, 239, 239, 0.85);
+    }
+  }
+
+  :global {
+    tr.selected {
+      background-color: rgba(239, 239, 239, 0.85);
+    }
+  }
+}

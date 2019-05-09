@@ -1,0 +1,54 @@
+@import (reference) "../styles/variables";
+
+.user-info {
+  height: 125px;
+  font-size: 14px;
+  position: relative;
+
+  & > .content {
+    padding: 54px 10px 10px 10px;
+
+    & > .user-info-username {
+      line-height: 50px;
+      float: left;
+      margin-left: 10px;
+    }
+
+    & > .user-info-exit-btn {
+      position: absolute;
+      right: 10px;
+      bottom: 0;
+      font-size: 12px;
+      display: none;
+    }
+
+    &:hover {
+      & > .user-info-exit-btn {
+        display: block;
+      }
+    }
+
+    & > .user-info-avatar {
+      height: 50px;
+      width: 50px;
+      display: block;
+      float: left;
+      //border: 1px solid @border_color;
+      border-radius: 50px;
+
+      & > img {
+        height: 50px;
+        width: 50px;
+        border-radius: 25px
+      }
+    }
+
+    &:after {
+      display: block;
+      content: '';
+      clear: both;
+    }
+  }
+
+
+}

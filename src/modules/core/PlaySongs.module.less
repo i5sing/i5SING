@@ -1,0 +1,37 @@
+@import (reference) "../../styles/variables";
+
+.play_songs {
+  position: fixed;
+  right: 0;
+  width: 420px;
+  top: 80px;
+  bottom: 70px;
+  background: white;
+
+  .tool {
+    padding: 10px 20px;
+
+    .count {
+      font-size: 12px;
+      font-weight: 500;
+      color: @lite_color_2;
+    }
+
+    .clear_btn {
+      float: right;
+    }
+  }
+
+  .play_songs_content {
+    overflow-y: auto;
+    height: 485px;
+
+    .active {
+      color: @active_color;
+
+      a {
+        color: @active_color;
+      }
+    }
+  }
+}

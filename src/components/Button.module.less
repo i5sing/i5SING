@@ -1,0 +1,41 @@
+@import (reference) "../styles/variables";
+
+.button {
+  cursor: pointer;
+  border: 1px solid #d8d7d8;
+  padding: 8px 10px;
+  margin-right: 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+
+  &:hover {
+    background-color: #f1f3f3;
+  }
+
+  &.primary {
+    background-color: @active_color;
+    color: white;
+    opacity: 0.9;
+  }
+
+  &.disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  &.hover {
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  :global {
+    .anticon {
+      font-size: 16px;
+      margin-right: 4px;
+      position: relative;
+      top: 1px;
+    }
+  }
+}

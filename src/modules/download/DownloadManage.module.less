@@ -1,0 +1,24 @@
+@import (reference) "../../styles/variables";
+
+.content {
+  margin: 0 -30px;
+  border-top: 1px solid @border_color;
+}
+
+.open_folder_btn {
+  line-height: 37px;
+  margin-left: 10px;
+}
+
+.download_table_row {
+  .delete_btn {
+    cursor: pointer;
+    visibility: hidden;
+  }
+
+  &:hover {
+    .delete_btn {
+      visibility: visible;
+    }
+  }
+}

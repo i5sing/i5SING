@@ -1,0 +1,18 @@
+@import (reference) "../styles/variables";
+
+.tag {
+  display: inline-block;
+  color: #666666;
+  padding: 4px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    color: @normal_color;
+  }
+
+  &.selected {
+    color: @active_color;
+    background-color: #faf6f5;
+  }
+}

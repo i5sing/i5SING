@@ -1,0 +1,81 @@
+@import (reference) "../styles/variables";
+
+.play {
+  position: relative;
+
+  & > .play_top {
+    margin: 0 -30px;
+    padding: 0 30px;
+    background: rgba(255, 255, 255, 0.85);
+    min-height: 230px;
+
+    & > img {
+      position: absolute;
+      height: 200px;
+      width: 200px;
+      border-radius: 4px;
+      margin-bottom: 30px;
+    }
+
+    & > .play_info {
+      padding-bottom: 30px;
+      padding-left: 230px;
+
+      & > h1 {
+        position: relative;
+        margin-bottom: 20px;
+        font-size: 22px;
+        padding-left: 54px;
+        height: 30px;
+
+        & > span {
+          position: absolute;
+          top: 7px;
+          left: 0;
+          height: 20px;
+          color: @active_color;
+          border: 1px solid @active_color;
+          border-radius: 4px;
+          font-size: 13px;
+          padding: 0 8px;
+          font-weight: 500;
+          margin-right: 10px;
+        }
+      }
+
+      & > p {
+        position: relative;
+        margin-bottom: 6px;
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 24px;
+
+        & > span {
+          margin-right: 10px;
+        }
+      }
+
+      & > .tools {
+        height: 36px;
+        margin-top: 40px;
+        margin-bottom: 10px;
+      }
+
+      .spread_btn {
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 20px;
+        width: 20px;
+        padding-top: 4px;
+        font-size: 16px;
+        color: #98989a;
+        cursor: pointer;
+      }
+    }
+  }
+
+  & > .play_content {
+    margin: 0 -30px;
+  }
+}

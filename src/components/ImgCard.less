@@ -1,0 +1,50 @@
+.img-card {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -9px;
+  margin-right: -9px;
+
+  & > .img-card-item {
+    padding: 0 9px;
+    margin-bottom: 40px;
+
+    & > img {
+      cursor: pointer;
+      width: 100%;
+      border-radius: 4px;
+    }
+
+    & > h3 {
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: normal;
+    }
+
+    & > .img-card-extra {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      color: white;
+      font-size: 12px;
+    }
+  }
+
+  &.count-5 {
+    & > .img-card-item {
+      width: 20%;
+    }
+  }
+
+  &.count-4 {
+    & > .img-card-item {
+      width: 25%;
+    }
+  }
+
+  &.count-3 {
+    & > .img-card-item {
+      width: 33.33%;
+    }
+  }
+}

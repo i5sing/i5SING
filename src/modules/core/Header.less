@@ -1,0 +1,51 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  -webkit-app-region: drag;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.85);
+
+  .histories-btn-group {
+    position: absolute;
+    right: 230px;
+    top: 26px;
+
+    .anticon {
+      font-size: 15px;
+      margin-left: 14px;
+      position: relative;
+      top: 4px;
+      cursor: pointer;
+    }
+  }
+
+  .search-input {
+    width: 140px;
+    -webkit-app-region: no-drag;
+    position: absolute;
+    top: 26px;
+    right: 70px;
+
+    .ant-input {
+      background-color: rgba(0, 0, 0, 0.03);
+      border: none;
+      outline: none;
+      text-outline: none;
+    }
+  }
+
+  .settings-btn {
+    position: absolute;
+    right: 30px;
+    top: 28px;
+    margin-left: 14px;
+    cursor: pointer;
+
+    .settings-btn-icon {
+      font-size: 20px;
+    }
+  }
+}

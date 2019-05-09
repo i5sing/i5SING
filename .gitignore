@@ -1,10 +1,6 @@
-.idea/
-node_modules/
+node_modules
+out
+.webpack
+.idea
 .DS_Store
-npm-debug.log
-build/
-!tasks/build
-releases/
-src/static
-app/assets/js
-src/i5sing/react/bundle
+yarn-error.log

@@ -1,0 +1,51 @@
+@import (reference) "../../styles/variables";
+
+.discovery-channels {
+  margin: 0 -20px;
+
+  & > .discovery-channels-item {
+    width: 50%;
+    display: inline-block;
+    padding: 0 20px;
+    margin-bottom: -1px;
+
+    & > .discovery-channels-item-content {
+      position: relative;
+      border-top: 1px solid @lite_border_color;
+      border-bottom: 1px solid @lite_border_color;
+      padding: 10px;
+      height: 110px;
+
+      &:hover {
+        background-color: #f4f4f4;
+      }
+
+      img {
+        height: 90px;
+        width: 90px;
+        border-radius: 4px;
+      }
+
+      & > .discovery-channels-item-info {
+        position: absolute;
+        left: 124px;
+        top: 0;
+        bottom: 0;
+        width: 220px;
+
+        & > h3 {
+          font-size: 13px;
+          font-weight: 500;
+          color: @normal_color;
+          margin-top: 32px;
+        }
+
+        & > p {
+          font-size: 12px;
+          color: @lite_color;
+          margin-top: 10px;
+        }
+      }
+    }
+  }
+}

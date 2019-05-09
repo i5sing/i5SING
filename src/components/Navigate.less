@@ -1,0 +1,42 @@
+@import (reference) "../styles/variables";
+
+.navigate {
+  margin-bottom: 20px;
+
+  & > h3 {
+    padding: 0 10px;
+    font-size: 12px;
+    font-weight: 500;
+    color: @lite_color;
+  }
+
+  & > ul > .navigate-item {
+    display: block;
+    font-size: 12px;
+
+    & > a {
+      color: @normal_color;
+      text-decoration: none;
+      display: block;
+      height: 36px;
+      line-height: 36px;
+      border-left: 3px solid white;
+      padding-left: 10px;
+      font-weight: 500;
+
+      &:hover {
+        background-color: @active_bg_color;
+      }
+
+      &.active {
+        background-color: @active_bg_color;
+        border-left-color: @active_color;
+        color: @active_color;
+      }
+    }
+
+    & > a > .i5sing-font {
+      margin-right: 10px;
+    }
+  }
+}
