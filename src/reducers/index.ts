@@ -13,7 +13,7 @@ import {
     MOVIES, MUSICIAN, MY,
     NETWORK_STATUS,
     PLAY,
-    PLAYS,
+    PLAYS, SEARCH,
     STYLE_TOP,
     STYLE_TOP_DETAIL, SYSTEM,
     TOP,
@@ -33,6 +33,7 @@ import { ISong } from "../interfaces/ISong";
 import { ISystem } from "../interfaces/ISystem";
 import { IUser } from "../interfaces/IUser";
 import { ICloud } from "../interfaces/ICloud";
+import { ISearch } from "../interfaces/ISearch";
 
 export default combineReducers({
     system: createReducer<ISystem>(SYSTEM, {
@@ -81,6 +82,7 @@ export default combineReducers({
         songs: [],
         loadings: {},
     }),
+    search: createReducer<ISearch>(SEARCH, { songs: [], users: [], plays: [] })
 });
 
 export interface IState {
@@ -106,4 +108,5 @@ export interface IState {
     my: { plays: IPlay[] };
     musician: { [userId: string]: IUser };
     cloud: ICloud;
+    search: ISearch;
 }

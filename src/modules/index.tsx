@@ -10,6 +10,7 @@ import { ChannelModule } from "./channel";
 import { MusicianModule } from "./musician";
 import { CloudModule } from "./cloud";
 import { SettingModule } from "./setting";
+import { SearchModule } from "./search";
 
 export class Routes extends React.Component {
     render() {
@@ -25,6 +26,7 @@ export class Routes extends React.Component {
             <Route path="/musicians" component={ MusicianModule }/>
             <Route path="/clouds" component={ CloudModule }/>
             <Route path="/settings" component={ SettingModule }/>
+            <Route path="/search" component={ SearchModule }/>
         </div>;
     }
 }

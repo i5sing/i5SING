@@ -42,6 +42,12 @@ export class Header extends React.Component<IHeaderProps> {
 
     render() {
         const { canGoForward, canGoBack } = this.props.system;
+        const current = location.hash;
+        let searchValue = '';
+        if (current.includes('#/search')) {
+            const chunks = current.split('/');
+            searchValue = chunks[chunks.length - 1];
+        }
         return <div className="header">
             <div className="histories-btn-group">
                 <Icon className={ `histories-btn ${ canGoBack ? '' : 'disabled' }` }
@@ -54,7 +60,23 @@ export class Header extends React.Component<IHeaderProps> {
             <Input.Search
                 className="search-input"
                 size="small"
-                onSearch={ value => console.log(value) }
+                defaultValue={ decodeURIComponent(searchValue) }
+                onSearch={ value => {
+                    const current = location.hash;
+                    if (current.includes('#/search')) {
+                        const chunks = current.split('/');
+                        chunks.pop();
+                        chunks.shift();
+                        let hash = '/';
+                        chunks.forEach(chunk => hash += chunk + '/');
+                        if (hash.charAt(hash.length - 1) === '/') {
+                            hash = hash.substring(0, hash.length - 1);
+                        }
+                        location.hash = hash + '/' + encodeURIComponent(value);
+                    } else {
+                        location.hash = `search/song/${ encodeURIComponent(value) }`;
+                    }
+                } }
             />
             <a onClick={ () => location.hash = '#/settings' } className="settings-btn">
                 <Icon type="bars" className="settings-btn-icon"/>
