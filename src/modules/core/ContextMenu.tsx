@@ -47,7 +47,7 @@ export class ContextMenu extends React.Component<IContextMenuProps> {
                         name: info[0],
                         kind: null,
                         user: {
-                            id: null,
+                            id: -1,
                             nickname: '我的音乐云盘'
                         }
                     }

@@ -78,7 +78,7 @@ export class DownloadManage extends React.Component<IDownloadManageProps> {
     }
 
     play(song: IDownload) {
-        this.props.actions.current.play(song.songId + '', song.songName, {
+        this.props.actions.current.play(song.songId + '', song.songKind, {
             id: song.songId,
             name: song.songName,
             kind: song.songKind,

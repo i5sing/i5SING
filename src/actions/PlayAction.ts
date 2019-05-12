@@ -151,11 +151,11 @@ export class PlayAction {
 
             const url = 'http://goapi.5sing.kugou.com/search/songSquare';
             const query = { sortType: 1, pn: page, ps: pageSize, label };
-            const response: AxiosResponse<I5singResponse<I5singPlay[]>> = await instance.get(
+            const response: AxiosResponse<I5singResponse<{ songMenu: I5singPlay[] }>> = await instance.get(
                 url,
                 { params: query }
             );
-            const playlist = response.data.data.map(item => ({
+            const playlist = response.data.data.songMenu.map(item => ({
                 playCount: item.playcount,
                 title: item.listName,
                 picture: item.url,
@@ -172,7 +172,7 @@ export class PlayAction {
                 type: NETWORK_STATUS,
                 action: UPDATE_PROPERTY,
                 path: `${ PLAYS }_${ SET }`,
-                data: { loading: false, nodata: response.data.data.length === 0 }
+                data: { loading: false, nodata: response.data.data.songMenu.length === 0 }
             });
 
             const existPlays = page === 1 ? [] : state().plays;

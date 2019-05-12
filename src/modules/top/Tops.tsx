@@ -57,7 +57,7 @@ export class Tops extends React.Component<ITopsProps> {
                             height={ 171.5 }
                             key={ top.style }
                             title={ top.style }
-                            img={ top.rankImage }
+                            img={ top.picture }
                             onClick={ () => location.hash = `#/tops/style/${ encodeURIComponent(top.style) }` }
                         />
                     ) }

@@ -151,7 +151,9 @@ class Player extends React.Component<IPlayerProps, IPlayerState> {
             <img className={ styles.user_image } src={ user.image || defaultUserImage } alt={ user.nickname }/>
             <div className={ styles.info }>
                 <h3 className="balabala">{ song.name }</h3>
-                <h3 className="balabala"><Link to={ `/musicians/${ user.id }` }>{ user.nickname }</Link></h3>
+                <h3 className="balabala">
+                    <Link to={ user.id === -1 ? `/clouds` : `/musicians/${ user.id }` }>{ user.nickname }</Link>
+                </h3>
             </div>
             <div className={ styles.play_btn_group }>
                 <Icon type="heart" theme="filled"

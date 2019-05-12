@@ -1,7 +1,7 @@
 import { IState } from "../reducers";
 import { Dispatch } from "redux";
 import { message } from 'antd';
-import { findIndex } from 'lodash';
+import { findIndex, get } from 'lodash';
 import { AxiosResponse } from "axios";
 import { I5singResponse } from "../interfaces/i5sing/I5singResponse";
 import { instance } from "../utils/HttpUtil";
@@ -25,6 +25,21 @@ export class CurrentAction {
         }
     }
 
+    public static async getSongUrl(songId: string, songType: string): Promise<I5singSongUrl> {
+        const url = 'http://mobileapi.5sing.kugou.com/song/getSongUrl';
+        const query = { songid: songId, songtype: songType };
+        const response: AxiosResponse<I5singResponse<I5singSongUrl>> = await instance.get(
+            url,
+            { params: query }
+        );
+
+        if (!response.data.success) {
+            throw new Error(response.data.message);
+        }
+
+        return response.data.data;
+    }
+
     public static play(songId: string, songType: string, song?: ISong) {
         return async (dispatch: Dispatch, state: () => IState) => {
             if (!song) {
@@ -45,25 +60,24 @@ export class CurrentAction {
             dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'current', data: next });
             dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'list', data: playlist });
 
-            if (!song.local) {
-                const url = 'http://mobileapi.5sing.kugou.com/song/getSongUrl';
-                const query = { songid: songId, songtype: songType };
-                const response: AxiosResponse<I5singResponse<I5singSongUrl>> = await instance.get(
-                    url,
-                    { params: query }
-                );
+            if (!get(song, 'user.image') && get(song, 'user.id') !== -1) {
+                song = await SongAction.getSong(song.id, song.kind);
+            }
 
-                if (!response.data.success) {
-                    message.error(response.data.message);
+            if (!song.local) {
+                try {
+                    const url = await CurrentAction.getSongUrl(songId, songType);
+
+                    playlist.splice(next, 1, { ...song, ...url });
+                    dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'list', data: [...playlist] });
+                } catch (e) {
+                    message.error(e.message);
                     let index = current;
                     if (index >= 0) {
                         index = -1;
                     }
                     dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'current', data: index - 1 })
                 }
-
-                playlist.splice(next, 1, { ...song, ...response.data.data });
-                dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'list', data: [...playlist] });
             }
         }
     }
@@ -79,24 +93,46 @@ export class CurrentAction {
 
             dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'current', data: -1 });
 
-            setTimeout(() => {
+            setTimeout(async () => {
+                let next = current;
                 if (seq === 'loop') {
                     dispatch({
                         type: CURRENT,
                         action: UPDATE_PROPERTY,
                         path: 'current',
-                        data: current
+                        data: next
                     });
                 } else if (seq === 'random') {
-                    const next = parseInt(Math.random() * playlist.length + '');
+                    next = parseInt(Math.random() * playlist.length + '');
                     dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'current', data: next });
                 } else {
                     if (current < playlist.length - 1) {
-                        dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'current', data: current + 1 });
+                        next = current + 1;
+                        dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'current', data: next });
                     } else {
+                        next = -1;
                         dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'current', data: -1 });
                     }
                 }
+
+                if (next !== -1) {
+                    let song: ISong = playlist[next];
+                    if (!get(song, 'user.image') && get(song, 'user.id') !== -1) {
+                        song = await SongAction.getSong(song.id, song.kind);
+                    }
+                    if (song && !song.hqurl && !song.lqurl && !song.squrl && !song.local) {
+                        try {
+                            const url = await CurrentAction.getSongUrl(song.id, song.kind);
+
+                            playlist.splice(next, 1, { ...song, ...url });
+                            dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'list', data: [...playlist] });
+                        } catch (e) {
+                            message.error(e.message);
+                            dispatch(CurrentAction.next() as any);
+                        }
+                    }
+                }
+
             }, 0);
         }
     }
@@ -112,19 +148,39 @@ export class CurrentAction {
 
             dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'current', data: -1 });
 
-            setTimeout(() => {
+            setTimeout(async () => {
+                let next = current;
                 if (seq === 'loop') {
                     dispatch({
                         type: CURRENT,
                         action: UPDATE_PROPERTY,
                         path: 'current',
-                        data: current
+                        data: next,
                     })
                 } else if (seq === 'random') {
-                    const next = parseInt(Math.random() * playlist.length + '');
+                    next = parseInt(Math.random() * playlist.length + '');
                     dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'current', data: next });
                 } else {
+                    next = -1;
                     dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'current', data: current - 1 });
+                }
+
+                if (next !== -1) {
+                    let song: ISong = playlist[next];
+                    if (!get(song, 'user.image') && get(song, 'user.id') !== -1) {
+                        song = await SongAction.getSong(song.id, song.kind);
+                    }
+                    if (song && !song.hqurl && !song.lqurl && !song.squrl && !song.local) {
+                        try {
+                            const url = await CurrentAction.getSongUrl(song.id, song.kind);
+
+                            playlist.splice(next, 1, { ...song, ...url });
+                            dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'list', data: [...playlist] });
+                        } catch (e) {
+                            message.error(e.message);
+                            dispatch(CurrentAction.next() as any);
+                        }
+                    }
                 }
             }, 0);
         }
