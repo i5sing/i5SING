@@ -126,7 +126,7 @@ export class TopDetail extends React.Component<ITopDetailProps, ITopDetailState>
     }
 
     play(song: ITopSong) {
-        this.props.actions.current.play(song.songName + '', song.songKind, {
+        this.props.actions.current.play(song.id + '', song.songKind, {
             id: song.id,
             kind: song.songKind,
             name: song.songName,

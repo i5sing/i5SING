@@ -38,7 +38,6 @@ export class ContextMenu extends React.Component<IContextMenuProps> {
                 const info = this.selected.split('--');
                 const chunks = info[0].split('-');
                 const path = info[1];
-                console.log(chunks, path, info[0]);
                 let song;
                 if (path.includes('downloads')) {
                     song = get(get(state, path, {}), `${ chunks[0] }-${ chunks[1] }`);
@@ -52,7 +51,10 @@ export class ContextMenu extends React.Component<IContextMenuProps> {
                         }
                     }
                 } else {
-                    song = find(get(state, path, []), { id: Number(chunks[1]) }) as any;
+                    song = find(get(state, path, []), { id: chunks[1] }) as any;
+                    if (!song) {
+                        song = find(get(state, path, []), { id: Number(chunks[1]) }) as any;
+                    }
                 }
 
                 if (song) {

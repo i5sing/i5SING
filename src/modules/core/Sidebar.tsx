@@ -9,6 +9,7 @@ import { IPlay } from "../../interfaces/IPlay";
 import { ISystem } from "../../interfaces/ISystem";
 import { actions } from "../../utils/ActionUtil";
 import { AuthAction } from "../../actions";
+import { Icon } from "antd";
 
 export interface ISidebarProps {
     actions?: {
@@ -38,45 +39,45 @@ export class Sidebar extends React.Component<ISidebarProps> {
             <div className="sidebar-content">
                 <Navigate>
                     <Navigate.Item to="/discoveries">
-                        <i className="i5sing-font middle">&#xe6e8;</i>发现音乐
+                        <Icon className="sidebar-icon" type="appstore"/>发现音乐
                     </Navigate.Item>
                     <Navigate.Item to="/tops">
-                        <i className="i5sing-font middle">&#xe782;</i>排行榜
+                        <Icon className="sidebar-icon" type="fire"/>排行榜
                     </Navigate.Item>
                     <Navigate.Item to="/plays">
-                        <i className="i5sing-font middle">&#xe642;</i>歌单
+                        <Icon className="sidebar-icon" type="menu-unfold"/>歌单
                     </Navigate.Item>
                     <Navigate.Item to="/movies">
-                        <i className="i5sing-font middle">&#xe642;</i>视频
+                        <Icon className="sidebar-icon" type="youtube"/>视频
                     </Navigate.Item>
                     <Navigate.Item to="/channels">
-                        <i className="i5sing-font middle">&#xe642;</i>有声专栏
+                        <Icon className="sidebar-icon" type="play-circle"/>有声专栏
                     </Navigate.Item>
                     <Navigate.Item to="/friends">
-                        <i className="i5sing-font middle">&#xe642;</i>朋友
+                        <Icon className="sidebar-icon" type="team"/>朋友
                     </Navigate.Item>
                 </Navigate>
                 <Navigate title="我的音乐">
                     { hasLogin && <Navigate.Item to={ `/musicians/${ system.userId }` }>
-                        <i className="i5sing-font middle">&#xe6e8;</i>我的音乐
+                        <Icon className="sidebar-icon" type="user"/>我的音乐
                     </Navigate.Item> }
                     <Navigate.Item to="/downloads">
-                        <i className="i5sing-font middle">&#xe782;</i>下载管理
+                        <Icon className="sidebar-icon" type="download"/>下载管理
                     </Navigate.Item>
                     <Navigate.Item to="/clouds">
-                        <i className="i5sing-font middle">&#xe782;</i>我的音乐云盘
+                        <Icon className="sidebar-icon" type="cloud"/>我的音乐云盘
                     </Navigate.Item>
                     { hasLogin && <Navigate.Item to="/favorite/collections">
-                        <i className="i5sing-font middle">&#xe642;</i>我的收藏
+                        <Icon className="sidebar-icon" type="star"/>我的收藏
                     </Navigate.Item> }
                 </Navigate>
                 { hasLogin && <Navigate title="创建的歌单">
                     <Navigate.Item to="/favorite/songs">
-                        <i className="i5sing-font middle">&#xe642;</i>我喜欢的音乐
+                        <Icon className="sidebar-icon" type="heart"/>我喜欢的音乐
                     </Navigate.Item>
                     { plays.map((play: IPlay) =>
                         <Navigate.Item key={ play.id } to={ `/plays/${ play.id }` }>
-                            <i className="i5sing-font middle">&#xe642;</i>{ play.title }
+                            <Icon className="sidebar-icon" type="menu-unfold"/>{ play.title }
                         </Navigate.Item>
                     ) }
                 </Navigate> }

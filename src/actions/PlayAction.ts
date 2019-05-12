@@ -166,8 +166,6 @@ export class PlayAction {
                     image: item.user.I,
                 }
             }));
-            dispatch({ type: PLAYS, action: SET, data: playlist });
-
             dispatch({
                 type: NETWORK_STATUS,
                 action: UPDATE_PROPERTY,

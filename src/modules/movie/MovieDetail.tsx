@@ -122,7 +122,7 @@ export class MovieDetail extends React.Component<IMovieDetailProps, IMovieDetail
             </div>
             { otherMovies.length > 0 ? <Card title="TA 的其他视频">
                 <ImgCard count={ 3 }>
-                    { (movie.movies || []).map((movie: IMovie) =>
+                    { (movie.movies || []).filter(other => other.id !== movie.id).map((movie: IMovie) =>
                         <ImgCard.Item
                             height={ 128 }
                             key={ movie.id }

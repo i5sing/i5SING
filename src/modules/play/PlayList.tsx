@@ -62,7 +62,7 @@ export class PlayList extends React.Component<IPlayListProps, IPlayListState> {
     }
 
     changeLabel(label?: string) {
-        this.setState({ label }, () => {
+        this.setState({ label, page: 1 }, () => {
             if (this.state.label) {
                 this.props.actions.play.getPlaysByLabel(this.state.label, this.state.page, 10);
             } else {
@@ -90,10 +90,10 @@ export class PlayList extends React.Component<IPlayListProps, IPlayListState> {
                 </Tool>
                 <div className="playlist">
                     <ImgCard count={ 4 }>
-                        { plays.map((play: IPlay) =>
+                        { plays.map((play: IPlay, index) =>
                             <ImgCard.Item
                                 height={ 171.5 }
-                                key={ play.id }
+                                key={ index }
                                 title={ play.title }
                                 extra={ play.playCount }
                                 img={ play.picture }
