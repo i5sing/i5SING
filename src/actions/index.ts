@@ -8,3 +8,4 @@ export * from './CurrentAction';
 export * from './AuthAction';
 export * from './CloudAction';
 export * from './SearchAction';
+export * from './NetworkAction';

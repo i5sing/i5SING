@@ -21,3 +21,4 @@ export const MY = 'MY';
 export const MUSICIAN = 'MUSICIAN';
 export const CLOUD = 'CLOUD';
 export const SEARCH = 'SEARCH';
+export const COMMENT = 'COMMENT';

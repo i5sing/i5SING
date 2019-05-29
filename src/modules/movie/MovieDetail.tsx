@@ -12,13 +12,17 @@ import './MovieDetail.less';
 import { ImgCard } from "../../components/ImgCard";
 import { Card } from "../../components/Card";
 import { IUser } from "../../interfaces/IUser";
-import moment = require("moment");
 import { Tool } from "../../components/Tool";
+import { CommentList } from "../../components/CommentList";
+import { IComment } from "../../interfaces/IComment";
+import { MOVIE_COMMENT, MOVIE_REPLY } from "../../constants/NetworkStatus";
+import { INetwork } from "../../interfaces/INetwork";
+import moment = require("moment");
 
 export interface IMovieDetailProps {
     match?: {
         params: {
-            movieId: number;
+            movieId: string;
         }
     };
     actions?: {
@@ -26,6 +30,12 @@ export interface IMovieDetailProps {
         current: typeof CurrentAction;
     };
     movie?: IMovie;
+    comments?: IComment[];
+    hots?: IComment[];
+    net?: {
+        [MOVIE_COMMENT]: INetwork;
+        [MOVIE_REPLY]: INetwork;
+    }
 }
 
 interface IMovieDetailState {
@@ -35,6 +45,9 @@ interface IMovieDetailState {
 @connect(
     (state: IState) => ({
         movie: state.movie,
+        comments: state.comment.list,
+        hots: state.comment.hots,
+        net: state.networks
     }),
     (dispatch: Dispatch) => ({
         actions: {
@@ -49,8 +62,9 @@ export class MovieDetail extends React.Component<IMovieDetailProps, IMovieDetail
     };
 
     componentDidMount(): void {
-        const movieId = this.props.match.params.movieId;
+        const movieId: string = this.props.match.params.movieId;
         this.props.actions.movie.getMovie(movieId);
+        this.props.actions.movie.getComments(movieId);
         this.props.actions.current.end();
     }
 
@@ -85,13 +99,29 @@ export class MovieDetail extends React.Component<IMovieDetailProps, IMovieDetail
         }
     }
 
+    comment(mvId: string, target: string, content: string) {
+        this.props.actions.movie.comment(mvId, target, content);
+    }
+
+    reply(mvId: string, target: string, commentId: string, content: string) {
+        this.props.actions.movie.reply(mvId, target, commentId, content);
+    }
+
+    likeComment(mvId: string, commentId: string, like: boolean) {
+        if (like) {
+            this.props.actions.movie.likeComment(mvId, commentId);
+        } else {
+            this.props.actions.movie.dislikeComment(mvId, commentId);
+        }
+    }
+
     render() {
-        const movie = this.props.movie;
+        const { comments, hots, movie, net } = this.props;
         const user = movie.user as IUser || { image: '', nickname: '', id: '' };
-        const otherMovies = movie.movies || [];
+        const otherMovies = (movie.movies || []).filter(other => other.id !== movie.id);
         const movieId = this.props.match.params.movieId;
 
-        console.log('test: ', movie);
+        console.log('test: ', comments);
         return <Layout className="movie-detail">
             { this.state.render && <Player autoPlay={ true } width="100%" controls>
                 <source src={ `http://127.0.0.1:56562/movies/${ movieId }/play` }/>
@@ -122,7 +152,7 @@ export class MovieDetail extends React.Component<IMovieDetailProps, IMovieDetail
             </div>
             { otherMovies.length > 0 ? <Card title="TA 的其他视频">
                 <ImgCard count={ 3 }>
-                    { (movie.movies || []).filter(other => other.id !== movie.id).map((movie: IMovie) =>
+                    { (movie.movies || []).map((movie: IMovie) =>
                         <ImgCard.Item
                             height={ 128 }
                             key={ movie.id }
@@ -134,6 +164,12 @@ export class MovieDetail extends React.Component<IMovieDetailProps, IMovieDetail
                     ) }
                 </ImgCard>
             </Card> : null }
+            <CommentList comments={ comments } hots={ hots }
+                         commentLoading={ get(net[MOVIE_COMMENT], 'loading') }
+                         replyLoading={ get(net[MOVIE_REPLY], 'loading') }
+                         onLike={ (commentId, like) => this.likeComment(movie.id, commentId, like) }
+                         onReply={ (commentId, userId, content) => this.reply(movie.id, userId, commentId, content) }
+                         onSubmit={ content => this.comment(movie.id, movie.user.id + '', content) }/>
         </Layout>
     }
 }

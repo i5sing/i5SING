@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { createReducer } from '../utils/ReducerUtil';
 import {
-    CHANNELS, CLOUD,
+    CHANNELS, CLOUD, COMMENT,
     CURRENT,
     DISCOVERY_CAROUSEL,
     DISCOVERY_CHANNEL,
@@ -34,6 +34,7 @@ import { ISystem } from "../interfaces/ISystem";
 import { IUser } from "../interfaces/IUser";
 import { ICloud } from "../interfaces/ICloud";
 import { ISearch } from "../interfaces/ISearch";
+import { IComment } from "../interfaces/IComment";
 
 export default combineReducers({
     system: createReducer<ISystem>(SYSTEM, {
@@ -82,7 +83,8 @@ export default combineReducers({
         songs: [],
         loadings: {},
     }),
-    search: createReducer<ISearch>(SEARCH, { songs: [], users: [], plays: [] })
+    search: createReducer<ISearch>(SEARCH, { songs: [], users: [], plays: [] }),
+    comment: createReducer<{ hots: IComment[], list: IComment[] }>(COMMENT, { hots: [], list: [] })
 });
 
 export interface IState {
@@ -109,4 +111,5 @@ export interface IState {
     musician: { [userId: string]: IUser };
     cloud: ICloud;
     search: ISearch;
+    comment: { hots: IComment[], list: IComment[] };
 }
