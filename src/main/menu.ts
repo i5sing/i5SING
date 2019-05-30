@@ -1,5 +1,5 @@
-import { shell, dialog, BrowserWindow, app, MenuItemConstructorOptions, Menu } from 'electron';
-import { checkForUpdatesByReq } from "./upgrade";
+import { shell, BrowserWindow, app, MenuItemConstructorOptions, Menu } from 'electron';
+import { checkVersion } from "./upgrade";
 
 export const initAppMenu = (window: BrowserWindow) => {
     if (process.platform === 'darwin') {
@@ -19,31 +19,7 @@ export const initMacMenu = (window: BrowserWindow): MenuItemConstructorOptions[]
                 {
                     label: '检查更新',
                     click: async () => {
-                        const data = await checkForUpdatesByReq();
-
-                        let title = '',
-                            message = '',
-                            buttons = ['确定', '取消'];
-
-                        if (!data.latest) {
-                            title = '检查更新';
-                            message = `发现新版本 ${ data.app.version }, 点击 "确定" 前往下载!`;
-                        } else {
-                            title = '检查更新';
-                            message = '您的版本已经是最新版了!';
-                            buttons = ['确定'];
-                        }
-
-                        dialog.showMessageBox({
-                            type: 'none',
-                            title: title,
-                            message: message,
-                            buttons: buttons
-                        }, index => {
-                            if (index === 0 && !data.latest) {
-                                return shell.openExternal("http://i5sing.com");
-                            }
-                        })
+                        await checkVersion();
                     }
                 },
                 {

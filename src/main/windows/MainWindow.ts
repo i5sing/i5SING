@@ -1,12 +1,22 @@
-import { BrowserWindow } from "electron";
+import { BrowserWindow, Tray, TouchBar } from "electron";
 import { initTouchBar } from "../touch-bar";
 import { initTray } from "../tray";
 import { initAppMenu } from "../menu";
 
 export class MainWindow {
     private static instance: BrowserWindow;
+    private static tray: Tray;
+    private static touchBar: TouchBar;
 
     private constructor() {
+    }
+
+    public static getTray() {
+        return this.tray;
+    }
+
+    public static getTouchBar() {
+        return this.touchBar;
     }
 
     public static create() {
@@ -68,8 +78,8 @@ export class MainWindow {
             }
         });
 
-        initTouchBar(mainWindow);
-        initTray(mainWindow);
+        this.touchBar = initTouchBar(mainWindow);
+        this.tray = initTray(mainWindow);
         initAppMenu(mainWindow);
 
         return mainWindow;
