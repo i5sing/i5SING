@@ -14,7 +14,7 @@
 
 [http://i5sing.com](http://i5sing.com)
 
-[https://github.com/i5sing/i5SING/releases](https://github.com/i5sing/i5SING/releases)
+[Beta Download](https://github.com/i5sing/i5SING/releases)
 
 
 # Development
