@@ -7,6 +7,61 @@ export const initAppMenu = (window: BrowserWindow) => {
     }
 };
 
+export const initWindowsMenu = (window: BrowserWindow): MenuItemConstructorOptions[] => {
+    return [
+        {
+            label: '播放/暂停',
+            accelerator: 'MediaPlayPause',
+            click: () => {
+                window.webContents.send('change-song', 'pre');
+            }
+        },
+        {
+            label: '上一曲',
+            accelerator: 'MediaPreviousTrack',
+            click: () => {
+                window.webContents.send('change-song', 'pre');
+            }
+        },
+        {
+            label: '下一曲',
+            accelerator: 'MediaNextTrack',
+            click: function () {
+                window.webContents.send('change-song', 'next');
+            }
+        },
+        {
+            label: 'DevTools',
+            accelerator: 'Alt+Command+I',
+            role: 'toggledevtools',
+        },
+        {
+            label: '反馈',
+            click: () => {
+                shell.openExternal('https://github.com/i5sing/i5SING/issues');
+            }
+        },
+        {
+            type: 'separator'
+        },
+        {
+            label: '检查更新',
+            click: async () => {
+                await checkVersion();
+            }
+        },
+        {
+            label: '关于',
+            role: 'about',
+        },
+        {
+            label: '关闭',
+            accelerator: 'Command+W',
+            click: () => app.exit(0)
+        }
+    ];
+};
+
 export const initMacMenu = (window: BrowserWindow): MenuItemConstructorOptions[] => {
     return [
         {
