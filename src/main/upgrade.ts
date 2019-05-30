@@ -24,7 +24,7 @@ export function checkForUpdatesByReq(): any {
     });
 }
 
-export async function checkVersion(notShowLatest: boolean) {
+export async function checkVersion(notShowLatest?: boolean) {
     const data = await checkForUpdatesByReq();
 
     let title = '',

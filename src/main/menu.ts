@@ -91,6 +91,11 @@ export const initMacMenu = (window: BrowserWindow): MenuItemConstructorOptions[]
             label: '视图',
             submenu: [
                 {
+                    label: '刷新',
+                    accelerator: 'Command+R',
+                    role: 'reload'
+                },
+                {
                     label: 'DevTools',
                     accelerator: 'Alt+Command+I',
                     role: 'toggledevtools',
