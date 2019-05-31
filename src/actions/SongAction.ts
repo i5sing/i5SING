@@ -40,7 +40,8 @@ export class SongAction {
                 id: data.user.ID,
                 nickname: data.user.NN,
                 image: data.user.I
-            }
+            },
+            dynamicWords: data.dynamicWords ? data.dynamicWords : '',
         };
     }
 

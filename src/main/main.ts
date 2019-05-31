@@ -8,7 +8,7 @@ import {
     LOGOUT_EVENT,
     OPEN_LOGIN_WINDOW,
     SEND_STORE_CACHE_EVENT,
-    SYNC_CACHE_EVENT
+    SYNC_CACHE_EVENT, SYNC_LRC_EVENT
 } from "../constants/Events";
 import { REDUX_STORE } from "../constants/Store";
 import { LoginWindow } from "./windows/LoginWindow";
@@ -72,6 +72,15 @@ app.on('ready', async () => {
             store.sync();
         }, 0);
     });
+    ipcMain.on(SYNC_LRC_EVENT, (evt, lrc) => {
+        if (!lrc) {
+            lrc = { text: '' };
+        }
+        const tray = MainWindow.getLrcTray();
+        if (tray) {
+            tray.setTitle(lrc.text);
+        }
+    })
 });
 
 // Quit when all windows are closed.

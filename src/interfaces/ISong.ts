@@ -11,4 +11,5 @@ export interface ISong {
     hqurl?: string;
     squrl?: string;
     lqurl?: string;
+    dynamicWords?: string;
 }

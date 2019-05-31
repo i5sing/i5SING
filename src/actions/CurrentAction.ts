@@ -60,7 +60,7 @@ export class CurrentAction {
             dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'current', data: next });
             dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'list', data: playlist });
 
-            if (!get(song, 'user.image') && get(song, 'user.id') !== -1) {
+            if (get(song, 'dynamicWords') === void 0) {
                 song = await SongAction.getSong(song.id, song.kind);
             }
 

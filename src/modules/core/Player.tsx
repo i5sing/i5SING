@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { get } from 'lodash';
+import { ipcRenderer } from 'electron';
 import { connect } from 'react-redux';
+import * as Lyrics from 'lyrics.js';
 import { Progress, Timer } from 'react-soundplayer/components';
 import * as styles from './Player.module.less';
 import * as defaultUserImage from '../../assets/i5sing.png';
@@ -15,6 +17,7 @@ import { ISong } from "../../interfaces/ISong";
 import { Link } from "react-router-dom";
 import { toMap } from "../../utils/DataUtil";
 import { PlaySongs } from "./PlaySongs";
+import { SYNC_LRC_EVENT } from "../../constants/Events";
 
 export interface IPlayerProps {
     current?: number;
@@ -40,6 +43,7 @@ class Player extends React.Component<IPlayerProps, IPlayerState> {
         preload: false,
         visible: false,
     };
+    private lrc = null;
 
     componentDidMount(): void {
         this.props.soundCloudAudio.on('ended', () => {
@@ -53,6 +57,15 @@ class Player extends React.Component<IPlayerProps, IPlayerState> {
             console.log('play interrupted');
             this.next();
         });
+        this.props.soundCloudAudio.on('timeupdate', () => {
+            if (this.lrc) {
+                const index = this.lrc.select(this.props.currentTime);
+                const text = this.lrc.getLyric(index);
+                ipcRenderer.send(SYNC_LRC_EVENT, text);
+            } else {
+                ipcRenderer.send(SYNC_LRC_EVENT, { text: this.props.currentTime < 3 ? '暂无歌词' : '' });
+            }
+        })
     }
 
     next(index?: number) {
@@ -100,6 +113,12 @@ class Player extends React.Component<IPlayerProps, IPlayerState> {
             icon: song.user.image || defaultUserImage,
             silent: true
         });
+
+        if (song.dynamicWords) {
+            this.lrc = new Lyrics(song.dynamicWords);
+        } else {
+            this.lrc = null;
+        }
     }
 
     love(hasLoved: boolean, song: ISong) {
