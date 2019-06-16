@@ -7,13 +7,16 @@ import { Card } from "./Card";
 import * as styles from './CommentList.module.less';
 
 export interface ICommentListProps {
+    title?: string;
+    wrap?: boolean;
     comments: IComment[];
     hots: IComment[];
     onSubmit: (content: string) => void;
     onReply: (commentId: string, userId: string, content: string) => void;
-    onLike: (commentId: string, like: boolean) => void;
-    commentLoading: boolean;
+    onLike?: (commentId: string, like: boolean) => void;
+    commentLoading?: boolean;
     replyLoading?: boolean;
+    disableChildReply?: boolean;
 }
 
 export class CommentList extends React.Component<ICommentListProps> {
@@ -37,11 +40,13 @@ export class CommentList extends React.Component<ICommentListProps> {
     }
 
     renderComments(comments, title) {
-        return comments && comments.length ? <Card title={ title }>
-            { comments.map(comment => <Comment
-                key={ comment.id }
-                actions={ [
-                    <span>
+        if (!comments || comments.length === 0) {
+            return null;
+        }
+        const commentList = comments.map(comment => <Comment
+            key={ comment.id }
+            actions={ [
+                <span>
                         <Tooltip title="赞">
                           <Icon type="like"
                                 onClick={ () => this.props.onLike(comment.id, !comment.isLike) }
@@ -49,7 +54,7 @@ export class CommentList extends React.Component<ICommentListProps> {
                         </Tooltip>
                         <span style={ { paddingLeft: 8, cursor: 'auto' } }>{ comment.like }</span>
                     </span>,
-                    <span>
+                <span>
                         { this.state.reply && this.state.reply.id === comment.id ?
                             <span className={ styles.reply_input }>
                                 <Input.Search enterButton="回复"
@@ -58,37 +63,40 @@ export class CommentList extends React.Component<ICommentListProps> {
                             <span onClick={ () => this.handleReply(comment) }> 回复 </span>
                         }
                     </span>
+            ] }
+            author={ <a>{ comment.user.nickname }</a> }
+            avatar={ <Avatar src={ comment.user.image } alt={ comment.user.nickname }/> }
+            content={ comment.content }>
+            { comment.replies.map(reply => <Comment
+                key={ reply.id }
+                actions={ [
+                    <span>
+                        { this.props.disableChildReply ? '' : this.state.reply && this.state.reply.id === reply.id ?
+                            <span className={ styles.reply_input }>
+                                <Input.Search enterButton="回复"
+                                              onSearch={ content => this.props.onReply(reply.id, reply.user.id, content) }/>
+                            </span> :
+                            <span onClick={ () => this.handleReply(reply) }> 回复 </span>
+                        }
+                    </span>
                 ] }
-                author={ <a>{ comment.user.nickname }</a> }
-                avatar={ <Avatar src={ comment.user.image } alt={ comment.user.nickname }/> }
-                content={ comment.content }>
-                { comment.replies.map(reply => <Comment
-                    key={ reply.id }
-                    actions={ [
-                        <span>
-                            { this.state.reply && this.state.reply.id === reply.id ?
-                                <span className={ styles.reply_input }>
-                                    <Input.Search enterButton="回复"
-                                                  onSearch={ content => this.props.onReply(reply.id, reply.user.id, content) }/>
-                                </span> :
-                                <span onClick={ () => this.handleReply(reply) }> 回复 </span>
-                            }
-                        </span>
-                    ] }
-                    author={ <span>
-                        <a>{ reply.user.nickname }</a> 回复 <a>{ reply.replyUser.nickname }</a>
-                    </span> }
-                    avatar={ <Avatar src={ reply.user.image } alt={ reply.user.nickname }/> }
-                    content={ reply.content }/>) }
-            </Comment>) }
-        </Card> : null;
+                author={ <span>
+                    <a>{ reply.user.nickname }</a> 回复 <a>{ reply.replyUser.nickname }</a>
+                </span> }
+                avatar={ <Avatar src={ reply.user.image } alt={ reply.user.nickname }/> }
+                content={ reply.content }/>) }
+        </Comment>);
+
+        return this.props.wrap ? <Card title={ title }>
+            { commentList }
+        </Card> : commentList;
     }
 
     render() {
         const { comments = [], hots = [] } = this.props;
         const content = this.state.comment;
         return <div>
-            <Card title="评论">
+            <Card title={ this.props.title || '评论' }>
                 <Editor
                     loading={ this.props.commentLoading }
                     onChange={ comment => this.setState({

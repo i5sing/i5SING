@@ -8,6 +8,6 @@ export interface IComment {
     like: number;
     isLike: boolean;
     user: IUser;
-    replies: IComment[];
+    replies?: IComment[];
     replyUser?: IUser;
 }

@@ -111,5 +111,5 @@ export interface IState {
     musician: { [userId: string]: IUser };
     cloud: ICloud;
     search: ISearch;
-    comment: { hots: IComment[], list: IComment[] };
+    comment: { hots: IComment[], list: IComment[], guestBook: IComment[] };
 }

@@ -109,7 +109,9 @@ app.on('activate', async () => {
     if (!MainWindow.isInitialized()) {
         await MainWindow.create();
     } else {
-        MainWindow.getInstance().show();
+        MainWindow.getInstance().once('ready-to-show', () => {
+            MainWindow.getInstance().show()
+        })
     }
 });
 

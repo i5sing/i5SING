@@ -6,6 +6,7 @@ export const initLrcTray = (window: BrowserWindow) => {
     if (platform === 'darwin') {
         const trayObj = new Tray(resolve(__dirname, '../../src/assets/tray/empty.png'));
         trayObj.setTitle('');
+        trayObj.setHighlightMode('never');
         return trayObj;
     }
 

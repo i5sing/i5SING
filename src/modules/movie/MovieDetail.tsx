@@ -165,6 +165,7 @@ export class MovieDetail extends React.Component<IMovieDetailProps, IMovieDetail
                 </ImgCard>
             </Card> : null }
             <CommentList comments={ comments } hots={ hots }
+                         wrap={ true }
                          commentLoading={ get(net[MOVIE_COMMENT], 'loading') }
                          replyLoading={ get(net[MOVIE_REPLY], 'loading') }
                          onLike={ (commentId, like) => this.likeComment(movie.id, commentId, like) }

@@ -1,6 +1,6 @@
 import { Tray, BrowserWindow, Menu } from 'electron';
 import { resolve } from "path";
-import { initMacMenu, initWindowsMenu } from "./menu";
+import { initMacMenu, initWindowsMenu } from "../menu";
 
 export const initTray = (window: BrowserWindow) => {
     const platform = process.platform;

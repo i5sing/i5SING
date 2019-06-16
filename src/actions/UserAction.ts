@@ -1,14 +1,19 @@
 import { Dispatch } from "redux";
 import { get } from 'lodash';
+import * as qs from 'qs';
 import { IState } from "../reducers";
 import { AxiosResponse } from "axios";
 import { I5singResponse } from "../interfaces/i5sing/I5singResponse";
 import { instance } from "../utils/HttpUtil";
 import { I5singUser } from "../interfaces/i5sing/I5singUser";
-import { LOVE, MUSICIAN, NETWORK_STATUS } from "../constants/ActionTypes";
-import { UPDATE_PROPERTY } from "../constants/Actions";
+import { COMMENT, LOVE, MUSICIAN, NETWORK_STATUS } from "../constants/ActionTypes";
+import { SET, UPDATE_PROPERTY } from "../constants/Actions";
 import { IUser } from "../interfaces/IUser";
 import { message } from "antd";
+import { I5singComment } from "../interfaces/i5sing/I5singComment";
+import { IComment } from "../interfaces/IComment";
+import { NetworkAction } from "./NetworkAction";
+import { USER_COMMENT } from "../constants/NetworkStatus";
 
 export class UserAction {
     public static getFollowers(userId: number, page: number = 1, pageSize: number = 20) {
@@ -145,6 +150,82 @@ export class UserAction {
             };
 
             dispatch({ type: MUSICIAN, action: UPDATE_PROPERTY, data: user, path: user.id });
+        }
+    }
+
+    public static getMusicianComments(userId: string, maxId: string, limit: number = 30) {
+        return async (dispatch, state: () => IState) => {
+            dispatch(NetworkAction.fetching(USER_COMMENT));
+            const url = 'http://mobileapi.5sing.kugou.com/comments/list';
+            const query = { rootKind: 'guestBook', rootId: userId, maxId, limit };
+            const response: AxiosResponse<I5singResponse<{ comments: I5singComment[] }[]>> = await instance.get(
+                url,
+                { params: query }
+            );
+            let guestBook: IComment[] = [];
+            dispatch(NetworkAction.success(USER_COMMENT, response.data.data.length === 0));
+            response.data.data.map(item =>
+                item.comments.forEach((comment: I5singComment) => guestBook.push({
+                    id: comment.id,
+                    content: comment.content,
+                    createTime: comment.createTime,
+                    repliesCount: comment.repliesCount,
+                    like: comment.like,
+                    isLike: comment.isLike === 1,
+                    user: {
+                        id: comment.user.ID,
+                        nickname: comment.user.NN,
+                        image: comment.user.I
+                    },
+                    replies: comment.replys.map((reply: I5singComment) => ({
+                        id: reply.id,
+                        content: reply.content,
+                        createTime: reply.createTime,
+                        repliesCount: reply.repliesCount,
+                        like: reply.like,
+                        isLike: reply.isLike === 1,
+                        replyUser: {
+                            id: reply.replyUser.ID,
+                            nickname: reply.replyUser.NN,
+                            image: reply.replyUser.I,
+                        },
+                        user: {
+                            id: reply.user.ID,
+                            nickname: reply.user.NN,
+                            image: reply.user.I
+                        },
+                    }))
+                }))
+            );
+            if (maxId !== '0') {
+                const exists = state().comment.guestBook || [];
+                const comments = [];
+                for (let i = 0; i < exists.length; i++) {
+                    const comment = exists[i];
+                    if (comment.id === maxId) {
+                        break;
+                    }
+                    comments.push(comment);
+                }
+                guestBook = comments.concat(guestBook);
+            }
+            dispatch({ type: COMMENT, action: SET, data: { guestBook } });
+        }
+    }
+
+    public static comment(userId: string, content: string, replyUserId?: string, commentId?: string) {
+        return async dispatch => {
+            const url = 'http://mobileapi.5sing.kugou.com/comments/create';
+            const form = { rootId: userId, content, owner: userId, rootKind: 'guestBoot', replyUserId, commentId };
+            const response: AxiosResponse<I5singResponse<any>> = await instance.post(
+                url,
+                qs.stringify(form)
+            );
+            if (!response.data.success) {
+                return message.error(response.data.message);
+            }
+
+            dispatch(UserAction.getMusicianComments(userId, commentId));
         }
     }
 }

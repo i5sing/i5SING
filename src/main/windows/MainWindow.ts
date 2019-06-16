@@ -1,8 +1,8 @@
 import { BrowserWindow, Tray, TouchBar } from "electron";
 import { initTouchBar } from "../touch-bar";
-import { initTray } from "../tray";
+import { initTray } from "../trays/tray";
 import { initAppMenu } from "../menu";
-import { initLrcTray } from "../lrcTray";
+import { initLrcTray } from "../trays/lrc-tray";
 
 export class MainWindow {
     private static instance: BrowserWindow;
@@ -52,6 +52,8 @@ export class MainWindow {
             maxWidth: 1000,
             center: true,
             titleBarStyle: 'hiddenInset',
+            // transparent: true,
+            // backgroundColor: '#00FFFFFF',
             webPreferences: {
                 webSecurity: false,
                 preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,

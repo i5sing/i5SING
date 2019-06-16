@@ -9,6 +9,7 @@ import { Layout } from "../../components/Layout";
 import { Musician } from "../../components/Musician";
 import { HeadBtn } from "../../components/HeadBtn";
 import { MusicianSongs } from "./MusicianSongs";
+import { MusicianGuestBook } from "./MusicianGuestBook";
 
 export interface IMusicianProps {
     actions?: {
@@ -62,7 +63,7 @@ export class MusicianDetail extends React.Component<IMusicianProps> {
             <HeadBtn to={ `/musicians/${ musicianId }/fc` }>翻唱</HeadBtn>
             <HeadBtn to={ `/musicians/${ musicianId }/bz` }>伴奏</HeadBtn>
             <HeadBtn to={ `/musicians/${ musicianId }/activities` }>动态</HeadBtn>
-            <HeadBtn to={ `/musicians/${ musicianId }/logs` }>留言</HeadBtn>
+            <HeadBtn to={ `/musicians/${ musicianId }/guest-books` }>留言</HeadBtn>
         </span>;
         return <Layout header={ headers } id="main">
             <Musician image={ user.image }
@@ -74,6 +75,7 @@ export class MusicianDetail extends React.Component<IMusicianProps> {
                 { type === 'yc' ? <MusicianSongs type="yc" musicianId={ musicianId }/> : '' }
                 { type === 'fc' ? <MusicianSongs type="fc" musicianId={ musicianId }/> : '' }
                 { type === 'bz' ? <MusicianSongs type="bz" musicianId={ musicianId }/> : '' }
+                { type === 'guest-books' ? <MusicianGuestBook musicianId={ musicianId }/> : '' }
             </Musician>
         </Layout>
     }

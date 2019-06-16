@@ -11,6 +11,7 @@ import {
     I5singSearchSong
 } from "../interfaces/i5sing/I5singSearch";
 import { ISearch } from "../interfaces/ISearch";
+import { message } from "antd";
 
 export class SearchAction {
     public static search(key: string, type: string, page: number, size: number) {
@@ -65,6 +66,10 @@ export class SearchAction {
                 url,
                 { params: query }
             );
+
+            if (!response.data.success) {
+                return message.error(response.data.message);
+            }
 
             let existSearch: ISearch = { songs: [], plays: [], users: [] };
             if (page !== 1) {
