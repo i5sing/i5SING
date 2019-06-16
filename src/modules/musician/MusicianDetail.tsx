@@ -62,7 +62,7 @@ export class MusicianDetail extends React.Component<IMusicianProps> {
             <HeadBtn to={ `/musicians/${ musicianId }/yc` }>原创</HeadBtn>
             <HeadBtn to={ `/musicians/${ musicianId }/fc` }>翻唱</HeadBtn>
             <HeadBtn to={ `/musicians/${ musicianId }/bz` }>伴奏</HeadBtn>
-            <HeadBtn to={ `/musicians/${ musicianId }/activities` }>动态</HeadBtn>
+            {/*<HeadBtn to={ `/musicians/${ musicianId }/activities` }>动态</HeadBtn>*/}
             <HeadBtn to={ `/musicians/${ musicianId }/guest-books` }>留言</HeadBtn>
         </span>;
         return <Layout header={ headers } id="main">

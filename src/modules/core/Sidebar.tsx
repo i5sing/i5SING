@@ -53,9 +53,9 @@ export class Sidebar extends React.Component<ISidebarProps> {
                     <Navigate.Item to="/channels">
                         <Icon className="sidebar-icon" type="play-circle"/>有声专栏
                     </Navigate.Item>
-                    <Navigate.Item to="/friends">
-                        <Icon className="sidebar-icon" type="team"/>朋友
-                    </Navigate.Item>
+                    {/*<Navigate.Item to="/friends">*/}
+                    {/*    <Icon className="sidebar-icon" type="team"/>朋友*/}
+                    {/*</Navigate.Item>*/}
                 </Navigate>
                 <Navigate title="我的音乐">
                     { hasLogin && <Navigate.Item to={ `/musicians/${ system.userId }` }>
