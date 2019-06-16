@@ -53,13 +53,14 @@ export class MusicianGuestBook extends React.Component<IMusicianGuestBookProps> 
 
     render() {
         const network = get(this.props.net, USER_COMMENT, { nodata: false, loading: true });
-        return <div style={ { padding: '0 30px' } }>
-            <EndLoader target="main" onLoad={ () => !network.nodata && this.nextPage() }>
-                <CommentList comments={ this.props.comments } hots={ [] }
-                             title="留言" wrap={ false } disableChildReply={ true }
-                             onReply={ (commentId, userId, content) => this.comment(content, content, commentId) }
-                             onSubmit={ content => this.comment(content) }/>
-                <Loading loading={ network.loading } nodata={ network.nodata }/>
+        return <div style={{ padding: '0 30px' }}>
+            <EndLoader target="main" onLoad={() => !network.nodata && this.nextPage()}>
+                <CommentList comments={this.props.comments} hots={[]}
+                             hideLikeBtn={true}
+                             title="留言" wrap={false} disableChildReply={true}
+                             onReply={(commentId, userId, content) => this.comment(content, commentId, userId)}
+                             onSubmit={content => this.comment(content)}/>
+                <Loading loading={network.loading} nodata={network.nodata}/>
             </EndLoader>
         </div>
     }

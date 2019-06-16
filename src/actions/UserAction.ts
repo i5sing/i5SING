@@ -21,14 +21,14 @@ export class UserAction {
             dispatch({
                 type: NETWORK_STATUS,
                 action: UPDATE_PROPERTY,
-                path: `${ LOVE }_${ UPDATE_PROPERTY }_musicians`,
+                path: `${LOVE}_${UPDATE_PROPERTY}_musicians`,
                 data: { loading: true, nodata: false }
             });
 
             dispatch({
                 type: NETWORK_STATUS,
                 action: UPDATE_PROPERTY,
-                path: `${ MUSICIAN }_${ UPDATE_PROPERTY }_followers`,
+                path: `${MUSICIAN}_${UPDATE_PROPERTY}_followers`,
                 data: { loading: true, nodata: false }
             });
 
@@ -52,23 +52,23 @@ export class UserAction {
             })) as IUser[];
 
             if (page !== 1) {
-                const existUsers = get(state(), `musician[${ userId }].followers`, []);
+                const existUsers = get(state(), `musician[${userId}].followers`, []);
                 users = existUsers.concat(users);
             }
 
-            dispatch({ type: MUSICIAN, action: UPDATE_PROPERTY, path: `${ userId }.followers`, data: users });
+            dispatch({ type: MUSICIAN, action: UPDATE_PROPERTY, path: `${userId}.followers`, data: users });
             dispatch({ type: LOVE, action: UPDATE_PROPERTY, path: 'musicians', data: users });
 
             dispatch({
                 type: NETWORK_STATUS,
                 action: UPDATE_PROPERTY,
-                path: `${ LOVE }_${ UPDATE_PROPERTY }_musicians`,
+                path: `${LOVE}_${UPDATE_PROPERTY}_musicians`,
                 data: { loading: false, nodata: response.data.data.length === 0 }
             });
             dispatch({
                 type: NETWORK_STATUS,
                 action: UPDATE_PROPERTY,
-                path: `${ MUSICIAN }_${ UPDATE_PROPERTY }_followers`,
+                path: `${MUSICIAN}_${UPDATE_PROPERTY}_followers`,
                 data: { loading: false, nodata: response.data.data.length === 0 }
             });
         }
@@ -97,7 +97,7 @@ export class UserAction {
                 return message.error(response.data.message)
             }
 
-            dispatch({ type: MUSICIAN, action: UPDATE_PROPERTY, path: `['${ userId }'].isFollow`, data: true });
+            dispatch({ type: MUSICIAN, action: UPDATE_PROPERTY, path: `['${userId}'].isFollow`, data: true });
         }
     }
 
@@ -113,7 +113,7 @@ export class UserAction {
                 return message.error(response.data.message)
             }
 
-            dispatch({ type: MUSICIAN, action: UPDATE_PROPERTY, path: `['${ userId }'].isFollow`, data: false });
+            dispatch({ type: MUSICIAN, action: UPDATE_PROPERTY, path: `['${userId}'].isFollow`, data: false });
         }
     }
 
@@ -216,7 +216,7 @@ export class UserAction {
     public static comment(userId: string, content: string, replyUserId?: string, commentId?: string) {
         return async dispatch => {
             const url = 'http://mobileapi.5sing.kugou.com/comments/create';
-            const form = { rootId: userId, content, owner: userId, rootKind: 'guestBoot', replyUserId, commentId };
+            const form = { rootId: userId, content, owner: userId, rootKind: 'guestBook', replyUserId, commentId };
             const response: AxiosResponse<I5singResponse<any>> = await instance.post(
                 url,
                 qs.stringify(form)
