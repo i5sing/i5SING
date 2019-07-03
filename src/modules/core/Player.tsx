@@ -17,7 +17,7 @@ import { ISong } from "../../interfaces/ISong";
 import { Link } from "react-router-dom";
 import { toMap } from "../../utils/DataUtil";
 import { PlaySongs } from "./PlaySongs";
-import { SYNC_LRC_EVENT } from "../../constants/Events";
+import { SONG_CHANGE_EVENT, SYNC_LRC_EVENT } from "../../constants/Events";
 
 export interface IPlayerProps {
     current?: number;
@@ -65,7 +65,26 @@ class Player extends React.Component<IPlayerProps, IPlayerState> {
             } else {
                 ipcRenderer.send(SYNC_LRC_EVENT, { text: this.props.currentTime < 3 ? '暂无歌词' : '' });
             }
-        })
+        });
+        ipcRenderer.on(SONG_CHANGE_EVENT, (evt, type) => {
+            switch (type) {
+                case 'pre':
+                    this.previous();
+                    break;
+                case 'next':
+                    this.next();
+                    break;
+                default:
+                    if (this.props.soundCloudAudio.playing) {
+                        this.previous()
+                    } else {
+                        const song = this.props.songList[this.props.current];
+                        if (song) {
+                            this.play(song);
+                        }
+                    }
+            }
+        });
     }
 
     next(index?: number) {
@@ -103,7 +122,7 @@ class Player extends React.Component<IPlayerProps, IPlayerState> {
         const currentTime = this.props.currentTime;
         const url = song.local || song.hqurl || song.squrl || song.lqurl;
         this.props.soundCloudAudio.play({
-            streamUrl: song.local ? url : `http://127.0.0.1:56562/play-music?url=${ encodeURIComponent(url) }`
+            streamUrl: song.local ? url : `http://127.0.0.1:56562/play-music?url=${encodeURIComponent(url)}`
         });
 
         this.props.soundCloudAudio.setTime(currentTime);
@@ -162,41 +181,41 @@ class Player extends React.Component<IPlayerProps, IPlayerState> {
     render() {
         const { current, soundCloudAudio, songList, loveSongs, seq } = this.props;
         const song: ISong = songList[current] || { songName: '', name: '' };
-        const loves = toMap<ISong>(loveSongs, i => `${ i.kind }-${ i.id }`);
+        const loves = toMap<ISong>(loveSongs, i => `${i.kind}-${i.id}`);
         const user = get(song, 'user', { image: defaultUserImage, nickname: '', id: '' });
-        const key = `${ song.kind }-${ song.id }`;
+        const key = `${song.kind}-${song.id}`;
         const hasLoved = !!loves[key];
-        return <div className={ styles.player }>
-            <img className={ styles.user_image } src={ user.image || defaultUserImage } alt={ user.nickname }/>
-            <div className={ styles.info }>
-                <h3 className="balabala">{ song.name }</h3>
+        return <div className={styles.player}>
+            <img className={styles.user_image} src={user.image || defaultUserImage} alt={user.nickname}/>
+            <div className={styles.info}>
+                <h3 className="balabala">{song.name}</h3>
                 <h3 className="balabala">
-                    <Link to={ user.id === -1 ? `/clouds` : `/musicians/${ user.id }` }>{ user.nickname }</Link>
+                    <Link to={user.id === -1 ? `/clouds` : `/musicians/${user.id}`}>{user.nickname}</Link>
                 </h3>
             </div>
-            <div className={ styles.play_btn_group }>
+            <div className={styles.play_btn_group}>
                 <Icon type="heart" theme="filled"
-                      onClick={ () => this.love(hasLoved, song) }
-                      className={ `${ styles.like_btn } ${ hasLoved ? styles.highlight : '' }` }/>
-                <Timer className={ styles.time } { ...this.props } />
-                <Icon className={ styles.prev_btn } type="vertical-right" onClick={ () => this.previous() }/>
-                { !soundCloudAudio.playing ?
-                    <Icon className={ styles.play_btn } type="play-circle" onClick={ () => this.play(song) }/> :
-                    <Icon className={ styles.pause_btn } type="pause-circle" onClick={ () => this.pause() }/>
+                      onClick={() => this.love(hasLoved, song)}
+                      className={`${styles.like_btn} ${hasLoved ? styles.highlight : ''}`}/>
+                <Timer className={styles.time} {...this.props} />
+                <Icon className={styles.prev_btn} type="vertical-right" onClick={() => this.previous()}/>
+                {!soundCloudAudio.playing ?
+                    <Icon className={styles.play_btn} type="play-circle" onClick={() => this.play(song)}/> :
+                    <Icon className={styles.pause_btn} type="pause-circle" onClick={() => this.pause()}/>
                 }
-                <Icon className={ styles.next_btn } type="vertical-left" onClick={ () => this.next() }/>
-                <span className={ styles.sequence } onClick={ () => this.nextSeq() }>
-                    <Tag>{ this.prettySeq(seq) }</Tag>
+                <Icon className={styles.next_btn} type="vertical-left" onClick={() => this.next()}/>
+                <span className={styles.sequence} onClick={() => this.nextSeq()}>
+                    <Tag>{this.prettySeq(seq)}</Tag>
                 </span>
-                <Icon className={ styles.share_btn } type="export"/>
+                {/*<Icon className={ styles.share_btn } type="export"/>*/}
             </div>
 
-            <Icon className={ styles.list_btn } type="menu-unfold" onClick={ () => this.togglePlayList() }/>
-            <Slider className={ styles.voice_slider } defaultValue={ 100 } max={ 100 } min={ 0 }
-                    onChange={ (value: number) => soundCloudAudio.setVolume(value / 100) }/>
-            <Icon className={ styles.voice_btn } type="sound"/>
-            <Progress className={ styles.progress } { ...this.props }/>
-            { this.state.visible ? <PlaySongs/> : null }
+            <Icon className={styles.list_btn} type="menu-unfold" onClick={() => this.togglePlayList()}/>
+            <Slider className={styles.voice_slider} defaultValue={100} max={100} min={0}
+                    onChange={(value: number) => soundCloudAudio.setVolume(value / 100)}/>
+            <Icon className={styles.voice_btn} type="sound"/>
+            <Progress className={styles.progress} {...this.props}/>
+            {this.state.visible ? <PlaySongs/> : null}
         </div>
     }
 }

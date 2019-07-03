@@ -18,7 +18,7 @@ export class Event extends React.Component<any> {
             this.props.dispatch({
                 type: DOWNLOAD,
                 action: UPDATE_PROPERTY,
-                path: `${ item.songKind }-${ item.songId }`,
+                path: `${item.songKind}-${item.songId}`,
                 data: item
             });
             this.props.dispatch({ type: DOWNLOAD, action: SET, data: this.props.downloads });
@@ -26,7 +26,7 @@ export class Event extends React.Component<any> {
         ipcRenderer.on(LOGIN_SUCCESS_EVENT, (evt, system) => {
             console.log(system);
             this.props.dispatch({ type: SYSTEM, action: SET, data: system });
-        })
+        });
     }
 
     render() {

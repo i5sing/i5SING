@@ -33,47 +33,47 @@ export class Play extends React.Component<IPlayProps, IPlayState> {
         const spread = this.state.spread;
         return [
             <p>
-                <span>歌曲数：{ songCount }</span>
-                <span>最近更新：{ updatedAt }</span>
+                <span>歌曲数：{songCount}</span>
+                <span>最近更新：{updatedAt}</span>
             </p>,
-            <p className={ !spread ? 'balabala' : '' } style={ { paddingRight: 14 } }>
-                描<i style={ { visibility: 'hidden' } }>描</i>述：{ description }
-                <Icon className={ styles.spread_btn }
-                      type={ spread ? 'caret-up' : 'caret-down' }
-                      onClick={ () => this.setState({ spread: !this.state.spread }) }/>
+            <p className={!spread ? 'balabala' : ''} style={{ paddingRight: 14 }}>
+                描<i style={{ visibility: 'hidden' }}>描</i>述：{description}
+                <Icon className={styles.spread_btn}
+                      type={spread ? 'caret-up' : 'caret-down'}
+                      onClick={() => this.setState({ spread: !this.state.spread })}/>
             </p>
         ]
     }
 
     renderTools() {
-        const { collects, shares, isLike, onLike, onPlayAll } = this.props;
-        return <div className={ styles.tools }>
-            <Button type="primary" onClick={ onPlayAll }><Icon type="play-circle"/>播放全部</Button>
-            <Button onClick={ this.props.onDownloadAll }><Icon type="download"/>下载全部</Button>
-            { !isUndefined(collects) && <Button onClick={ onLike }>
-                <Icon type="select"/>{ isLike ? '已' : '' }收藏({ collects })
-            </Button> }
-            { !isUndefined(shares) && <Button onClick={ this.props.onDownloadAll }>
-                <Icon type="share-alt"/>分享({ shares })
-            </Button> }
+        const { collects, isLike, onLike, onPlayAll } = this.props;
+        return <div className={styles.tools}>
+            <Button type="primary" onClick={onPlayAll}><Icon type="play-circle"/>播放全部</Button>
+            <Button onClick={this.props.onDownloadAll}><Icon type="download"/>下载全部</Button>
+            {!isUndefined(collects) && <Button onClick={onLike}>
+                <Icon type="select"/>{isLike ? '已' : ''}收藏({collects})
+            </Button>}
+            {/*{ !isUndefined(shares) && <Button onClick={ this.props.onDownloadAll }>*/}
+            {/*    <Icon type="share-alt"/>分享({ shares })*/}
+            {/*</Button> }*/}
         </div>
     }
 
     render() {
         const { image, title, type = 'play' } = this.props;
-        return <div className={ styles.play }>
-            <div className={ styles.play_top }>
-                <img src={ image } alt={ title }/>
-                <div className={ styles.play_info }>
-                    <h1><span>歌单</span>{ title }</h1>
-                    { type === 'play' ?
+        return <div className={styles.play}>
+            <div className={styles.play_top}>
+                <img src={image} alt={title}/>
+                <div className={styles.play_info}>
+                    <h1><span>歌单</span>{title}</h1>
+                    {type === 'play' ?
                         [this.renderTools(), this.renderInfo()] :
                         [this.renderInfo(), this.renderTools()]
                     }
                 </div>
             </div>
-            <div className={ styles.play_content }>
-                { this.props.children }
+            <div className={styles.play_content}>
+                {this.props.children}
             </div>
         </div>
     }

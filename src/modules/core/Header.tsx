@@ -9,6 +9,8 @@ import { bindActionCreators, Dispatch } from "redux";
 import { actions } from "../../utils/ActionUtil";
 import { SystemAction } from "../../actions/SystemAction";
 import { HistoryAction } from "../../actions/HistoryAction";
+import { ipcRenderer } from "electron";
+import { SEARCH_EVENT } from "../../constants/Events";
 
 export interface IHeaderProps {
     system?: ISystem;
@@ -30,6 +32,16 @@ export interface IHeaderProps {
     })
 )
 export class Header extends React.Component<IHeaderProps> {
+    private el = null;
+
+    componentDidMount(): void {
+        ipcRenderer.on(SEARCH_EVENT, evt => {
+            if (this.el) {
+                this.el.input.focus();
+            }
+        });
+    }
+
     go() {
         this.props.actions.history.go();
         this.props.actions.system.refreshSystem();
@@ -50,18 +62,19 @@ export class Header extends React.Component<IHeaderProps> {
         }
         return <div className="header">
             <div className="histories-btn-group">
-                <Icon className={ `histories-btn ${ canGoBack ? '' : 'disabled' }` }
+                <Icon className={`histories-btn ${canGoBack ? '' : 'disabled'}`}
                       type="left"
-                      onClick={ () => this.back() }/>
-                <Icon className={ `histories-btn ${ canGoForward ? '' : 'disabled' }` }
+                      onClick={() => this.back()}/>
+                <Icon className={`histories-btn ${canGoForward ? '' : 'disabled'}`}
                       type="right"
-                      onClick={ () => this.go() }/>
+                      onClick={() => this.go()}/>
             </div>
             <Input.Search
+                ref={el => this.el = el}
                 className="search-input"
                 size="small"
-                defaultValue={ decodeURIComponent(searchValue) }
-                onSearch={ value => {
+                defaultValue={decodeURIComponent(searchValue)}
+                onSearch={value => {
                     const current = location.hash;
                     if (current.includes('#/search')) {
                         const chunks = current.split('/');
@@ -74,11 +87,11 @@ export class Header extends React.Component<IHeaderProps> {
                         }
                         location.hash = hash + '/' + encodeURIComponent(value);
                     } else {
-                        location.hash = `search/song/${ encodeURIComponent(value) }`;
+                        location.hash = `search/song/${encodeURIComponent(value)}`;
                     }
-                } }
+                }}
             />
-            <a onClick={ () => location.hash = '#/settings' } className="settings-btn">
+            <a onClick={() => location.hash = '#/settings'} className="settings-btn">
                 <Icon type="bars" className="settings-btn-icon"/>
             </a>
         </div>

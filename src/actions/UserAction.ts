@@ -214,7 +214,7 @@ export class UserAction {
     }
 
     public static comment(userId: string, content: string, replyUserId?: string, commentId?: string) {
-        return async dispatch => {
+        return async (dispatch, state: () => IState) => {
             const url = 'http://mobileapi.5sing.kugou.com/comments/create';
             const form = { rootId: userId, content, owner: userId, rootKind: 'guestBook', replyUserId, commentId };
             const response: AxiosResponse<I5singResponse<any>> = await instance.post(
@@ -225,7 +225,34 @@ export class UserAction {
                 return message.error(response.data.message);
             }
 
-            dispatch(UserAction.getMusicianComments(userId, commentId));
+            if (replyUserId) {
+                const exists = state().comment.guestBook || [];
+                const target = exists.filter(exist => exist.id === commentId)[0];
+                if (target) {
+                    target.replies.unshift({
+                        id: '',
+                        content,
+                        createTime: new Date().toString(),
+                        repliesCount: 0,
+                        like: 0,
+                        isLike: false,
+                        replyUser: {
+                            id: Number(replyUserId),
+                            nickname: replyUserId,
+                            image: '',
+                        },
+                        user: {
+                            id: 0,
+                            nickname: '',
+                            image: ''
+                        },
+                    });
+                    dispatch({ type: COMMENT, action: SET, data: { guestBook: exists } });
+                }
+            } else {
+                dispatch(UserAction.getMusicianComments(userId, commentId));
+            }
+
         }
     }
 }
