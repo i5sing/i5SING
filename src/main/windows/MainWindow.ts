@@ -3,6 +3,7 @@ import { initTouchBar } from "../touch-bar";
 import { initTray } from "../trays/tray";
 import { initAppMenu } from "../menu";
 import { initLrcTray } from "../trays/lrc-tray";
+import { registerShortcut } from "../global-shortcut";
 
 export class MainWindow {
     private static instance: BrowserWindow;
@@ -89,6 +90,7 @@ export class MainWindow {
         this.touchBar = initTouchBar(mainWindow);
         this.tray = initTray(mainWindow);
         this.lrcTray = initLrcTray(mainWindow);
+        registerShortcut(mainWindow);
         initAppMenu(mainWindow);
 
         return mainWindow;

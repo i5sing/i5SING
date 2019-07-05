@@ -10,16 +10,13 @@ import { IState } from "../reducers";
 import { I5singPlayDetail } from "../interfaces/i5sing/I5singPlayDetail";
 import { I5singSong } from "../interfaces/i5sing/I5singSong";
 import { IPlay } from "../interfaces/IPlay";
+import { NetworkAction } from "./NetworkAction";
+import { PLAY_LIST } from "../constants/NetworkStatus";
 
 export class PlayAction {
     public static getRecommendPlayLists(index: number = 1) {
-        return async (dispatch: Dispatch, state: () => IState) => {
-            dispatch({
-                type: NETWORK_STATUS,
-                action: UPDATE_PROPERTY,
-                path: `${ PLAYS }_${ SET }`,
-                data: { loading: true, nodata: false }
-            });
+        return async (dispatch, state: () => IState) => {
+            dispatch(NetworkAction.fetching(PLAY_LIST));
 
             const url = 'http://mobileapi.5sing.kugou.com/go/GetSongListSquareRecommended';
             const query = { index };
@@ -38,12 +35,7 @@ export class PlayAction {
                     image: item.user.I,
                 }
             }));
-            dispatch({
-                type: NETWORK_STATUS,
-                action: UPDATE_PROPERTY,
-                path: `${ PLAYS }_${ SET }`,
-                data: { loading: false, nodata: response.data.data.length === 0 }
-            });
+            dispatch(NetworkAction.success(PLAY_LIST, response.data.data.length === 0));
             if (index === 1) {
                 dispatch({ type: DISCOVERY_PLAYLIST, action: SET, data: playlist.slice(0, 10) });
             }
@@ -145,7 +137,7 @@ export class PlayAction {
             dispatch({
                 type: NETWORK_STATUS,
                 action: UPDATE_PROPERTY,
-                path: `${ PLAYS }_${ SET }`,
+                path: `${PLAYS}_${SET}`,
                 data: { loading: true, nodata: false }
             });
 
@@ -169,7 +161,7 @@ export class PlayAction {
             dispatch({
                 type: NETWORK_STATUS,
                 action: UPDATE_PROPERTY,
-                path: `${ PLAYS }_${ SET }`,
+                path: `${PLAYS}_${SET}`,
                 data: { loading: false, nodata: response.data.data.songMenu.length === 0 }
             });
 
@@ -211,7 +203,7 @@ export class PlayAction {
             dispatch({
                 type: NETWORK_STATUS,
                 action: UPDATE_PROPERTY,
-                path: `${ LOVE }_${ UPDATE_PROPERTY }_plays`,
+                path: `${LOVE}_${UPDATE_PROPERTY}_plays`,
                 data: { loading: true, nodata: false }
             });
 
@@ -245,7 +237,7 @@ export class PlayAction {
             dispatch({
                 type: NETWORK_STATUS,
                 action: UPDATE_PROPERTY,
-                path: `${ LOVE }_${ UPDATE_PROPERTY }_plays`,
+                path: `${LOVE}_${UPDATE_PROPERTY}_plays`,
                 data: { loading: false, nodata: response.data.data.length === 0 }
             });
         }

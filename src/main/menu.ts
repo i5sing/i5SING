@@ -12,21 +12,18 @@ export const initWindowsMenu = (window: BrowserWindow): MenuItemConstructorOptio
     return [
         {
             label: '播放/暂停',
-            accelerator: 'MediaPlayPause',
             click: () => {
                 window.webContents.send(SONG_CHANGE_EVENT, 'play_pause');
             }
         },
         {
             label: '上一曲',
-            accelerator: 'MediaPreviousTrack',
             click: () => {
                 window.webContents.send(SONG_CHANGE_EVENT, 'pre');
             }
         },
         {
             label: '下一曲',
-            accelerator: 'MediaNextTrack',
             click: function () {
                 window.webContents.send(SONG_CHANGE_EVENT, 'next');
             }
@@ -163,21 +160,18 @@ export const initMacMenu = (window: BrowserWindow): MenuItemConstructorOptions[]
             submenu: [
                 {
                     label: '播放/暂停',
-                    accelerator: 'MediaPlayPause',
                     click: () => {
                         window.webContents.send(SONG_CHANGE_EVENT, 'play_pause');
                     }
                 },
                 {
                     label: '上一曲',
-                    accelerator: 'MediaPreviousTrack',
                     click: () => {
                         window.webContents.send(SONG_CHANGE_EVENT, 'pre');
                     }
                 },
                 {
                     label: '下一曲',
-                    accelerator: 'MediaNextTrack',
                     click: function () {
                         window.webContents.send(SONG_CHANGE_EVENT, 'next');
                     }
