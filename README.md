@@ -6,6 +6,7 @@
 
 * mac os
 * windows
+* Linux
 
 ![i5sing首页](http://static.i5sing.com/i5sing-v0.2-welcome.jpg)
 
@@ -18,9 +19,13 @@
 
 ## Download
 
-[http://i5sing.com](http://i5sing.com)
+[windows](https://static.i5sing.com/app/i5SING_0.2.0.exe)
 
-[Beta Download](https://github.com/i5sing/i5SING/releases)
+[MacOS](https://static.i5sing.com/app/i5SING_0.2.0.dmg)
+
+[CentOS](https://static.i5sing.com/app/i5SING_0.2.0.rpm)
+
+[Ubuntu](https://static.i5sing.com/app/i5SING_0.2.0.deb)
 
 
 ## Development
