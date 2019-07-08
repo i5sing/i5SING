@@ -4,8 +4,8 @@
 
 ## Support Platform
 
-* mac os
-* windows
+* MacOS
+* Windows
 * Linux
 
 ![i5sing首页](http://static.i5sing.com/i5sing-v0.2-welcome.jpg)
@@ -19,14 +19,10 @@
 
 ## Download
 
-[Windows](https://i5sing.com/download/win32_x64)
-
-[MacOS](https://i5sing.com/download/darwin_x64)
-
-[CentOS](https://static.i5sing.com/app/i5SING_0.2.0.rpm)
-
-[Ubuntu](https://i5sing.com/download/linux_x64)
-
+  [Windows](https://i5sing.com/download/win32_x64)
+  [MacOS](https://i5sing.com/download/darwin_x64)
+  [CentOS](https://static.i5sing.com/app/i5SING_0.2.0.rpm)
+  [Ubuntu](https://i5sing.com/download/linux_x64)
 
 ## Development
 
