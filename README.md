@@ -19,13 +19,13 @@
 
 ## Download
 
-[windows](https://static.i5sing.com/app/i5SING_0.2.0.exe)
+[Windows](https://i5sing.com/download/win32_x64)
 
-[MacOS](https://static.i5sing.com/app/i5SING_0.2.0.dmg)
+[MacOS](https://i5sing.com/download/darwin_x64)
 
 [CentOS](https://static.i5sing.com/app/i5SING_0.2.0.rpm)
 
-[Ubuntu](https://static.i5sing.com/app/i5SING_0.2.0.deb)
+[Ubuntu](https://i5sing.com/download/linux_x64)
 
 
 ## Development
