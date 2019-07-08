@@ -50,12 +50,22 @@ module.exports = {
             }
         },
         {
-            "name": "@electron-forge/maker-deb",
-            "config": {}
+            name: '@electron-forge/maker-deb',
+            config: {
+                options: {
+                    maintainer: 'Miaowing',
+                    homepage: 'https://i5sing.com'
+                }
+            }
         },
         {
-            "name": "@electron-forge/maker-rpm",
-            "config": {}
+            name: '@electron-forge/maker-rpm',
+            config: {
+                options: {
+                    maintainer: 'Miaowing',
+                    homepage: 'https://i5sing.com'
+                }
+            }
         }
     ],
     plugins: [
