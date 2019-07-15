@@ -4,6 +4,7 @@ node_js:
 os:
   - osx
   - linux
+dist: trusty
 cache:
   directories:
     - "node_modules"
