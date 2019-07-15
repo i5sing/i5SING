@@ -1,0 +1,17 @@
+language: node_js
+node_js:
+  - "10"
+os:
+  - osx
+  - linux
+cache:
+  directories:
+    - "node_modules"
+    - $HOME/.cache/electron
+
+before_install:
+  - npm i -g yarn
+install:
+  - yarn
+script:
+  - npm run make
