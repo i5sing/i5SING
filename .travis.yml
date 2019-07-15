@@ -9,8 +9,14 @@ cache:
     - "node_modules"
     - $HOME/.cache/electron
 
+branches:
+  only:
+    - master
+    - /^v\d+\.\d+\.\d+/
+
 before_install:
   - npm i -g yarn
+  - if linux -eq "$TRAVIS_OS_NAME"; then apt-get install fakeroot; fi
 install:
   - yarn
 script:
