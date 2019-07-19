@@ -54,7 +54,9 @@ module.exports = {
             config: {
                 options: {
                     maintainer: 'Miaowing',
-                    homepage: 'https://i5sing.com'
+                    homepage: 'https://i5sing.com',
+                    categories: ['AudioVideo', 'Audio', 'Video'],
+                    description: '中国原创音乐基地 5sing 桌面版'
                 }
             }
         },
@@ -63,7 +65,9 @@ module.exports = {
             config: {
                 options: {
                     maintainer: 'Miaowing',
-                    homepage: 'https://i5sing.com'
+                    homepage: 'https://i5sing.com',
+                    categories: ['AudioVideo', 'Audio', 'Video'],
+                    description: '中国原创音乐基地 5sing 桌面版'
                 }
             }
         }
