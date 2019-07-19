@@ -15,7 +15,8 @@ export interface IPlaySongsProps {
     current?: number;
     actions?: {
         current: typeof CurrentAction;
-    }
+    };
+    onHide?: () => void;
 }
 
 @connect(
@@ -47,31 +48,34 @@ export class PlaySongs extends React.Component<IPlaySongsProps> {
     }
 
     render() {
-        const { songList, current } = this.props;
-        return <div className={ styles.play_songs }>
-            <div className={ styles.tool }>
-                <span className={ styles.count }>共 { songList.length } 首</span>
-                <a className={ styles.clear_btn } onClick={ () => this.clear() }><Icon type="delete"/> 清空</a>
-            </div>
-            <div className={ styles.play_songs_content }>
-                <Table>
-                    { songList.map((song: ISong, index: number) => {
-                            const key = `${ song.kind }-${ song.id }`;
-                            return <Table.Row id={ `${ key }--current.list` }
-                                              onDoubleClick={ () => this.play(song) }
-                                              className={
-                                                  `${ this.state.selected === index ? 'selected' : '' } ${ current === index ? styles.active : '' }`
-                                              }
-                                              key={ key }
-                                              onClick={ () => this.selected(index) }>
-                                <Table.Col style={ { paddingLeft: 10 } } width={ 280 }>{ song.name }</Table.Col>
-                                <Table.Col width={ 120 }>
-                                    <Link to={ `/musicians/${ song.user.id }` }>{ song.user.nickname }</Link>
-                                </Table.Col>
-                            </Table.Row>
-                        }
-                    ) }
-                </Table>
+        const { songList, current, onHide } = this.props;
+        return <div className={styles.play_songs}>
+            <div className={styles.layers} onClick={() => typeof onHide === 'function' ? onHide() : void 0}/>
+            <div className={styles.content}>
+                <div className={styles.tool}>
+                    <span className={styles.count}>共 {songList.length} 首</span>
+                    <a className={styles.clear_btn} onClick={() => this.clear()}><Icon type="delete"/> 清空</a>
+                </div>
+                <div className={styles.play_songs_content}>
+                    <Table>
+                        {songList.map((song: ISong, index: number) => {
+                                const key = `${song.kind}-${song.id}`;
+                                return <Table.Row id={`${key}--current.list`}
+                                                  onDoubleClick={() => this.play(song)}
+                                                  className={
+                                                      `${this.state.selected === index ? 'selected' : ''} ${current === index ? styles.active : ''}`
+                                                  }
+                                                  key={key}
+                                                  onClick={() => this.selected(index)}>
+                                    <Table.Col style={{ paddingLeft: 10 }} width={280}>{song.name}</Table.Col>
+                                    <Table.Col width={120}>
+                                        <Link to={`/musicians/${song.user.id}`}>{song.user.nickname}</Link>
+                                    </Table.Col>
+                                </Table.Row>
+                            }
+                        )}
+                    </Table>
+                </div>
             </div>
         </div>
     }
