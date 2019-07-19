@@ -4,12 +4,9 @@
   position: fixed;
   right: 0;
   height: 524px;
-  width: 420px;
+  width: 100%;
   top: 80px;
   bottom: 70px;
-  background: white;
-  border-left: 1px solid #e0dfdf;
-  border-top: 1px solid #e0dfdf;
 
   .tool {
     padding: 10px 20px;
@@ -26,9 +23,6 @@
   }
 
   .play_songs_content {
-    overflow-y: auto;
-    height: 485px;
-
     .active {
       color: @active_color;
 
@@ -36,5 +30,25 @@
         color: @active_color;
       }
     }
+  }
+
+  .content {
+    overflow-y: auto;
+    height: 524px;
+    width: 420px;
+    right: 0;
+    position: absolute;
+    z-index: 10;
+    background: white;
+    border-left: 1px solid #e0dfdf;
+    border-top: 1px solid #e0dfdf;
+  }
+
+  .layers {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
   }
 }

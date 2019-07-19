@@ -215,7 +215,7 @@ class Player extends React.Component<IPlayerProps, IPlayerState> {
                     onChange={(value: number) => soundCloudAudio.setVolume(value / 100)}/>
             <Icon className={styles.voice_btn} type="sound"/>
             <Progress className={styles.progress} {...this.props}/>
-            {this.state.visible ? <PlaySongs/> : null}
+            {this.state.visible ? <PlaySongs onHide={() => this.setState({ visible: false })}/> : null}
         </div>
     }
 }
