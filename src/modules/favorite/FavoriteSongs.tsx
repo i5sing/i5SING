@@ -27,6 +27,8 @@ export interface IDownloadManageProps {
     image?: string;
     cloudSongs?: ICloudSong[];
     loadings?: { [key: string]: boolean };
+    current?: number;
+    playlist?: ISong[];
 }
 
 @connect(
@@ -37,6 +39,8 @@ export interface IDownloadManageProps {
         downloads: state.downloads,
         cloudSongs: state.cloud.songs,
         loadings: state.cloud.loadings,
+        current: state.current.current,
+        playlist: state.current.list,
     }),
     (dispatch: Dispatch) => ({
         actions: {
@@ -86,52 +90,58 @@ export class FavoriteSongs extends React.Component<IDownloadManageProps> {
     }
 
     render() {
-        const { songs, lastModified, downloads, image, cloudSongs, loadings = {} } = this.props;
+        const { songs, lastModified, downloads, image, cloudSongs, loadings = {}, playlist, current } = this.props;
         const clouds = toMap<ICloudSong>(cloudSongs, i => i.key);
+        const currentSong = playlist[current];
 
-        return <Layout background={ image }>
-            <Play image={ image }
+        console.log(currentSong);
+
+        return <Layout background={image}>
+            <Play image={image}
                   title="我喜欢的音乐"
-                  songCount={ songs.length }
-                  onDownloadAll={ () => this.downloads(songs) }
-                  onPlayAll={ () => this.playAll(songs) }
-                  updatedAt={ moment(lastModified * 1000).format('YYYY-MM-DD HH:mm') }>
-                <Table header={ <Table.Row>
-                    <Table.Col type="header" width={ 30 }>&nbsp;</Table.Col>
-                    <Table.Col type="header" width={ 140 }>&nbsp;</Table.Col>
-                    <Table.Col type="header" width={ 400 }>歌曲标题</Table.Col>
-                    <Table.Col type="header" width={ 180 }>歌手</Table.Col>
-                    <Table.Col type="header" width={ 30 }>&nbsp;</Table.Col>
-                </Table.Row> }>
-                    { songs.map((song: ISong, index: number) => {
-                            const key = `${ song.kind }-${ song.id }`;
-                            const filename = `${ song.name } - ${ song.user.nickname } - ${ song.kind } - ${ song.id } - ${ song.user.id }.mp3`;
+                  songCount={songs.length}
+                  onDownloadAll={() => this.downloads(songs)}
+                  onPlayAll={() => this.playAll(songs)}
+                  updatedAt={moment(lastModified * 1000).format('YYYY-MM-DD HH:mm')}>
+                <Table header={<Table.Row>
+                    <Table.Col type="header" width={30}>&nbsp;</Table.Col>
+                    <Table.Col type="header" width={140}>&nbsp;</Table.Col>
+                    <Table.Col type="header" width={400}>歌曲标题</Table.Col>
+                    <Table.Col type="header" width={180}>歌手</Table.Col>
+                    <Table.Col type="header" width={30}>&nbsp;</Table.Col>
+                </Table.Row>}>
+                    {songs.map((song: ISong, index: number) => {
+                            const key = `${song.kind}-${song.id}`;
+                            const filename = `${song.name} - ${song.user.nickname} - ${song.kind} - ${song.id} - ${song.user.id}.mp3`;
                             const download = downloads[key];
                             const hasTransformed = !!clouds[filename];
                             const transforming = loadings[key];
-                            return <Table.Row id={ `${ key }--love.songs` }
-                                              onDoubleClick={ () => this.play(song) }
-                                              className={ this.state.selected === index ? 'selected' : '' }
-                                              key={ key }
-                                              onClick={ () => this.selected(index) }>
-                                <Table.Col width={ 30 }>&nbsp;</Table.Col>
-                                <Table.Col width={ 140 }>
-                                    <span>{ (index + 1) < 10 ? '0' + (index + 1) : index + 1 }</span>
+                            return <Table.Row id={`${key}--love.songs`}
+                                              onDoubleClick={() => this.play(song)}
+                                              className={`
+                                                  ${this.state.selected === index ? 'selected' : ''}
+                                                  ${currentSong && currentSong.id === song.id ? 'playing' : ''}
+                                              `}
+                                              key={key}
+                                              onClick={() => this.selected(index)}>
+                                <Table.Col width={30}>&nbsp;</Table.Col>
+                                <Table.Col width={140}>
+                                    <span>{(index + 1) < 10 ? '0' + (index + 1) : index + 1}</span>
                                     <span>
                                         <Icon
                                             theme="filled"
                                             type="heart"
                                             className="song-icon highlight"
-                                            onClick={ () => this.disLove(song) }/>
+                                            onClick={() => this.disLove(song)}/>
                                     </span>
                                     <span>
-                                        { transforming ?
+                                        {transforming ?
                                             <Icon className="song-icon active" type="loading"/> :
                                             hasTransformed ?
                                                 <Icon className="song-icon active" type="check-circle"/> :
                                                 <Icon className="song-icon"
                                                       type="cloud-download"
-                                                      onClick={ () => this.transform(song.id, song.kind) }/>
+                                                      onClick={() => this.transform(song.id, song.kind)}/>
                                         }
                                     </span>
                                     <span>
@@ -140,23 +150,27 @@ export class FavoriteSongs extends React.Component<IDownloadManageProps> {
                                                 <Icon className="song-icon active" type="check-circle"/> : download ?
                                                 <Progress type="circle"
                                                           strokeColor="#5785f7"
-                                                          percent={ download.percent }
-                                                          showInfo={ false }
-                                                          width={ 14 }/> :
+                                                          percent={download.percent}
+                                                          showInfo={false}
+                                                          width={14}/> :
                                                 <Icon type="download"
                                                       className="song-icon"
-                                                      onClick={ () => this.download(song.id, song.kind) }/>
+                                                      onClick={() => this.download(song.id, song.kind)}/>
                                         }
                                     </span>
+                                    <span>
+                                        {currentSong && currentSong.id === song.id ?
+                                            <Icon type="caret-right" className="song-icon"/> : null}
+                                    </span>
                                 </Table.Col>
-                                <Table.Col width={ 400 }>{ song.name }</Table.Col>
-                                <Table.Col width={ 180 }>
-                                    <Link to={ `/musicians/${ song.user.id }` }>{ song.user.nickname }</Link>
+                                <Table.Col width={400}>{song.name}</Table.Col>
+                                <Table.Col width={180}>
+                                    <Link to={`/musicians/${song.user.id}`}>{song.user.nickname}</Link>
                                 </Table.Col>
-                                <Table.Col width={ 30 }>&nbsp;</Table.Col>
+                                <Table.Col width={30}>&nbsp;</Table.Col>
                             </Table.Row>
                         }
-                    ) }
+                    )}
                 </Table>
             </Play>
         </Layout>;

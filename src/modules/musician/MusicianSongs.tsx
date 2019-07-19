@@ -35,6 +35,8 @@ export interface IMusicianSongsProps {
     network?: INetwork;
     cloudSongs?: ICloudSong[];
     loadings?: { [key: string]: boolean };
+    current?: number;
+    playlist?: ISong[];
 }
 
 @connect(
@@ -42,9 +44,11 @@ export interface IMusicianSongsProps {
         musician: state.musician,
         downloads: state.downloads,
         loveSongs: state.love.songs,
-        network: state.networks[`${ MUSICIAN }_${ UPDATE_PROPERTY }_songs`],
+        network: state.networks[`${MUSICIAN}_${UPDATE_PROPERTY}_songs`],
         cloudSongs: state.cloud.songs,
         loadings: state.cloud.loadings,
+        current: state.current.current,
+        playlist: state.current.list,
     }),
     (dispatch: Dispatch) => ({
         actions: {
@@ -116,49 +120,55 @@ export class MusicianSongs extends React.Component<IMusicianSongsProps> {
             musicianId,
             network = { loading: true, nodata: false },
             cloudSongs,
-            loadings = {}
+            loadings = {},
+            playlist,
+            current,
         } = this.props;
         const songs = get(musician[musicianId], type + 'list', []);
-        const loves = toMap<ISong>(loveSongs, i => `${ i.kind }-${ i.id }`);
+        const loves = toMap<ISong>(loveSongs, i => `${i.kind}-${i.id}`);
         const clouds = toMap<ICloudSong>(cloudSongs, i => i.key);
+        const currentSong = playlist[current];
 
-        return <EndLoader target="main" onLoad={ () => !network.nodata && this.nextPage() }>
-            <Table header={ <Table.Row>
-                <Table.Col type="header" width={ 30 }>&nbsp;</Table.Col>
-                <Table.Col type="header" width={ 140 }>&nbsp;</Table.Col>
+        return <EndLoader target="main" onLoad={() => !network.nodata && this.nextPage()}>
+            <Table header={<Table.Row>
+                <Table.Col type="header" width={30}>&nbsp;</Table.Col>
+                <Table.Col type="header" width={140}>&nbsp;</Table.Col>
                 <Table.Col type="header">歌曲标题</Table.Col>
-                <Table.Col type="header" width={ 60 }>歌曲类型</Table.Col>
-                <Table.Col type="header" width={ 180 }>歌手</Table.Col>
-                <Table.Col type="header" width={ 30 }>&nbsp;</Table.Col>
-            </Table.Row> }>
-                { songs.map((song: ISong, index: number) => {
-                        const key = `${ song.kind }-${ song.id }`;
-                        const filename = `${ song.name } - ${ song.user.nickname } - ${ song.kind } - ${ song.id } - ${ song.user.id }.mp3`;
+                <Table.Col type="header" width={60}>歌曲类型</Table.Col>
+                <Table.Col type="header" width={180}>歌手</Table.Col>
+                <Table.Col type="header" width={30}>&nbsp;</Table.Col>
+            </Table.Row>}>
+                {songs.map((song: ISong, index: number) => {
+                        const key = `${song.kind}-${song.id}`;
+                        const filename = `${song.name} - ${song.user.nickname} - ${song.kind} - ${song.id} - ${song.user.id}.mp3`;
                         const hasLoved = !!loves[key];
                         const download = downloads[key];
                         const hasTransformed = !!clouds[filename];
                         const transforming = loadings[key];
-                        return <Table.Row id={ `${ key }--musician['${ musicianId }'].${ type }list` }
-                                          onDoubleClick={ () => this.play(song) }
-                                          className={ this.state.selected === index ? 'selected' : '' }
-                                          key={ key }
-                                          onClick={ () => this.selected(index) }>
-                            <Table.Col style={ { width: 30 } }>&nbsp;</Table.Col>
+                        return <Table.Row id={`${key}--musician['${musicianId}'].${type}list`}
+                                          onDoubleClick={() => this.play(song)}
+                                          className={`
+                                              ${this.state.selected === index ? 'selected' : ''}
+                                              ${currentSong && currentSong.id === song.id + '' ? 'playing' : ''}
+                                          `}
+                                          key={key}
+                                          onClick={() => this.selected(index)}>
+                            <Table.Col style={{ width: 30 }}>&nbsp;</Table.Col>
                             <Table.Col>
-                                <span>{ (index + 1) < 10 ? '0' + (index + 1) : index + 1 }</span>
+                                <span>{(index + 1) < 10 ? '0' + (index + 1) : index + 1}</span>
                                 <span>
-                                    <Icon type="heart" theme={ hasLoved ? 'filled' : 'outlined' }
-                                          onClick={ () => this.love(hasLoved, song) }
-                                          className={ `song-icon ${ hasLoved ? 'highlight' : '' }` }/>
+                                    <Icon type="heart" theme={hasLoved ? 'filled' : 'outlined'}
+                                          onClick={() => this.love(hasLoved, song)}
+                                          className={`song-icon ${hasLoved ? 'highlight' : ''}`}/>
                                 </span>
                                 <span>
-                                    { transforming ?
+                                    {transforming ?
                                         <Icon className="song-icon active" type="loading"/> :
                                         hasTransformed ?
                                             <Icon className="song-icon active" type="check-circle"/> :
                                             <Icon className="song-icon"
                                                   type="cloud-download"
-                                                  onClick={ () => this.transform(song.id, song.kind) }/>
+                                                  onClick={() => this.transform(song.id, song.kind)}/>
                                     }
                                 </span>
                                 <span>
@@ -167,27 +177,31 @@ export class MusicianSongs extends React.Component<IMusicianSongsProps> {
                                             <Icon className="song-icon active" type="check-circle"/> : download ?
                                             <Progress type="circle"
                                                       strokeColor="#5785f7"
-                                                      percent={ download.percent }
-                                                      showInfo={ false }
-                                                      width={ 14 }/> :
+                                                      percent={download.percent}
+                                                      showInfo={false}
+                                                      width={14}/> :
                                             <Icon type="download"
                                                   className="song-icon"
-                                                  onClick={ () => this.download(song.id, song.kind) }/>
+                                                  onClick={() => this.download(song.id, song.kind)}/>
                                     }
                                 </span>
+                                <span>
+                                    {currentSong && currentSong.id === song.id + '' ?
+                                        <Icon type="caret-right" className="song-icon"/> : null}
+                                </span>
                             </Table.Col>
-                            <Table.Col>{ song.name }</Table.Col>
-                            <Table.Col>{ prettySongKind(song.kind) }</Table.Col>
+                            <Table.Col>{song.name}</Table.Col>
+                            <Table.Col>{prettySongKind(song.kind)}</Table.Col>
                             <Table.Col>
-                                <Link to={ `/musicians/${ song.user.id }` }>{ song.user.nickname }</Link>
+                                <Link to={`/musicians/${song.user.id}`}>{song.user.nickname}</Link>
                             </Table.Col>
-                            <Table.Col style={ { width: 30 } }>&nbsp;</Table.Col>
+                            <Table.Col style={{ width: 30 }}>&nbsp;</Table.Col>
                         </Table.Row>
                     }
-                ) }
+                )}
             </Table>
-            <div style={ { marginTop: 40 } }>
-                <Loading loading={ network.loading } nodata={ network.nodata }/>
+            <div style={{ marginTop: 40 }}>
+                <Loading loading={network.loading} nodata={network.nodata}/>
             </div>
         </EndLoader>;
     }

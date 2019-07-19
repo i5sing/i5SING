@@ -33,6 +33,8 @@ export interface IPlayDetailProps {
     loveSongs?: ISong[];
     cloudSongs?: ICloudSong[];
     loadings?: { [key: string]: boolean };
+    current?: number;
+    playlist?: ISong[];
 }
 
 interface IPlayDetailState {
@@ -46,6 +48,8 @@ interface IPlayDetailState {
         loveSongs: state.love.songs,
         cloudSongs: state.cloud.songs,
         loadings: state.cloud.loadings,
+        current: state.current.current,
+        playlist: state.current.list,
     }),
     (dispatch: Dispatch) => ({
         actions: {
@@ -126,60 +130,64 @@ export class PlayDetail extends React.Component<IPlayDetailProps, IPlayDetailSta
     }
 
     render() {
-        const { play, downloads, loveSongs, cloudSongs, loadings = {} } = this.props;
+        const { play, downloads, loveSongs, cloudSongs, loadings = {}, playlist, current } = this.props;
         const songs = play.songs || [];
         const clouds = toMap<ICloudSong>(cloudSongs, i => i.key);
-        const loves = toMap<ISong>(loveSongs, i => `${ i.kind }-${ i.id }`);
+        const loves = toMap<ISong>(loveSongs, i => `${i.kind}-${i.id}`);
+        const currentSong = playlist[current];
 
-        return <Layout background={ play.picture }>
+        return <Layout background={play.picture}>
             <Play type="play"
-                  image={ play.picture }
-                  title={ play.title }
-                  collects={ play.collects || 0 }
-                  shares={ play.shares || 0 }
-                  songCount={ play.songs.length }
-                  updatedAt={ moment(Number(play.createTime) * 1000).format('YYYY-MM-DD HH:mm') }
-                  isLike={ play.isLike }
-                  onPlayAll={ () => this.playAll(songs) }
-                  onLike={ () => play.isLike ? this.dislike(play) : this.like(play) }
-                  onDownloadAll={ () => this.downloads(songs) }
-                  description={ play.description }>
-                <Table header={ <Table.Row>
-                    <Table.Col type="header" width={ 30 }>&nbsp;</Table.Col>
-                    <Table.Col type="header" width={ 140 }>&nbsp;</Table.Col>
-                    <Table.Col type="header" width={ 340 }>歌曲标题</Table.Col>
-                    <Table.Col type="header" width={ 60 }>歌曲类型</Table.Col>
-                    <Table.Col type="header" width={ 180 }>歌手</Table.Col>
-                    <Table.Col type="header" width={ 30 }>&nbsp;</Table.Col>
-                </Table.Row> }>
-                    { songs.map((song: ISong, index: number) => {
-                            const key = `${ song.kind }-${ song.id }`;
-                            const filename = `${ song.name } - ${ song.user.nickname } - ${ song.kind } - ${ song.id } - ${ song.user.id }.mp3`;
+                  image={play.picture}
+                  title={play.title}
+                  collects={play.collects || 0}
+                  shares={play.shares || 0}
+                  songCount={play.songs.length}
+                  updatedAt={moment(Number(play.createTime) * 1000).format('YYYY-MM-DD HH:mm')}
+                  isLike={play.isLike}
+                  onPlayAll={() => this.playAll(songs)}
+                  onLike={() => play.isLike ? this.dislike(play) : this.like(play)}
+                  onDownloadAll={() => this.downloads(songs)}
+                  description={play.description}>
+                <Table header={<Table.Row>
+                    <Table.Col type="header" width={30}>&nbsp;</Table.Col>
+                    <Table.Col type="header" width={140}>&nbsp;</Table.Col>
+                    <Table.Col type="header" width={340}>歌曲标题</Table.Col>
+                    <Table.Col type="header" width={60}>歌曲类型</Table.Col>
+                    <Table.Col type="header" width={180}>歌手</Table.Col>
+                    <Table.Col type="header" width={30}>&nbsp;</Table.Col>
+                </Table.Row>}>
+                    {songs.map((song: ISong, index: number) => {
+                            const key = `${song.kind}-${song.id}`;
+                            const filename = `${song.name} - ${song.user.nickname} - ${song.kind} - ${song.id} - ${song.user.id}.mp3`;
                             const hasLoved = !!loves[key];
                             const download = downloads[key];
                             const hasTransformed = !!clouds[filename];
                             const transforming = loadings[key];
-                            return <Table.Row id={ `${ key }--play.songs` }
-                                              onDoubleClick={ () => this.play(song) }
-                                              className={ this.state.selected === index ? 'selected' : '' }
-                                              key={ key }
-                                              onClick={ () => this.selected(index) }>
-                                <Table.Col width={ 30 }>&nbsp;</Table.Col>
-                                <Table.Col width={ 140 }>
-                                    <span>{ (index + 1) < 10 ? '0' + (index + 1) : index + 1 }</span>
+                            return <Table.Row id={`${key}--play.songs`}
+                                              onDoubleClick={() => this.play(song)}
+                                              className={`
+                                                  ${this.state.selected === index ? 'selected' : ''}
+                                                  ${currentSong && currentSong.id === song.id + '' ? 'playing' : ''}
+                                              `}
+                                              key={key}
+                                              onClick={() => this.selected(index)}>
+                                <Table.Col width={30}>&nbsp;</Table.Col>
+                                <Table.Col width={140}>
+                                    <span>{(index + 1) < 10 ? '0' + (index + 1) : index + 1}</span>
                                     <span>
-                                        <Icon type="heart" theme={ hasLoved ? 'filled' : 'outlined' }
-                                              onClick={ () => this.love(hasLoved, song) }
-                                              className={ `song-icon ${ hasLoved ? 'highlight' : '' }` }/>
+                                        <Icon type="heart" theme={hasLoved ? 'filled' : 'outlined'}
+                                              onClick={() => this.love(hasLoved, song)}
+                                              className={`song-icon ${hasLoved ? 'highlight' : ''}`}/>
                                     </span>
                                     <span>
-                                        { transforming ?
+                                        {transforming ?
                                             <Icon className="song-icon active" type="loading"/> :
                                             hasTransformed ?
                                                 <Icon className="song-icon active" type="check-circle"/> :
                                                 <Icon className="song-icon"
                                                       type="cloud-download"
-                                                      onClick={ () => this.transform(song.id, song.kind) }/>
+                                                      onClick={() => this.transform(song.id, song.kind)}/>
                                         }
                                     </span>
                                     <span>
@@ -188,24 +196,28 @@ export class PlayDetail extends React.Component<IPlayDetailProps, IPlayDetailSta
                                                 <Icon className="song-icon active" type="check-circle"/> : download ?
                                                 <Progress type="circle"
                                                           strokeColor="#5785f7"
-                                                          percent={ download.percent }
-                                                          showInfo={ false }
-                                                          width={ 14 }/> :
+                                                          percent={download.percent}
+                                                          showInfo={false}
+                                                          width={14}/> :
                                                 <Icon type="download"
                                                       className="song-icon"
-                                                      onClick={ () => this.download(song.id, song.kind) }/>
+                                                      onClick={() => this.download(song.id, song.kind)}/>
                                         }
                                     </span>
+                                    <span>
+                                        {currentSong && currentSong.id === song.id + '' ?
+                                            <Icon type="caret-right" className="song-icon"/> : null}
+                                    </span>
                                 </Table.Col>
-                                <Table.Col width={ 340 }>{ song.name }</Table.Col>
-                                <Table.Col width={ 60 }>{ prettySongKind(song.kind) }</Table.Col>
-                                <Table.Col width={ 180 }>
-                                    <Link to={ `/musicians/${ song.user.id }` }>{ song.user.nickname }</Link>
+                                <Table.Col width={340}>{song.name}</Table.Col>
+                                <Table.Col width={60}>{prettySongKind(song.kind)}</Table.Col>
+                                <Table.Col width={180}>
+                                    <Link to={`/musicians/${song.user.id}`}>{song.user.nickname}</Link>
                                 </Table.Col>
-                                <Table.Col width={ 30 }>&nbsp;</Table.Col>
+                                <Table.Col width={30}>&nbsp;</Table.Col>
                             </Table.Row>
                         }
-                    ) }
+                    )}
                 </Table>
             </Play>
         </Layout>;

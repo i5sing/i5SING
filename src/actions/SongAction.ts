@@ -75,18 +75,18 @@ export class SongAction {
             );
             const songs = response.data;
             const downloads = {};
-            songs.forEach(song => downloads[`${ song.songKind }-${ song.songId }`] = song);
+            songs.forEach(song => downloads[`${song.songKind}-${song.songId}`] = song);
             dispatch({ type: DOWNLOAD, action: SET, data: downloads });
         }
     }
 
     public static downloadSong(songId: number, songType: string) {
         return async (dispatch: Dispatch) => {
-            const path = `${ songType }-${ songId }`;
+            const path = `${songType}-${songId}`;
             const data = { percent: 0, received: 0, total: 1, songId, songKind: songType };
             dispatch({ type: DOWNLOAD, action: UPDATE_PROPERTY, path, data });
 
-            location.href = `http://127.0.0.1:56562/songs/${ songId }/download?songType=${ songType }`;
+            location.href = `http://127.0.0.1:56562/songs/${songId}/download?songType=${songType}`;
         }
     }
 
@@ -98,7 +98,7 @@ export class SongAction {
                     const a = document.createElement("a");
                     const e = document.createEvent("MouseEvents");
                     e.initEvent("click", false, false);
-                    a.href = `http://127.0.0.1:56562/songs/${ song.songId }/download?songType=${ song.songType }`;
+                    a.href = `http://127.0.0.1:56562/songs/${song.songId}/download?songType=${song.songType}`;
                     a.download = null;
                     a.dispatchEvent(e);
                 }, 0);
@@ -205,13 +205,13 @@ export class SongAction {
 
     public static deleteLocalSong(songId: string, songKind: string) {
         return async (dispatch: Dispatch, state: () => IState) => {
-            const download: IDownload = state().downloads[`${ songKind }-${ songId }`];
+            const download: IDownload = state().downloads[`${songKind}-${songId}`];
             if (download) {
                 const filename = download.filename;
                 const url = 'http://127.0.0.1:56562/local/songs/' + encodeURIComponent(filename);
                 await instance.delete(url);
 
-                delete state().downloads[`${ songKind }-${ songId }`];
+                delete state().downloads[`${songKind}-${songId}`];
 
                 dispatch({ type: DOWNLOAD, action: SET, data: { ...state().downloads } })
             }
@@ -224,7 +224,7 @@ export class SongAction {
             dispatch({
                 type: NETWORK_STATUS,
                 action: UPDATE_PROPERTY,
-                path: `${ MUSICIAN }_${ UPDATE_PROPERTY }_songs`,
+                path: `${MUSICIAN}_${UPDATE_PROPERTY}_songs`,
                 data: { loading: true, nodata: false }
             });
 
@@ -248,19 +248,19 @@ export class SongAction {
             }));
 
             const existSongs =
-                page === 1 ? [] : get(state().musician, `${ userId }.${ songKind }list`, []) as ISong[];
+                page === 1 ? [] : get(state().musician, `${userId}.${songKind}list`, []) as ISong[];
 
             dispatch({
                 type: MUSICIAN,
                 action: UPDATE_PROPERTY,
-                path: `${ userId }.${ songKind }list`,
+                path: `${userId}.${songKind}list`,
                 data: existSongs.concat(songs),
             });
 
             dispatch({
                 type: NETWORK_STATUS,
                 action: UPDATE_PROPERTY,
-                path: `${ MUSICIAN }_${ UPDATE_PROPERTY }_songs`,
+                path: `${MUSICIAN}_${UPDATE_PROPERTY}_songs`,
                 data: { loading: false, nodata: response.data.data.length === 0 }
             });
         }
@@ -278,7 +278,7 @@ export class SongAction {
             dispatch({
                 type: CLOUD,
                 action: UPDATE_PROPERTY,
-                path: `loadings['${ `${ songType }-${ songId }` }']`,
+                path: `loadings['${`${songType}-${songId}`}']`,
                 data: true
             });
             try {
@@ -289,14 +289,14 @@ export class SongAction {
                 dispatch({
                     type: CLOUD,
                     action: UPDATE_PROPERTY,
-                    path: `loadings['${ `${ songType }-${ songId }` }']`,
+                    path: `loadings['${`${songType}-${songId}`}']`,
                     data: false
                 });
                 dispatch({
                     type: CLOUD,
                     action: UPDATE_PROPERTY,
                     path: `loadings`,
-                    data: Object.create(state().cloud.loadings)
+                    data: { ...state().cloud.loadings },
                 });
                 return message.error(e.response ? e.response.data.message : e.message);
             }
@@ -306,14 +306,14 @@ export class SongAction {
                 dispatch({
                     type: CLOUD,
                     action: UPDATE_PROPERTY,
-                    path: `loadings['${ `${ songType }-${ songId }` }']`,
+                    path: `loadings['${`${songType}-${songId}`}']`,
                     data: false
                 });
                 dispatch({
                     type: CLOUD,
                     action: UPDATE_PROPERTY,
                     path: `loadings`,
-                    data: Object.create(state().cloud.loadings)
+                    data: { ...state().cloud.loadings },
                 });
             }));
 

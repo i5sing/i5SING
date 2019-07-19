@@ -16,17 +16,17 @@ export interface IChannelItemProps {
 class ChannelItem extends React.Component<IChannelItemProps> {
     render() {
         const { key, picture, name, username, to, onClick, active } = this.props;
-        return <div key={ key } className={ styles.item }>
-            <div className={ styles.content } style={ { backgroundColor: active ? '#f4f4f4' : null } }>
-                <div className={ styles.img_wrap } onClick={ onClick }>
-                    <img src={ picture } alt={ name }/>
-                    <div className={ styles.play_btn_wrap }>
-                        <Icon type="play-circle" className={ styles.play_btn }/>
+        return <div key={key} className={styles.item}>
+            <div className={styles.content} style={{ backgroundColor: active ? '#f4f4f4' : null }}>
+                <div className={styles.img_wrap} onClick={onClick}>
+                    <img src={picture} alt={name}/>
+                    <div className={styles.play_btn_wrap}>
+                        <Icon type={active ? 'pause-circle' : 'play-circle'} className={styles.play_btn}/>
                     </div>
                 </div>
-                <div className={ styles.info }>
-                    <h3 className="balabala">{ name }</h3>
-                    <p className="balabala"><Link to={ to }>{ username }</Link></p>
+                <div className={styles.info}>
+                    <h3 className="balabala">{name}</h3>
+                    <p className="balabala"><Link to={to}>{username}</Link></p>
                 </div>
             </div>
         </div>;
@@ -37,8 +37,8 @@ export class Channel extends React.Component {
     public static Item = ChannelItem;
 
     render() {
-        return <div className={ styles.channels }>
-            { this.props.children }
+        return <div className={styles.channels}>
+            {this.props.children}
         </div>;
     }
 }
