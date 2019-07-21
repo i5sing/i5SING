@@ -1,0 +1,28 @@
+kind: pipeline
+name: build i5sing app
+
+platform:
+  os: macos
+  arch: amd64
+
+steps:
+  - name: install_dependencies
+    image: node
+    commands:
+      - npm install -g yarn
+      - yarn
+  - name: compile
+      image: node
+      commands:
+        - npm run make
+  - name: upload_to_object_storage
+    image: plugins/s3
+    settings:
+      bucket: i5sing
+      endpoint: http://s3-cn-north-1.qiniucs.com
+      access_key:
+        from_secret: qiniu_access_key
+      secret_key:
+        from_secret: qiniu_secret_key
+      source: out/make/*
+      target: /app
