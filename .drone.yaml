@@ -1,9 +1,14 @@
 kind: pipeline
-name: build i5sing app
+name: build_i5sing_app
 
 platform:
   os: macos
   arch: amd64
+
+trigger:
+  ref:
+    - refs/heads/master
+    - refs/tags/v*
 
 steps:
   - name: install_dependencies
