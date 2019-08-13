@@ -22,3 +22,4 @@ declare var MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 declare var LOGIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 declare var MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare var LOGIN_WINDOW_WEBPACK_ENTRY: string;
+declare var mobShare: any;

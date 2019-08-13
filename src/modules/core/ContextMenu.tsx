@@ -105,7 +105,45 @@ export class ContextMenu extends React.Component<IContextMenuProps> {
                 }
             }
         }));
+        this.menu.append(new MenuItem({
+            label: '分享到微信',
+            click: async () => this.share('weixin'),
+        }));
+        this.menu.append(new MenuItem({
+            label: '分享到微博',
+            click: async () => this.share('weibo'),
+        }));
         window.addEventListener('contextmenu', this.rightClick.bind(this), false)
+    }
+
+    async share(platform: string) {
+        const state = this.props.state;
+        const { song, path, chunks, info } = this.parse();
+        console.log(song, path, chunks, info);
+        let url = '';
+        let image = '';
+
+
+        if (path.includes('cloud.songs')) {
+            url = state.cloud.domain + '/' + encodeURIComponent(info[0]);
+            image = 'https://static.i5sing.com/i5sing.png';
+        } else {
+            const address = await CurrentAction.getSongUrl(song.id || song.songId, song.kind || song.songKind);
+            url = address.hqurl || address.lqurl || address.squrl;
+            image = await SongAction.getSongImage(song.id || song.songId, song.kind || song.songKind);
+        }
+        mobShare.config({
+            debug: true,
+            appkey: '2c0a15dd89c6e',
+            params: {
+                url,
+                title: `${song.name} - ${song.user.nickname}`,
+                description: '  ---- 来自 i5sing 的分享',
+                pic: image,
+            }
+        });
+        const share = mobShare(platform);
+        share.send();
     }
 
     rightClick(e) {
