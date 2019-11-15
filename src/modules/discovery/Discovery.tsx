@@ -6,6 +6,7 @@ import { MovieList } from "./MovieList";
 import { LatestSongs } from "./LatestSongs";
 import { Channels } from "./Channels";
 import { Layout } from "../../components/Layout";
+import { LatestMusician } from "./LatestMusician";
 
 export class Discovery extends React.Component {
     render() {
@@ -15,6 +16,7 @@ export class Discovery extends React.Component {
             <LatestSongs/>
             <MovieList/>
             <Channels/>
+            <LatestMusician/>
         </Layout>
     }
 }

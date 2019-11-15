@@ -37,7 +37,7 @@ module.exports = {
     },
     externals: [
         function (context, request, callback) {
-            if (request.charAt(0) !== '.' && request !== 'reflect-metadata') {
+            if (request.charAt(0) !== '.' && request !== 'reflect-metadata' && request.indexOf('.ts') === -1) {
                 return callback(null, 'commonjs ' + request);
             }
             callback();

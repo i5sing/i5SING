@@ -93,57 +93,58 @@ export class CloudSongs extends React.Component<ICloudSongsProps> {
 
         return <Layout>
             <Tool direction="left">
-                <Button type="primary" disabled={ !hasConfig } onClick={ () => this.playAll(songs) }>
+                <Button type="primary" disabled={!hasConfig} onClick={() => this.playAll(songs)}>
                     <Icon type="play-circle"/>播放全部
                 </Button>
-                <span style={ { marginTop: 8 } }>
+                <span style={{ marginTop: 8 }}>
                 <Upload
-                    showUploadList={ false }
-                    beforeUpload={ file => this.handleBeforeUpload(file) }>
-                    <Button disabled={ !hasConfig }><Icon type="cloud-upload"/>上传</Button>
+                    accept=".mp3,.wma,.avi,.rm,.rmvb,.flv,.mpg,.mov,.mkv"
+                    showUploadList={false}
+                    beforeUpload={file => this.handleBeforeUpload(file)}>
+                    <Button disabled={!hasConfig}><Icon type="cloud-upload"/>上传</Button>
                 </Upload>
                 </span>
             </Tool>
-            <div className={ styles.content }>
-                <Table header={ <Table.Row>
-                    <Table.Col type="header" width={ 30 }>&nbsp;</Table.Col>
-                    <Table.Col type="header" width={ 40 }>&nbsp;</Table.Col>
-                    <Table.Col type="header" width={ 400 }>歌曲标题</Table.Col>
-                    <Table.Col type="header" width={ 90 }>格式</Table.Col>
-                    <Table.Col type="header" width={ 70 }>大小</Table.Col>
-                    <Table.Col type="header" width={ 130 }>上传时间</Table.Col>
-                    <Table.Col type="header" width={ 30 }>&nbsp;</Table.Col>
-                </Table.Row> }>
-                    { songs.map((song: ICloudSong, index: number) => {
-                            return <Table.Row id={ `${ song.key }--cloud.songs` }
-                                              onDoubleClick={ () => this.play(song) }
+            <div className={styles.content}>
+                <Table header={<Table.Row>
+                    <Table.Col type="header" width={30}>&nbsp;</Table.Col>
+                    <Table.Col type="header" width={40}>&nbsp;</Table.Col>
+                    <Table.Col type="header" width={400}>歌曲标题</Table.Col>
+                    <Table.Col type="header" width={90}>格式</Table.Col>
+                    <Table.Col type="header" width={70}>大小</Table.Col>
+                    <Table.Col type="header" width={130}>上传时间</Table.Col>
+                    <Table.Col type="header" width={30}>&nbsp;</Table.Col>
+                </Table.Row>}>
+                    {songs.map((song: ICloudSong, index: number) => {
+                            return <Table.Row id={`${song.key}--cloud.songs`}
+                                              onDoubleClick={() => this.play(song)}
                                               className={
-                                                  `${ styles.download_table_row } ${ this.state.selected === index ? 'selected' : '' }`
+                                                  `${styles.download_table_row} ${this.state.selected === index ? 'selected' : ''}`
                                               }
-                                              key={ song.key }
-                                              onClick={ () => this.selected(index) }>
-                                <Table.Col width={ 30 }>&nbsp;</Table.Col>
-                                <Table.Col width={ 40 }>
-                                    <span>{ (index + 1) < 10 ? '0' + (index + 1) : index + 1 }</span>
+                                              key={song.key}
+                                              onClick={() => this.selected(index)}>
+                                <Table.Col width={30}>&nbsp;</Table.Col>
+                                <Table.Col width={40}>
+                                    <span>{(index + 1) < 10 ? '0' + (index + 1) : index + 1}</span>
                                     <span>
 
                                     </span>
                                 </Table.Col>
-                                <Table.Col width={ 400 }>{ song.key }</Table.Col>
-                                <Table.Col width={ 90 }>{ song.mimeType }</Table.Col>
-                                <Table.Col width={ 70 }>{ prettyByte(song.fsize, 'B') }</Table.Col>
-                                <Table.Col width={ 130 }>
-                                    { moment(song.putTime / 10000).format('YYYY-MM-DD HH:mm') }
+                                <Table.Col width={400}>{song.key}</Table.Col>
+                                <Table.Col width={90}>{song.mimeType}</Table.Col>
+                                <Table.Col width={70}>{prettyByte(song.fsize, 'B')}</Table.Col>
+                                <Table.Col width={130}>
+                                    {moment(song.putTime / 10000).format('YYYY-MM-DD HH:mm')}
                                 </Table.Col>
-                                <Table.Col width={ 30 }>
-                                    <Icon className={ styles.delete_btn } type="close" onClick={ e => {
+                                <Table.Col width={30}>
+                                    <Icon className={styles.delete_btn} type="close" onClick={e => {
                                         e.stopPropagation();
                                         this.delete(song.key);
-                                    } }/>
+                                    }}/>
                                 </Table.Col>
                             </Table.Row>
                         }
-                    ) }
+                    )}
                 </Table>
             </div>
         </Layout>;

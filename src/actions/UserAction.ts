@@ -6,8 +6,8 @@ import { AxiosResponse } from "axios";
 import { I5singResponse } from "../interfaces/i5sing/I5singResponse";
 import { instance } from "../utils/HttpUtil";
 import { I5singUser } from "../interfaces/i5sing/I5singUser";
-import { COMMENT, LOVE, MUSICIAN, NETWORK_STATUS } from "../constants/ActionTypes";
-import { SET, UPDATE_PROPERTY } from "../constants/Actions";
+import { COMMENT, DISCOVERY_MUSICIAN, LOVE, MUSICIAN, NETWORK_STATUS } from "../constants/ActionTypes";
+import { SET, UPDATE, UPDATE_PROPERTY } from "../constants/Actions";
 import { IUser } from "../interfaces/IUser";
 import { message } from "antd";
 import { I5singComment } from "../interfaces/i5sing/I5singComment";
@@ -114,6 +114,22 @@ export class UserAction {
             }
 
             dispatch({ type: MUSICIAN, action: UPDATE_PROPERTY, path: `['${userId}'].isFollow`, data: false });
+        }
+    }
+
+    public static getLatestMusician() {
+        return async (dispatch: Dispatch, state: () => IState) => {
+            const url = 'http://mobileapi.5sing.kugou.com/musician/latestList';
+            const response: AxiosResponse<I5singResponse<{ ID: string; NN: string; I: string; }[]>> = await instance.get(
+                url,
+            );
+            const list = response.data.data;
+            const musicians = list.map(item => ({
+                id: item.ID,
+                name: item.NN,
+                image: item.I,
+            }));
+            dispatch({ type: DISCOVERY_MUSICIAN, action: UPDATE, data: musicians });
         }
     }
 

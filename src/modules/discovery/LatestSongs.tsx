@@ -67,31 +67,29 @@ export class LatestSongs extends React.Component<ILatestSongsProps, LatestSongsS
         if (songs.length === 0) {
             return '';
         }
-        return <Card title={ <Link to="/latest-songs">
-            最新音乐 <span style={ { position: 'relative', top: -1 } }>&gt;</span>
-        </Link> }>
+        return <Card title={"最新音乐"}>
             <div className="latest-songs">
-                { songs.map((song: ILatestSong, index: number) =>
-                    <div key={ song.id } className="latest-songs-item">
+                {songs.map((song: ILatestSong, index: number) =>
+                    <div key={song.id} className="latest-songs-item">
                         <div className={
-                            `latest-songs-item-content ${ playingSong && playingSong.id === song.id ? 'active' : '' }`
+                            `latest-songs-item-content ${playingSong && playingSong.id === song.id ? 'active' : ''}`
                         }>
-                            <div className="latest-songs-item-img" onClick={ () => this.play(song) }>
-                                <img src={ song.image } alt={ song.name }/>
+                            <div className="latest-songs-item-img" onClick={() => this.play(song)}>
+                                <img src={song.image} alt={song.name}/>
                                 <div className="play-btn-wrap">
                                     <Icon type="play-circle" className="play-btn"/>
                                 </div>
                             </div>
-                            <span>{ index + 1 >= 10 ? index + 1 : '0' + (index + 1) }</span>
+                            <span>{index + 1 >= 10 ? index + 1 : '0' + (index + 1)}</span>
                             <div className="latest-songs-item-info">
-                                <h3 className="balabala">{ song.name }</h3>
+                                <h3 className="balabala">{song.name}</h3>
                                 <p className="balabala">
-                                    <Link to={ `/musicians/${ song.singerId }` }>{ song.singerName }</Link>
+                                    <Link to={`/musicians/${song.singerId}`}>{song.singerName}</Link>
                                 </p>
                             </div>
                         </div>
                     </div>
-                ) }
+                )}
             </div>
         </Card>
     }

@@ -47,19 +47,19 @@ export class Channels extends React.Component<IChannelProps> {
             return '';
         }
         const playingSong = playlist[current];
-        return <Card title={ <Link to="/channels">
-            有声专栏 <span style={ { position: 'relative', top: -1 } }>&gt;</span>
-        </Link> }>
+        return <Card title={<Link to="/channels">
+            有声专栏 <span style={{ position: 'relative', top: -1 }}>&gt;</span>
+        </Link>}>
             <Channel>
-                { channels.map((channel: IChannel) => <Channel.Item
-                    active={ playingSong && playingSong.id === channel.id }
-                    onClick={ () => this.props.actions.current.play(channel.id, channel.type) }
-                    key={ channel.id }
-                    picture={ channel.picture }
-                    name={ channel.name }
-                    username={ channel.user.nickname }
-                    to={ `/musicians/${ channel.user.id }` }
-                />) }
+                {channels.map((channel: IChannel) => <Channel.Item
+                    active={playingSong && playingSong.id === channel.id}
+                    onClick={() => this.props.actions.current.play(channel.id, channel.type)}
+                    key={channel.id}
+                    picture={channel.picture}
+                    name={channel.name}
+                    username={channel.user.nickname}
+                    to={`/musicians/${channel.user.id}`}
+                />)}
             </Channel>
         </Card>
     }

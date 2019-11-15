@@ -6,7 +6,7 @@ import {
     DISCOVERY_CAROUSEL,
     DISCOVERY_CHANNEL,
     DISCOVERY_LATEST_SONGS,
-    DISCOVERY_MOVIE,
+    DISCOVERY_MOVIE, DISCOVERY_MUSICIAN,
     DISCOVERY_PLAYLIST,
     DOWNLOAD, LOVE,
     MOVIE,
@@ -52,6 +52,7 @@ export default combineReducers({
     discoveryPlays: createReducer<IPlay[]>(DISCOVERY_PLAYLIST, []),
     discoveryLatestSongs: createReducer<ILatestSong[]>(DISCOVERY_LATEST_SONGS, []),
     discoveryChannels: createReducer<IChannel[]>(DISCOVERY_CHANNEL, []),
+    discoveryMusicians: createReducer<{ id: string; name: string; image: string; }[]>(DISCOVERY_MUSICIAN, []),
     channels: createReducer<IChannel[]>(CHANNELS, []),
     tops: createReducer<ITop[]>(TOP, []),
     styleTops: createReducer<ITopDetail[]>(STYLE_TOP, []),
@@ -94,6 +95,7 @@ export interface IState {
     discoveryPlays: IPlay[];
     discoveryLatestSongs: ILatestSong[];
     discoveryChannels: IChannel[];
+    discoveryMusicians: { id: string; name: string; image: string; }[];
     channels: IChannel[];
     tops: ITop[];
     top: ITopDetail;
