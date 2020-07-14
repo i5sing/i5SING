@@ -7,20 +7,21 @@ export interface ILayoutProps {
     header?: string | React.ReactNode;
     className?: string;
     background?: string;
+    transparent?: boolean;
 }
 
 export class Layout extends React.Component<ILayoutProps> {
     render() {
-        const { className, background, id, header } = this.props;
-        return <div className={ `${ styles.layout } ${ className }` }>
-            <div className={ styles.layout_background }
-                 style={ { background: `url(${ background }) center no-repeat` } }/>
-            <div className={ styles.layout_layer }/>
-            <div className={ styles.layout_header }>
-                { header }
+        const { className, background, id, header, transparent } = this.props;
+        return <div className={`${styles.layout} ${className}`}>
+            <div className={styles.layout_background}
+                 style={{ background: `url(${background}) center no-repeat` }}/>
+            <div className={styles.layout_layer}/>
+            <div className={styles.layout_header}>
+                {header}
             </div>
-            <div className={ styles.layout_content } id={ id }>
-                { this.props.children }
+            <div className={`${styles.layout_content} ${transparent ? styles.transparent : ''}`} id={id}>
+                {this.props.children}
             </div>
         </div>
     }

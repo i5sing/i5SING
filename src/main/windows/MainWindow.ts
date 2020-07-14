@@ -58,6 +58,9 @@ export class MainWindow {
             maxWidth: 1000,
             center: true,
             show: false,
+            transparent: true,
+            vibrancy: 'light',
+            backgroundColor: '#00FFFFFF',
             titleBarStyle: 'hiddenInset',
             webPreferences: {
                 webSecurity: false,

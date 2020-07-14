@@ -154,7 +154,7 @@ export class TopDetail extends React.Component<ITopDetailProps, ITopDetailState>
         const clouds = toMap<ICloudSong>(cloudSongs, i => i.key);
         const currentSong = playlist[current];
 
-        return <Layout background={top.photo}>
+        return <Layout background={top.photo} transparent={true}>
             <Play image={top.photo}
                   title={top.name}
                   songCount={top.count}

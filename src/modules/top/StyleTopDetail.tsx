@@ -127,54 +127,54 @@ export class StyleTopDetail extends React.Component<ITopDetailProps, ITopDetailS
     render() {
         const { styleTop, downloads, loveSongs, cloudSongs, loadings = {} } = this.props;
         const songs = styleTop.songs || [];
-        const loves = toMap<ISong>(loveSongs, i => `${ i.kind }-${ i.id }`);
+        const loves = toMap<ISong>(loveSongs, i => `${i.kind}-${i.id}`);
         const clouds = toMap<ICloudSong>(cloudSongs, i => i.key);
 
-        return <Layout background={ styleTop.photo }>
-            <Play image={ styleTop.photo }
-                  title={ styleTop.name }
-                  description={ styleTop.description }
-                  songCount={ styleTop.count }
-                  updatedAt={ styleTop.time }
-                  onPlayAll={ () => this.playAll(songs) }
-                  onDownloadAll={ () => this.downloads(songs) }
+        return <Layout background={styleTop.photo} transparent={true}>
+            <Play image={styleTop.photo}
+                  title={styleTop.name}
+                  description={styleTop.description}
+                  songCount={styleTop.count}
+                  updatedAt={styleTop.time}
+                  onPlayAll={() => this.playAll(songs)}
+                  onDownloadAll={() => this.downloads(songs)}
             >
-                <Table header={ <Table.Row>
-                    <Table.Col type="header" width={ 30 }>&nbsp;</Table.Col>
-                    <Table.Col type="header" width={ 140 }>&nbsp;</Table.Col>
-                    <Table.Col type="header" width={ 340 }>歌曲标题</Table.Col>
-                    <Table.Col type="header" width={ 60 }>歌曲类型</Table.Col>
-                    <Table.Col type="header" width={ 180 }>歌手</Table.Col>
-                    <Table.Col type="header" width={ 30 }>&nbsp;</Table.Col>
-                </Table.Row> }>
-                    { songs.map((song: ITopSong, index: number) => {
-                        const key = `${ song.songKind }-${ song.id }`;
-                        const filename = `${ song.songName } - ${ song.user.nickname } - ${ song.songKind } - ${ song.id } - ${ song.user.id }.mp3`;
-                        const download = downloads[`${ key }`];
+                <Table header={<Table.Row>
+                    <Table.Col type="header" width={30}>&nbsp;</Table.Col>
+                    <Table.Col type="header" width={140}>&nbsp;</Table.Col>
+                    <Table.Col type="header" width={340}>歌曲标题</Table.Col>
+                    <Table.Col type="header" width={60}>歌曲类型</Table.Col>
+                    <Table.Col type="header" width={180}>歌手</Table.Col>
+                    <Table.Col type="header" width={30}>&nbsp;</Table.Col>
+                </Table.Row>}>
+                    {songs.map((song: ITopSong, index: number) => {
+                        const key = `${song.songKind}-${song.id}`;
+                        const filename = `${song.songName} - ${song.user.nickname} - ${song.songKind} - ${song.id} - ${song.user.id}.mp3`;
+                        const download = downloads[`${key}`];
                         const hasLoved = !!loves[key];
                         const hasTransformed = !!clouds[filename];
                         const transforming = loadings[key];
-                        return <Table.Row id={ `${ key }--styleTop.songs` }
-                                          onDoubleClick={ () => this.play(song) }
-                                          className={ this.state.selected === index ? 'selected' : '' }
-                                          key={ key }
-                                          onClick={ () => this.selected(index) }>
-                            <Table.Col width={ 30 }>&nbsp;</Table.Col>
-                            <Table.Col width={ 140 }>
-                                <span>{ index + 1 }</span>
+                        return <Table.Row id={`${key}--styleTop.songs`}
+                                          onDoubleClick={() => this.play(song)}
+                                          className={this.state.selected === index ? 'selected' : ''}
+                                          key={key}
+                                          onClick={() => this.selected(index)}>
+                            <Table.Col width={30}>&nbsp;</Table.Col>
+                            <Table.Col width={140}>
+                                <span>{index + 1}</span>
                                 <span>
-                                    <Icon type="heart" theme={ hasLoved ? 'filled' : 'outlined' }
-                                          onClick={ () => this.love(hasLoved, song) }
-                                          className={ `song-icon ${ hasLoved ? 'highlight' : '' }` }/>
+                                    <Icon type="heart" theme={hasLoved ? 'filled' : 'outlined'}
+                                          onClick={() => this.love(hasLoved, song)}
+                                          className={`song-icon ${hasLoved ? 'highlight' : ''}`}/>
                                 </span>
                                 <span>
-                                    { transforming ?
+                                    {transforming ?
                                         <Icon className="song-icon active" type="loading"/> :
                                         hasTransformed ?
                                             <Icon className="song-icon active" type="check-circle"/> :
                                             <Icon className="song-icon"
                                                   type="cloud-download"
-                                                  onClick={ () => this.transform(song.id, song.songKind) }/>
+                                                  onClick={() => this.transform(song.id, song.songKind)}/>
                                     }
                                 </span>
                                 <span>
@@ -183,23 +183,23 @@ export class StyleTopDetail extends React.Component<ITopDetailProps, ITopDetailS
                                                 <Icon className="song-icon active" type="check-circle"/> : download ?
                                                 <Progress type="circle"
                                                           strokeColor="#5785f7"
-                                                          percent={ download.percent }
-                                                          showInfo={ false }
-                                                          width={ 14 }/> :
+                                                          percent={download.percent}
+                                                          showInfo={false}
+                                                          width={14}/> :
                                                 <Icon type="download"
                                                       className="song-icon"
-                                                      onClick={ () => this.download(song.id, song.songKind) }/>
+                                                      onClick={() => this.download(song.id, song.songKind)}/>
                                         }
                                     </span>
                             </Table.Col>
-                            <Table.Col width={ 340 }>{ song.songName }</Table.Col>
-                            <Table.Col width={ 60 }>{ prettySongKind(song.songKind) }</Table.Col>
-                            <Table.Col width={ 180 }>
-                                <Link to={ `/musicians/${ song.user.id }` }>{ song.user.nickname }</Link>
+                            <Table.Col width={340}>{song.songName}</Table.Col>
+                            <Table.Col width={60}>{prettySongKind(song.songKind)}</Table.Col>
+                            <Table.Col width={180}>
+                                <Link to={`/musicians/${song.user.id}`}>{song.user.nickname}</Link>
                             </Table.Col>
-                            <Table.Col width={ 30 }>&nbsp;</Table.Col>
+                            <Table.Col width={30}>&nbsp;</Table.Col>
                         </Table.Row>
-                    }) }
+                    })}
                 </Table>
             </Play>
         </Layout>;

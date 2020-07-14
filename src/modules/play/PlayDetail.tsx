@@ -136,7 +136,7 @@ export class PlayDetail extends React.Component<IPlayDetailProps, IPlayDetailSta
         const loves = toMap<ISong>(loveSongs, i => `${i.kind}-${i.id}`);
         const currentSong = playlist[current];
 
-        return <Layout background={play.picture}>
+        return <Layout background={play.picture} transparent={true}>
             <Play type="play"
                   image={play.picture}
                   title={play.title}

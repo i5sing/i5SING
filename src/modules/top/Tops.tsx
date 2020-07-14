@@ -41,26 +41,26 @@ export class Tops extends React.Component<ITopsProps> {
     render() {
         const { tops, styleTops } = this.props;
         return <Layout className="tops">
-            { tops.map((top: ITop) => <div className="tops-item" key={ top.id }>
-                <img src={ top.photo } alt={ top.name }/>
+            {tops.map((top: ITop) => <div className="tops-item" key={top.id}>
+                <img src={top.photo} alt={top.name}/>
                 <ul>
-                    { top.songs.map((song: string, index: number) => <li key={ index }>
-                        <span className={ index < 3 ? 'hot' : '' }>{ index + 1 }</span>{ song }
-                    </li>) }
+                    {top.songs.map((song: string, index: number) => <li key={index}>
+                        <span className={index < 3 ? 'hot' : ''}>{index + 1}</span>{song}
+                    </li>)}
                 </ul>
-                <Link to={ `/tops/${ top.id }` }>查看更多 &gt;</Link>
-            </div>) }
+                <Link to={`/tops/${top.id}`}>查看更多 &gt;</Link>
+            </div>)}
             <Card title="分区排行榜">
-                <ImgCard count={ 4 }>
-                    { styleTops.map((top: IStyleTop) =>
+                <ImgCard count={4}>
+                    {styleTops.map((top: IStyleTop) =>
                         <ImgCard.Item
-                            height={ 171.5 }
-                            key={ top.style }
-                            title={ top.style }
-                            img={ top.picture }
-                            onClick={ () => location.hash = `#/tops/style/${ encodeURIComponent(top.style) }` }
+                            height={171.5}
+                            key={top.style}
+                            title={top.style}
+                            img={top.picture}
+                            onClick={() => location.hash = `#/tops/style/${encodeURIComponent(top.style)}`}
                         />
-                    ) }
+                    )}
                 </ImgCard>
             </Card>
         </Layout>
