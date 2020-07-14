@@ -4,9 +4,9 @@ import * as request from 'request';
 import { i5SING_WEB_URL } from "./constants";
 
 export function checkForUpdatesByReq(): any {
-    let platform = `${ os.platform() }_${ os.arch() }`;
+    let platform = `${os.platform()}_${os.arch()}`;
     let version = app.getVersion();
-    let url = `${ i5SING_WEB_URL }/check-version/${ platform }/${ version }`;
+    let url = `${i5SING_WEB_URL}/check-version/${platform}/${version}`;
 
     return new Promise((resolve, reject) => {
         request({
@@ -33,7 +33,7 @@ export async function checkVersion(notShowLatest?: boolean) {
 
     if (!data.latest) {
         title = '检查更新';
-        message = `发现新版本 ${ data.app.version }, 点击 "确定" 前往下载!`;
+        message = `发现新版本 ${data.app.version}, 点击 "确定" 前往下载!`;
     } else {
         title = '检查更新';
         message = '您的版本已经是最新版了!';
@@ -48,17 +48,17 @@ export async function checkVersion(notShowLatest?: boolean) {
         title: title,
         message: message,
         buttons: buttons
-    }, index => {
-        if (index === 0 && !data.latest) {
+    }).then(() => {
+        if (!data.latest) {
             return shell.openExternal(i5SING_WEB_URL);
         }
-    })
+    });
 }
 
 export function checkForUpdates() {
-    let platform = `${ os.platform() }_${ os.arch() }`;
+    let platform = `${os.platform()}_${os.arch()}`;
     let version = app.getVersion();
-    autoUpdater.setFeedURL({ url: `${ i5SING_WEB_URL }/check-version/${ platform }/${ version }` });
+    autoUpdater.setFeedURL({ url: `${i5SING_WEB_URL}/check-version/${platform}/${version}` });
     return autoUpdater.checkForUpdates();
 }
 

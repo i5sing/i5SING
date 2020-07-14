@@ -36,6 +36,7 @@ export class LoginWindow {
             parent: parent,
             webPreferences: {
                 webSecurity: false,
+                nodeIntegration: true,
                 preload: LOGIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
             }
         });

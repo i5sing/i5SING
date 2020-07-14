@@ -48,7 +48,7 @@ export class Tops extends React.Component<ITopsProps> {
                         <span className={ index < 3 ? 'hot' : '' }>{ index + 1 }</span>{ song }
                     </li>) }
                 </ul>
-                <Link to={ `/tops/${ top.id }` }>查看更多 ></Link>
+                <Link to={ `/tops/${ top.id }` }>查看更多 &gt;</Link>
             </div>) }
             <Card title="分区排行榜">
                 <ImgCard count={ 4 }>

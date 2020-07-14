@@ -1,6 +1,6 @@
 import { Tray, BrowserWindow, Menu } from 'electron';
 import { resolve } from "path";
-import { initMacMenu, initWindowsMenu } from "../menu";
+import { initWindowsMenu } from "../menu";
 
 export const initTray = (window: BrowserWindow) => {
     const platform = process.platform;
@@ -10,8 +10,10 @@ export const initTray = (window: BrowserWindow) => {
     const trayObj = new Tray(image);
     trayObj.setToolTip('i5SING');
 
-    const contextMenu = Menu.buildFromTemplate(platform === 'darwin' ? initMacMenu(window) : initWindowsMenu(window));
-    platform == 'win32' ? trayObj.setContextMenu(contextMenu) : trayObj.popUpContextMenu(contextMenu);
+    if (platform === 'win32') {
+        const contextMenu = Menu.buildFromTemplate(initWindowsMenu(window));
+        trayObj.setContextMenu(contextMenu)
+    }
 
     trayObj.on('click', e => {
         if (!window.isVisible()) {

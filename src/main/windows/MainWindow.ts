@@ -61,6 +61,7 @@ export class MainWindow {
             titleBarStyle: 'hiddenInset',
             webPreferences: {
                 webSecurity: false,
+                nodeIntegration: true,
                 preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
             }
         });
