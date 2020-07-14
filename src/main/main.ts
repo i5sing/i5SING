@@ -93,14 +93,8 @@ app.on('window-all-closed', async () => {
     }
 });
 
-let quiting = false;
-
 app.on('before-quit', async (e) => {
-    if (!quiting) {
-        await nestApp.close();
-        app.quit();
-        e.preventDefault();
-    }
+    MainWindow.setQuitFlag(true);
 });
 
 app.on('activate', async () => {
@@ -109,9 +103,7 @@ app.on('activate', async () => {
     if (!MainWindow.isInitialized()) {
         await MainWindow.create();
     } else {
-        MainWindow.getInstance().once('ready-to-show', () => {
-            MainWindow.getInstance().show()
-        })
+        MainWindow.getInstance().show();
     }
 });
 

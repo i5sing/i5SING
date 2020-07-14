@@ -10,6 +10,7 @@ export class MainWindow {
     private static tray: Tray;
     private static touchBar: TouchBar;
     private static lrcTray: Tray;
+    private static willQuit: boolean = false;
 
     private constructor() {
     }
@@ -28,6 +29,10 @@ export class MainWindow {
 
     public static create(): MainWindow {
         return this.instance = this.createWindow();
+    }
+
+    public static setQuitFlag(willQuit: boolean) {
+        this.willQuit = willQuit;
     }
 
     public static getInstance() {
@@ -52,9 +57,8 @@ export class MainWindow {
             minWidth: 1000,
             maxWidth: 1000,
             center: true,
+            show: false,
             titleBarStyle: 'hiddenInset',
-            // transparent: true,
-            // backgroundColor: '#00FFFFFF',
             webPreferences: {
                 webSecurity: false,
                 preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
@@ -67,21 +71,11 @@ export class MainWindow {
         // Open the DevTools.
         // mainWindow.webContents.openDevTools();
 
-        // mainWindow.webContents.clearHistory();
-        // mainWindow.webContents.on('did-finish-load', () => {
-        //     mainWindow.webContents.clearHistory();
-        // });
-
         // Emitted when the window is closed.
-        mainWindow.on('closed', () => {
-            // Dereference the window object, usually you would store windows
-            // in an array if your app supports multi windows, this is the time
-            // when you should delete the corresponding element.
-            this.instance = null;
-        });
-
+        mainWindow.on('closed', () => this.instance = null);
+        mainWindow.once('ready-to-show', () => mainWindow.show());
         mainWindow.on('close', e => {
-            if (mainWindow.webContents.isFocused() && mainWindow.isVisible()) {
+            if (!this.willQuit) {
                 e.preventDefault();
                 mainWindow.hide();
             }
