@@ -51,7 +51,7 @@ export class DownloadManage extends React.Component<IDownloadManageProps> {
     }
 
     download(songId: number, songType: string) {
-        location.href = `http://127.0.0.1:56562/songs/${ songId }/download?songType=${ songType }`;
+        location.href = `http://127.0.0.1:56562/songs/${songId}/download?songType=${songType}`;
     }
 
     openFolder() {
@@ -87,7 +87,7 @@ export class DownloadManage extends React.Component<IDownloadManageProps> {
                 nickname: song.username,
                 image: null
             },
-            local: `file:///${ resolve(this.props.homePath, 'i5sing/downloads', song.filename) }`
+            local: `file:///${resolve(this.props.homePath, 'i5sing/downloads', song.filename)}`
         });
     }
 
@@ -101,66 +101,66 @@ export class DownloadManage extends React.Component<IDownloadManageProps> {
                 nickname: song.username,
                 image: null
             },
-            local: `file:///${ resolve(this.props.homePath, 'i5sing/downloads', song.filename) }`
+            local: `file:///${resolve(this.props.homePath, 'i5sing/downloads', song.filename)}`
         })));
     }
 
     render() {
         const { downloads, loveSongs } = this.props;
-        const songs = toList<IDownload>(downloads, i => `${ i.songKind }-${ i.songId }`);
-        const loves = toMap<ISong>(loveSongs, i => `${ i.kind }-${ i.id }`);
+        const songs = toList<IDownload>(downloads, i => `${i.songKind}-${i.songId}`);
+        const loves = toMap<ISong>(loveSongs, i => `${i.kind}-${i.id}`);
 
         return <Layout>
             <Tool direction="left">
-                <Button type="primary" onClick={ () => this.playAll(songs) }>
+                <Button type="primary" onClick={() => this.playAll(songs)}>
                     <Icon type="play-circle"/>播放全部
                 </Button>
-                <a className={ styles.open_folder_btn } onClick={ () => this.openFolder() }>打开目录</a>
+                <a className={styles.open_folder_btn} onClick={() => this.openFolder()}>打开目录</a>
             </Tool>
-            <div className={ styles.content }>
-                <Table header={ <Table.Row>
-                    <Table.Col type="header" style={ { width: 30 } }>&nbsp;</Table.Col>
-                    <Table.Col type="header" width={ 60 }>&nbsp;</Table.Col>
-                    <Table.Col type="header" width={ 280 }>歌曲标题</Table.Col>
-                    <Table.Col type="header" width={ 180 }>歌手</Table.Col>
-                    <Table.Col type="header" width={ 70 }>大小</Table.Col>
-                    <Table.Col type="header" width={ 130 }>下载时间</Table.Col>
-                    <Table.Col type="header" style={ { width: 30 } }>&nbsp;</Table.Col>
-                </Table.Row> }>
-                    { songs.map((song: IDownload, index: number) => {
-                            const key = `${ song.songKind }-${ song.songId }`;
+            <div className={styles.content}>
+                <Table style={{ background: 'none' }} header={<Table.Row>
+                    <Table.Col type="header" style={{ width: 30 }}>&nbsp;</Table.Col>
+                    <Table.Col type="header" width={60}>&nbsp;</Table.Col>
+                    <Table.Col type="header" width={280}>歌曲标题</Table.Col>
+                    <Table.Col type="header" width={180}>歌手</Table.Col>
+                    <Table.Col type="header" width={70}>大小</Table.Col>
+                    <Table.Col type="header" width={130}>下载时间</Table.Col>
+                    <Table.Col type="header" style={{ width: 30 }}>&nbsp;</Table.Col>
+                </Table.Row>}>
+                    {songs.map((song: IDownload, index: number) => {
+                            const key = `${song.songKind}-${song.songId}`;
                             const hasLoved = !!loves[key];
-                            return <Table.Row id={ `${ key }--downloads` }
-                                              onDoubleClick={ () => this.play(song) }
+                            return <Table.Row id={`${key}--downloads`}
+                                              onDoubleClick={() => this.play(song)}
                                               className={
-                                                  `${ styles.download_table_row } ${ this.state.selected === index ? 'selected' : '' }`
+                                                  `${styles.download_table_row} ${this.state.selected === index ? 'selected' : ''}`
                                               }
-                                              key={ song.songId }
-                                              onClick={ () => this.selected(index) }>
-                                <Table.Col width={ 30 }>&nbsp;</Table.Col>
-                                <Table.Col width={ 60 }>
-                                    <span>{ (index + 1) < 10 ? '0' + (index + 1) : index + 1 }</span>
+                                              key={song.songId}
+                                              onClick={() => this.selected(index)}>
+                                <Table.Col width={30}>&nbsp;</Table.Col>
+                                <Table.Col width={60}>
+                                    <span>{(index + 1) < 10 ? '0' + (index + 1) : index + 1}</span>
                                     <span>
-                                        <Icon type="heart" theme={ hasLoved ? 'filled' : 'outlined' }
-                                              onClick={ () => this.love(hasLoved, song) }
-                                              className={ `song-icon ${ hasLoved ? 'highlight' : '' }` }/>
+                                        <Icon type="heart" theme={hasLoved ? 'filled' : 'outlined'}
+                                              onClick={() => this.love(hasLoved, song)}
+                                              className={`song-icon ${hasLoved ? 'highlight' : ''}`}/>
                                     </span>
                                 </Table.Col>
-                                <Table.Col width={ 280 }>{ song.songName }</Table.Col>
-                                <Table.Col width={ 180 }>
-                                    <Link to={ `/musicians/${ song.userId }` }>{ song.username }</Link>
+                                <Table.Col width={280}>{song.songName}</Table.Col>
+                                <Table.Col width={180}>
+                                    <Link to={`/musicians/${song.userId}`}>{song.username}</Link>
                                 </Table.Col>
-                                <Table.Col width={ 70 }>{ prettyByte(song.total, 'B') }</Table.Col>
-                                <Table.Col width={ 130 }>{ song.createTime }</Table.Col>
-                                <Table.Col width={ 30 }>
-                                    <Icon className={ styles.delete_btn } type="close" onClick={ e => {
+                                <Table.Col width={70}>{prettyByte(song.total, 'B')}</Table.Col>
+                                <Table.Col width={130}>{song.createTime}</Table.Col>
+                                <Table.Col width={30}>
+                                    <Icon className={styles.delete_btn} type="close" onClick={e => {
                                         e.stopPropagation();
                                         this.delete(song);
-                                    } }/>
+                                    }}/>
                                 </Table.Col>
                             </Table.Row>
                         }
-                    ) }
+                    )}
                 </Table>
             </div>
         </Layout>;

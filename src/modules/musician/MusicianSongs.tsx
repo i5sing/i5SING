@@ -130,7 +130,7 @@ export class MusicianSongs extends React.Component<IMusicianSongsProps> {
         const currentSong = playlist[current];
 
         return <EndLoader target="main" onLoad={() => !network.nodata && this.nextPage()}>
-            <Table header={<Table.Row>
+            <Table style={{ background: 'none' }} header={<Table.Row>
                 <Table.Col type="header" width={30}>&nbsp;</Table.Col>
                 <Table.Col type="header" width={140}>&nbsp;</Table.Col>
                 <Table.Col type="header">歌曲标题</Table.Col>
