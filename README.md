@@ -14,7 +14,7 @@
 * Windows
 * Linux
 
-![i5sing首页](http://static.i5sing.com/i5sing-v0.2-welcome.jpg)
+[![i5sing首页](http://static.i5sing.com/i5sing-v0.2-welcome.jpg)]()
 
 
 ## News
