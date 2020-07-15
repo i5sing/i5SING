@@ -4,6 +4,7 @@ import { initTray } from "../trays/tray";
 import { initAppMenu } from "../menu";
 import { initLrcTray } from "../trays/lrc-tray";
 import { registerShortcut } from "../global-shortcut";
+import { LoginWindow } from "./LoginWindow";
 
 export class MainWindow {
     private static instance: BrowserWindow;
@@ -58,9 +59,9 @@ export class MainWindow {
             maxWidth: 1000,
             center: true,
             show: false,
-            transparent: true,
+            transparent: process.platform === 'darwin',
             vibrancy: 'light',
-            backgroundColor: '#00FFFFFF',
+            backgroundColor: process.platform === 'darwin' ? '#00FFFFFF' : '#FFFFFF',
             titleBarStyle: 'hiddenInset',
             webPreferences: {
                 webSecurity: false,
@@ -82,6 +83,9 @@ export class MainWindow {
             if (!this.willQuit) {
                 e.preventDefault();
                 mainWindow.hide();
+                if (LoginWindow.getInstance()) {
+                    LoginWindow.close();
+                }
             }
         });
 

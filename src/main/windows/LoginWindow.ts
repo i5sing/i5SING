@@ -34,6 +34,10 @@ export class LoginWindow {
             alwaysOnTop: true,
             titleBarStyle: 'hiddenInset',
             parent: parent,
+            maximizable: false,
+            minimizable: false,
+            fullscreenable: false,
+            simpleFullscreen: false,
             webPreferences: {
                 webSecurity: false,
                 nodeIntegration: true,

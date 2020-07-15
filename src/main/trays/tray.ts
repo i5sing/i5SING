@@ -20,7 +20,7 @@ export const initTray = (window: BrowserWindow) => {
             e.preventDefault();
             window.show();
         } else {
-            window.focus();
+            window.moveTop();
         }
     });
 

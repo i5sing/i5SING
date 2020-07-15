@@ -3,7 +3,6 @@ node_js:
   - "10"
 os:
   - osx
-  - linux
 dist: trusty
 cache:
   directories:
@@ -17,7 +16,6 @@ branches:
 
 before_install:
   - npm i -g yarn
-  - if test "linux" = "$TRAVIS_OS_NAME"; then apt-get install fakeroot; fi
 install:
   - yarn
 script:

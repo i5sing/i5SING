@@ -4,6 +4,7 @@
   font-size: 12px;
   border-spacing: 0;
   width: 100%;
+  background-color: rgba(255, 255, 255, 0.85);
 
   tr th, tr td {
     height: 32px;
@@ -46,15 +47,15 @@
     }
   }
 
-  th{
-    background: rgba(255, 255, 255, 0.23);
+  th {
+    background-color: rgba(239, 239, 239, 0.3);
   }
 
   tr {
-    background-color: rgba(249, 249, 249, 0.85);
+    background-color: rgba(239, 239, 239, 0.3);
 
     &:nth-child(even) {
-      background-color: rgba(255, 255, 255, 0.85);
+      background-color: rgba(239, 239, 239, 0.65);
     }
 
     &:hover {
@@ -67,8 +68,9 @@
       background-color: rgba(239, 239, 239, 0.85);
     }
 
-    tr.playing {
-      background-color: rgba(230, 230, 230, 0.85);
+    tr.playing td, tr.playing a {
+      color: @active_color;
+      //background-color: rgba(230, 230, 230, 0.85);
     }
   }
 }

@@ -62,7 +62,9 @@ app.on('ready', async () => {
         store.set(REDUX_STORE, data);
     });
     ipcMain.on(OPEN_LOGIN_WINDOW, evt => {
-        LoginWindow.create(MainWindow.getInstance());
+        if (!LoginWindow.getInstance()) {
+            LoginWindow.create(MainWindow.getInstance());
+        }
     });
     ipcMain.on(LOGOUT_EVENT, evt => {
         store.set(REDUX_STORE, void 0);

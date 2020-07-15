@@ -96,7 +96,7 @@ export class FavoriteSongs extends React.Component<IDownloadManageProps> {
 
         console.log(currentSong);
 
-        return <Layout background={image}>
+        return <Layout background={image} transparent={true}>
             <Play image={image}
                   title="我喜欢的音乐"
                   songCount={songs.length}
