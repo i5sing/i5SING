@@ -106,7 +106,7 @@ export class CloudSongs extends React.Component<ICloudSongsProps> {
                 </span>
             </Tool>
             <div className={styles.content}>
-                <Table header={<Table.Row>
+                <Table style={{ background: 'none' }} header={<Table.Row>
                     <Table.Col type="header" width={30}>&nbsp;</Table.Col>
                     <Table.Col type="header" width={40}>&nbsp;</Table.Col>
                     <Table.Col type="header" width={400}>歌曲标题</Table.Col>
