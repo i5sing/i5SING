@@ -3,6 +3,8 @@ node_js:
   - "10"
 os:
   - osx
+  - windows
+  - linux
 dist: trusty
 cache:
   directories:
