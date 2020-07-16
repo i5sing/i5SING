@@ -5,7 +5,7 @@ os:
   - osx
   - windows
   - linux
-dist: trusty
+dist: bionic
 cache:
   directories:
     - "node_modules"
