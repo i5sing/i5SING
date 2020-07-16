@@ -26,3 +26,11 @@ install:
   - yarn
 script:
   - npm run make
+
+deploy:
+  provider: releases
+  api_key: $GITHUB_TOKEN
+  file_glob: true
+  file: out/make/*
+  skip_cleanup: true
+  draft: true

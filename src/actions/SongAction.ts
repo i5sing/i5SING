@@ -30,6 +30,9 @@ export class SongAction {
             url,
             { params: query }
         );
+        if (!response.data.success) {
+            return message.error(response.data.message);
+        }
 
         const data = response.data.data;
         return {
