@@ -33,8 +33,8 @@ deploy:
   file_glob: true
   file:
     - out/make/*
-    - out/make/rpm/*
-    - out/make/deb/*
-    - out/make/squirrel.windows/*
+    - out/make/rpm/x64/*
+    - out/make/deb/x64/*
+    - out/make/squirrel.windows/x64/*
   skip_cleanup: true
   draft: true
