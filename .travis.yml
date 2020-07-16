@@ -29,10 +29,12 @@ script:
 
 deploy:
   provider: releases
+  overwrite: true
   api_key: $GITHUB_TOKEN
   file_glob: true
   file:
     - out/make/*
+    - out/make/zip/darwin/x64/*
     - out/make/rpm/x64/*
     - out/make/deb/x64/*
     - out/make/squirrel.windows/x64/*
