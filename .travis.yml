@@ -31,6 +31,10 @@ deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
   file_glob: true
-  file: out/make/*
+  file:
+    - out/make/*
+    - out/make/rpm/*
+    - out/make/deb/*
+    - out/make/squirrel.windows/*
   skip_cleanup: true
   draft: true
