@@ -11,6 +11,9 @@ cache:
     - "node_modules"
     - $HOME/.cache/electron
 
+env:
+  - YARN_GPG=no
+
 branches:
   only:
     - master
@@ -18,6 +21,7 @@ branches:
 
 before_install:
   - npm i -g yarn
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; apt-get install dpkg fakeroot          ; fi
 install:
   - yarn
 script:
