@@ -32,7 +32,7 @@
 
 [几个小众的原创音乐网站，不少抖音神曲出自这里](https://zhuanlan.zhihu.com/p/37921837)
 
-[腾讯柠檬精选](https://lemon.qq.com/lab/)
+[腾讯柠檬精选](https://lemon.qq.com/lab/app/i5sing.html)
 
 ## Download
 
