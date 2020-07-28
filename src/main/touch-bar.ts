@@ -9,7 +9,7 @@ export const initTouchBar = (window: BrowserWindow): TouchBar => {
         items: [
             new TouchBar.TouchBarButton({ icon: favoriteIcon }),
             new TouchBar.TouchBarButton({ icon: searchIcon, click: () => window.webContents.send(SEARCH_EVENT) }),
-            new TouchBar.TouchBarSpacer({ size: 'large' }),
+            new TouchBar.TouchBarSpacer({ size: 'large',  }),
         ]
     });
 

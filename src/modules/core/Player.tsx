@@ -17,7 +17,7 @@ import { ISong } from "../../interfaces/ISong";
 import { Link } from "react-router-dom";
 import { toMap } from "../../utils/DataUtil";
 import { PlaySongs } from "./PlaySongs";
-import { SONG_CHANGE_EVENT, SYNC_LRC_EVENT } from "../../constants/Events";
+import { SONG_CHANGE_EVENT, SONG_NOTIFY_EVENT, SYNC_LRC_EVENT } from "../../constants/Events";
 
 export interface IPlayerProps {
     current?: number;
@@ -31,6 +31,7 @@ export interface IPlayerProps {
     duration?: number;
     currentTime?: number;
     seq?: string;
+    loading?: boolean;
 }
 
 interface IPlayerState {
@@ -46,9 +47,8 @@ class Player extends React.Component<IPlayerProps, IPlayerState> {
     private lrc = null;
 
     componentDidMount(): void {
-        this.props.soundCloudAudio.on('ended', () => {
-            this.next();
-        });
+        this.props.soundCloudAudio.on('ended', () => this.next());
+        this.props.soundCloudAudio.on('loadeddata', () => this.props.actions.current.loaded());
         this.props.soundCloudAudio.on('error', () => {
             console.log('play error');
             this.next();
@@ -127,10 +127,10 @@ class Player extends React.Component<IPlayerProps, IPlayerState> {
 
         this.props.soundCloudAudio.setTime(currentTime);
 
-        new Notification(song.name, {
+        ipcRenderer.send(SONG_NOTIFY_EVENT, {
+            title: song.name,
             body: song.user.nickname,
-            icon: song.user.image || defaultUserImage,
-            silent: true
+            icon: song.user.image || defaultUserImage
         });
 
         if (song.dynamicWords) {
@@ -186,7 +186,12 @@ class Player extends React.Component<IPlayerProps, IPlayerState> {
         const key = `${song.kind}-${song.id}`;
         const hasLoved = !!loves[key];
         return <div className={styles.player}>
-            <img className={styles.user_image} src={user.image || defaultUserImage} alt={user.nickname}/>
+            <div className={styles.user_image}>
+                {this.props.loading && <div className={styles.loading_layer}>
+                    <Icon className={styles.loading} type="loading"/>
+                </div>}
+                <img src={user.image || defaultUserImage} alt={user.nickname}/>
+            </div>
             <div className={styles.info}>
                 <h3 className="balabala">{song.name}</h3>
                 <h3 className="balabala">
@@ -226,6 +231,7 @@ export const I5singPlayer = withCustomAudio(connect(
         songList: state.current.list,
         loveSongs: state.love.songs,
         seq: state.current.sequence,
+        loading: state.current.loading,
     }),
     (dispatch: Dispatch) => ({
         actions: {

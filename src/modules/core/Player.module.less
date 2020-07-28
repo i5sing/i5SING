@@ -10,6 +10,33 @@
     width: 48px;
     margin: 10px;
     border-radius: 4px;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+
+    .loading_layer {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+
+    .loading {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 20px;
+      color: white;
+    }
+
+    img {
+      height: 48px;
+      width: 48px;
+      border-radius: 4px;
+    }
   }
 
   .info {

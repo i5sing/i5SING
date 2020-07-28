@@ -62,7 +62,13 @@ export default combineReducers({
     play: createReducer<IPlay>(PLAY, { songs: [] } as any),
     movies: createReducer<IMovie[]>(MOVIES, []),
     movie: createReducer<IMovie>(MOVIE, { addresses: [] } as any),
-    current: createReducer<ICurrent>(CURRENT, { list: [], current: -1, currentSong: {}, sequence: 'sequence' }),
+    current: createReducer<ICurrent>(CURRENT, {
+        list: [],
+        loading: false,
+        current: -1,
+        currentSong: {},
+        sequence: 'sequence'
+    }),
     downloads: createReducer<{ [songId: string]: IDownload }>(DOWNLOAD, {}),
     love: createReducer(LOVE, {
         lastModified: 0,

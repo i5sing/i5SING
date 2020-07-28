@@ -40,8 +40,18 @@ export class CurrentAction {
         return response.data.data;
     }
 
+    public static loading() {
+        return dispatch => dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'loading', data: true });
+    }
+
+    public static loaded() {
+        return dispatch => dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'loading', data: false });
+    }
+
     public static play(songId: string, songType: string, song?: ISong) {
         return async (dispatch: Dispatch, state: () => IState) => {
+            dispatch(CurrentAction.loading() as any);
+            dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'current', data: -1 });
             if (!song) {
                 song = await SongAction.getSong(songId, songType);
             }
@@ -57,33 +67,36 @@ export class CurrentAction {
                 playlist.splice(next, 0, song);
             }
 
-            dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'current', data: next });
-            dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'list', data: playlist });
+            setTimeout(async () => {
+                dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'current', data: next });
+                dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'list', data: playlist });
 
-            if (get(song, 'dynamicWords') === void 0) {
-                song = await SongAction.getSong(song.id, song.kind);
-            }
-
-            if (!song.local) {
-                try {
-                    const url = await CurrentAction.getSongUrl(songId, songType);
-
-                    playlist.splice(next, 1, { ...song, ...url });
-                    dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'list', data: [...playlist] });
-                } catch (e) {
-                    message.error(e.message);
-                    let index = current;
-                    if (index >= 0) {
-                        index = -1;
-                    }
-                    dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'current', data: index - 1 })
+                if (get(song, 'dynamicWords') === void 0) {
+                    song = await SongAction.getSong(song.id, song.kind);
                 }
-            }
+
+                if (!song.local) {
+                    try {
+                        const url = await CurrentAction.getSongUrl(songId, songType);
+
+                        playlist.splice(next, 1, { ...song, ...url });
+                        dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'list', data: [...playlist] });
+                    } catch (e) {
+                        message.error(e.message);
+                        let index = current;
+                        if (index >= 0) {
+                            index = -1;
+                        }
+                        dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'current', data: index - 1 })
+                    }
+                }
+            }, 0);
         }
     }
 
     public static next(index?: number) {
         return async (dispatch: Dispatch, state: () => IState) => {
+            dispatch(CurrentAction.loading() as any);
             const current = index !== void 0 ? index : state().current.current;
             const seq = state().current.sequence;
             const playlist = state().current.list;
@@ -112,6 +125,7 @@ export class CurrentAction {
                     } else {
                         next = -1;
                         dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'current', data: -1 });
+                        dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'loading', data: false });
                     }
                 }
 
@@ -139,6 +153,7 @@ export class CurrentAction {
 
     public static previous() {
         return async (dispatch: Dispatch, state: () => IState) => {
+            dispatch(CurrentAction.loading() as any);
             const current = state().current.current;
             const seq = state().current.sequence;
             const playlist = state().current.list;

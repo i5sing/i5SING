@@ -1,5 +1,5 @@
 import { bootstrap } from "./app";
-import { app, ipcMain } from 'electron';
+import { app, ipcMain, Notification, nativeImage } from 'electron';
 import { Store } from "./stores/Store";
 import { AuthService, CloudService, DownloadService, HistoryService, InitialService, LocalService } from "./services";
 import { MainWindow } from "./windows/MainWindow";
@@ -7,7 +7,7 @@ import {
     GET_STORE_CACHE_EVENT,
     LOGOUT_EVENT,
     OPEN_LOGIN_WINDOW,
-    SEND_STORE_CACHE_EVENT,
+    SEND_STORE_CACHE_EVENT, SONG_NOTIFY_EVENT,
     SYNC_CACHE_EVENT, SYNC_LRC_EVENT
 } from "../constants/Events";
 import { REDUX_STORE } from "../constants/Store";
@@ -82,7 +82,21 @@ app.on('ready', async () => {
         if (tray) {
             tray.setTitle(lrc.text);
         }
-    })
+    });
+    ipcMain.on(SONG_NOTIFY_EVENT, (evt, { title, body, icon }) => {
+        if (Notification.isSupported()) {
+            const notification = new Notification({
+                title,
+                body,
+                icon: nativeImage.createFromDataURL(icon),
+                silent: true,
+                // closeButtonText: '跳过'
+            });
+            notification.show();
+            notification.on('close', () => {
+            });
+        }
+    });
 });
 
 // Quit when all windows are closed.
@@ -108,6 +122,8 @@ app.on('activate', async () => {
         MainWindow.getInstance().show();
     }
 });
+
+app.commandLine.appendSwitch('disable-features', 'OutOfBlinkCors');
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
