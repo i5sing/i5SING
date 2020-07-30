@@ -87,7 +87,7 @@ export class DownloadManage extends React.Component<IDownloadManageProps> {
                 nickname: song.username,
                 image: null
             },
-            local: `file:///${resolve(this.props.homePath, 'i5sing/downloads', song.filename)}`
+            local: `http://127.0.0.1:56562/local/play?url=${encodeURIComponent(resolve(this.props.homePath, 'i5sing/downloads', song.filename))}`
         });
     }
 

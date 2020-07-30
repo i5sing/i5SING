@@ -52,7 +52,7 @@ export class CurrentAction {
         return async (dispatch: Dispatch, state: () => IState) => {
             dispatch(CurrentAction.loading() as any);
             dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'current', data: -1 });
-            if (!song) {
+            if (!song && songType !== 'cloud') {
                 song = await SongAction.getSong(songId, songType);
             }
             let current = state().current.current;
@@ -71,11 +71,10 @@ export class CurrentAction {
                 dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'current', data: next });
                 dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'list', data: playlist });
 
-                if (get(song, 'dynamicWords') === void 0) {
-                    song = await SongAction.getSong(song.id, song.kind);
-                }
-
                 if (!song.local) {
+                    if (song.dynamicWords === void 0) {
+                        song = await SongAction.getSong(song.id, song.kind);
+                    }
                     try {
                         const url = await CurrentAction.getSongUrl(songId, songType);
 
