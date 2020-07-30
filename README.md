@@ -36,10 +36,7 @@
 
 ## Download
 
-  [Windows](https://i5sing.com/download/win32_x64)
-  [MacOS](https://i5sing.com/download/darwin_x64)
-  [CentOS](https://static.i5sing.com/app/i5SING_0.2.0.rpm)
-  [Ubuntu](https://i5sing.com/download/linux_x64)
+https://github.com/i5sing/i5SING/releases/
 
 ## Development
 
