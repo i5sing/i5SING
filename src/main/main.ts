@@ -1,17 +1,8 @@
 import { bootstrap } from "./app";
-import { app, ipcMain, Notification, nativeImage } from 'electron';
+import { app } from 'electron';
 import { Store } from "./stores/Store";
 import { AuthService, CloudService, DownloadService, HistoryService, InitialService, LocalService } from "./services";
 import { MainWindow } from "./windows/MainWindow";
-import {
-    GET_STORE_CACHE_EVENT,
-    LOGOUT_EVENT,
-    OPEN_LOGIN_WINDOW,
-    SEND_STORE_CACHE_EVENT, SONG_NOTIFY_EVENT,
-    SYNC_CACHE_EVENT, SYNC_LRC_EVENT
-} from "../constants/Events";
-import { REDUX_STORE } from "../constants/Store";
-import { LoginWindow } from "./windows/LoginWindow";
 import { registerEvents } from "./events";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.

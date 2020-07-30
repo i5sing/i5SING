@@ -1,7 +1,7 @@
 {
   "name": "i5sing",
   "productName": "i5sing",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "My Electron application description",
   "main": "./.webpack/main",
   "scripts": {
