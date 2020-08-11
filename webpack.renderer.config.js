@@ -1,5 +1,6 @@
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
     target: 'electron-renderer',
@@ -21,7 +22,7 @@ module.exports = {
             },
             {
                 test: /\.(css|less)$/,
-                exclude: /\.module\.(css|less)$/,
+                exclude: /\.m\.(css|less)$/,
                 use: [
                     {
                         loader: require.resolve('style-loader'),
@@ -41,7 +42,7 @@ module.exports = {
                 ],
             },
             {
-                test: /\.module\.(css|less)$/,
+                test: /\.m\.(css|less)$/,
                 use: [
                     {
                         loader: require.resolve('style-loader'),
@@ -72,6 +73,12 @@ module.exports = {
     },
     plugins: [
         new TsconfigPathsPlugin({configFile: path.resolve(__dirname, 'tsconfig.json')}),
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery',
+            'window.jQuery': 'jquery',
+            'window.$': 'jquery',
+        })
     ],
     resolve: {
         modules: ['node_modules'],

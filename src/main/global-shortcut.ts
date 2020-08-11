@@ -1,5 +1,5 @@
 import { BrowserWindow, globalShortcut } from 'electron';
-import { SONG_CHANGE_EVENT } from "../constants/Events";
+import { SONG_CHANGE_EVENT } from "../constants/events.constant";
 
 export function registerShortcut(window: BrowserWindow) {
     globalShortcut.register('MediaPlayPause', () => {

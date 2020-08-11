@@ -5,11 +5,11 @@ import {
     OPEN_LOGIN_WINDOW,
     SEND_STORE_CACHE_EVENT, SONG_NOTIFY_EVENT,
     SYNC_CACHE_EVENT, SYNC_LRC_EVENT
-} from "../constants/Events";
-import { REDUX_STORE } from "../constants/Store";
-import { LoginWindow } from "./windows/LoginWindow";
-import { MainWindow } from "./windows/MainWindow";
-import { Store } from "./stores/Store";
+} from "../constants/events.constant";
+import { REDUX_STORE } from "../constants/store.constant";
+import { LoginWindow } from "./windows/login.window";
+import { MainWindow } from "./windows/main.window";
+import { Store } from "./stores/store";
 
 export const registerEvents = (store: Store) => {
     ipcMain.on(GET_STORE_CACHE_EVENT, (event) => {

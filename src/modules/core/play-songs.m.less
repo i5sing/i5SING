@@ -1,0 +1,55 @@
+@import (reference) "../../styles/variables";
+
+.play_songs {
+  position: fixed;
+  right: 0;
+  height: 524px;
+  width: 100%;
+  top: 80px;
+  bottom: 70px;
+  z-index: 10000;
+
+  .tool {
+    padding: 10px 20px;
+
+    .count {
+      font-size: 12px;
+      font-weight: 500;
+      color: @lite_color_2;
+    }
+
+    .clear_btn {
+      float: right;
+    }
+  }
+
+  .play_songs_content {
+    .active {
+      color: @active_color;
+
+      a {
+        color: @active_color;
+      }
+    }
+  }
+
+  .content {
+    overflow-y: auto;
+    height: 524px;
+    width: 420px;
+    right: 0;
+    position: absolute;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.85);
+    border-left: 1px solid #e0dfdf;
+    border-top: 1px solid #e0dfdf;
+  }
+
+  .layers {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}

@@ -11,6 +11,11 @@ import { MusicianModule } from "./musician";
 import { CloudModule } from "./cloud";
 import { SettingModule } from "./setting";
 import { SearchModule } from "./search";
+import { PlayingModule } from "./playing";
+import { Footer } from "./core/footer.container";
+import { Initial } from "./core/initial.container";
+import { Event } from "./core/event.container";
+import { ContextMenu } from "./core/context-menu.container";
 
 export class Routes extends React.Component {
     render() {
@@ -18,6 +23,7 @@ export class Routes extends React.Component {
             <Route exact={true} path="/" component={() => <Redirect to="/discoveries"/>}/>
             <Route path="/discoveries" component={DiscoveryModule}/>
             <Route path="/tops" component={TopModule}/>
+            <Route path="/playing" component={PlayingModule}/>
             <Route path="/plays" component={PlayModule}/>
             <Route path="/movies" component={MovieModule}/>
             <Route path="/downloads" component={DownloadModule}/>
@@ -27,6 +33,10 @@ export class Routes extends React.Component {
             <Route path="/clouds" component={CloudModule}/>
             <Route path="/settings" component={SettingModule}/>
             <Route path="/search" component={SearchModule}/>
+            <Footer/>
+            <Initial/>
+            <Event/>
+            <ContextMenu/>
         </div>;
     }
 }

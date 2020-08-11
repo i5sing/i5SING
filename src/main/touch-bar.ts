@@ -1,6 +1,6 @@
 import { TouchBar, nativeImage, BrowserWindow } from 'electron';
 import { resolve } from "path";
-import { SEARCH_EVENT } from "../constants/Events";
+import { SEARCH_EVENT } from "../constants/events.constant";
 
 export const initTouchBar = (window: BrowserWindow): TouchBar => {
     const favoriteIcon = nativeImage.createFromPath(resolve(__dirname, '../../src/assets/touch-bar/TouchBarFavorite.png'));

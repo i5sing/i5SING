@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Redirect, Route } from "react-router";
-import { MusicianDetail } from "./MusicianDetail";
+import { MusicianDetail } from "./musician-detail.container";
 import { CoreModule } from "../core";
 
 export class MusicianModule extends React.Component {

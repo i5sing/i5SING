@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import { createReducer } from '../utils/ReducerUtil';
 import {
     CHANNELS, CLOUD, COMMENT,
     CURRENT,
@@ -18,23 +17,20 @@ import {
     STYLE_TOP_DETAIL, SYSTEM,
     TOP,
     TOP_DETAIL
-} from '../constants/ActionTypes';
-import { ICarousel } from "../interfaces/ICarousel";
-import { IMovie } from "../interfaces/IMovie";
-import { IPlay } from "../interfaces/IPlay";
-import { ILatestSong } from "../interfaces/ILatestSong";
-import { IChannel } from "../interfaces/IChannel";
-import { ITop } from "../interfaces/ITop";
-import { ITopDetail } from "../interfaces/ITopDetail";
-import { IStyleTop } from "../interfaces/IStyleTop";
-import { ICurrent } from "../interfaces/ICurrent";
-import { IDownload } from "../interfaces/IDownload";
-import { ISong } from "../interfaces/ISong";
-import { ISystem } from "../interfaces/ISystem";
-import { IUser } from "../interfaces/IUser";
-import { ICloud } from "../interfaces/ICloud";
-import { ISearch } from "../interfaces/ISearch";
-import { IComment } from "../interfaces/IComment";
+} from '../constants/action-types.constant';
+import { createReducer } from "../helpers";
+import {
+    ICarousel,
+    IChannel, ICloud, IComment,
+    ICurrent,
+    IDownload,
+    ILatestSong,
+    IMovie,
+    IPlay, ISearch, ISong, IStyleTop,
+    ISystem,
+    ITop,
+    ITopDetail, IUser
+} from "../interfaces";
 
 export default combineReducers({
     system: createReducer<ISystem>(SYSTEM, {
@@ -67,7 +63,9 @@ export default combineReducers({
         loading: false,
         current: -1,
         currentSong: {},
-        sequence: 'sequence'
+        sequence: 'sequence',
+        dynamicLyrics: [],
+        lyricId: null,
     }),
     downloads: createReducer<{ [songId: string]: IDownload }>(DOWNLOAD, {}),
     love: createReducer(LOVE, {

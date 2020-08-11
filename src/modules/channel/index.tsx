@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Route } from "react-router";
-import { Channels } from "./Channels";
+import { Channels } from "./channels.container";
 import { CoreModule } from "../core";
 
 export class ChannelModule extends React.Component {

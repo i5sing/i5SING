@@ -1,6 +1,6 @@
 import { shell, BrowserWindow, app, MenuItemConstructorOptions, Menu } from 'electron';
 import { checkVersion } from "./upgrade";
-import { SONG_CHANGE_EVENT } from "../constants/Events";
+import { SONG_CHANGE_EVENT } from "../constants/events.constant";
 
 export const initAppMenu = (window: BrowserWindow) => {
     if (process.platform === 'darwin') {

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Route } from 'react-router-dom';
-import { TopDetail } from "./TopDetail";
-import { Tops } from "./Tops";
-import { StyleTopDetail } from "./StyleTopDetail";
+import { TopDetail } from "./top-detail.container";
+import { Tops } from "./tops.container";
+import { StyleTopDetail } from "./style-top-detail.container";
 import { CoreModule } from "../core";
 
 export class TopModule extends React.Component {

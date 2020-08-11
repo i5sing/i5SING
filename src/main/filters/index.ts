@@ -1,1 +1,1 @@
-export * from './AnyExceptionsFilter';
+export * from './any-exceptions.filter';

@@ -1,8 +1,8 @@
 import { bootstrap } from "./app";
 import { app } from 'electron';
-import { Store } from "./stores/Store";
+import { Store } from "./stores/store";
 import { AuthService, CloudService, DownloadService, HistoryService, InitialService, LocalService } from "./services";
-import { MainWindow } from "./windows/MainWindow";
+import { MainWindow } from "./windows/main.window";
 import { registerEvents } from "./events";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.

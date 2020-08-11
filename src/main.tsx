@@ -4,12 +4,12 @@ import { message } from 'antd';
 import 'whatwg-fetch';
 import { render } from 'react-dom';
 import { HashRouter as Router } from 'react-router-dom';
-import { configureStore } from './utils/StoreUtil';
+import { configureStore } from './helpers';
 import { Provider } from 'react-redux';
 import reducers from './reducers';
 
 import './styles/index.less';
-import { GET_STORE_CACHE_EVENT, SEND_STORE_CACHE_EVENT } from "./constants/Events";
+import { GET_STORE_CACHE_EVENT, SEND_STORE_CACHE_EVENT } from "./constants/events.constant";
 import { Routes } from "./modules";
 
 message.config({

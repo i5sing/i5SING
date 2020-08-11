@@ -1,1 +1,1 @@
-export * from './I5singClient';
+export * from './i5sing.client';

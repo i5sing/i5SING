@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Route } from 'react-router-dom';
-import { Discovery } from "./Discovery";
-import { WebView } from "./WebView";
+import { Discovery } from "./discovery.container";
+import { WebView } from "./webview.container";
 import { CoreModule } from "../core";
 
 export class DiscoveryModule extends React.Component {

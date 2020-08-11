@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Route } from "react-router";
-import { Search } from "./Search";
+import { Search } from "./search.container";
 import { CoreModule } from "../core";
 
 export class SearchModule extends React.Component {

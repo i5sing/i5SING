@@ -1,13 +1,9 @@
 import * as React from 'react';
-import { Sidebar } from "./Sidebar";
-import { Header } from "./Header";
-import { Footer } from "./Footer";
-import { Event } from './Event';
-import { Initial } from "./Initial";
-import { ContextMenu } from "./ContextMenu";
+import { Sidebar } from "./sidebar.container";
+import { Header } from "./header.container";
 
 export interface CoreModuleProps {
-    type?: 'normal' | 'full' | 'no_footer';
+    type?: 'normal' | 'full' | 'no_footer' | 'no_side';
 }
 
 export class CoreModule extends React.Component<CoreModuleProps> {
@@ -18,29 +14,24 @@ export class CoreModule extends React.Component<CoreModuleProps> {
                 return <div>
                     <Header noSide={true}/>
                     <main>{this.props.children}</main>
-                    <Initial/>
-                    <Event/>
-                    <ContextMenu/>
                 </div>
             case 'no_footer':
                 return <div>
                     <Header/>
                     <Sidebar noFooter={true}/>
                     <main>{this.props.children}</main>
-                    <Initial/>
-                    <Event/>
-                    <ContextMenu/>
-                </div>
+                </div>;
+            case 'no_side':
+                return <div>
+                    <Header/>
+                    <main>{this.props.children}</main>
+                </div>;
             case 'normal':
             default:
                 return <div>
                     <Header/>
                     <Sidebar/>
                     <main>{this.props.children}</main>
-                    <Footer/>
-                    <Initial/>
-                    <Event/>
-                    <ContextMenu/>
                 </div>
         }
 

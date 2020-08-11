@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Route } from 'react-router-dom';
-import { FavoriteSongs } from "./FavoriteSongs";
-import { Collections } from "./Collections";
+import { FavoriteSongs } from "./favorite-songs.container";
+import { Collections } from "./collections.container";
 import { CoreModule } from "../core";
 
 export class FavoriteModule extends React.Component {
