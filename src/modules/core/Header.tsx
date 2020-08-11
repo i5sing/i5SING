@@ -14,6 +14,7 @@ import { SEARCH_EVENT } from "../../constants/Events";
 
 export interface IHeaderProps {
     system?: ISystem;
+    noSide?: boolean;
     actions?: {
         system: typeof SystemAction;
         history: typeof HistoryAction;
@@ -53,6 +54,7 @@ export class Header extends React.Component<IHeaderProps> {
     }
 
     render() {
+        const { noSide } = this.props;
         const { canGoForward, canGoBack } = this.props.system;
         const current = location.hash;
         let searchValue = '';
@@ -60,7 +62,7 @@ export class Header extends React.Component<IHeaderProps> {
             const chunks = current.split('/');
             searchValue = chunks[chunks.length - 1];
         }
-        return <div className="header">
+        return <div className={`header ${noSide ? 'no-side' : ''}`}>
             <div className="histories-btn-group">
                 <Icon className={`histories-btn ${canGoBack ? '' : 'disabled'}`}
                       type="left"

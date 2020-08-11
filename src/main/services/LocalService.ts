@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import * as moment from 'moment';
 import { readdirSync, statSync, unlink } from 'fs';
 import { resolve } from 'path';
+import { app, BrowserWindow } from 'electron';
 import { handleFilename } from "../../utils/NameUtil";
 import { IDownload } from "../../interfaces/IDownload";
 import { INestService } from "./INestService";
@@ -10,7 +11,7 @@ import { INestService } from "./INestService";
 export class LocalService implements INestService {
     private home: string = '/Users/zhaofeng';
 
-    init(app: Electron.App, window: Electron.BrowserWindow): Promise<void> | void {
+    init(window: BrowserWindow): Promise<void> | void {
         this.home = app.getPath('home');
     }
 

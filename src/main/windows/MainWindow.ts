@@ -2,9 +2,9 @@ import { BrowserWindow, Tray, TouchBar } from "electron";
 import { initTouchBar } from "../touch-bar";
 import { initTray } from "../trays/tray";
 import { initAppMenu } from "../menu";
-import { initLrcTray } from "../trays/lrc-tray";
 import { registerShortcut } from "../global-shortcut";
 import { LoginWindow } from "./LoginWindow";
+import { initLrcTray } from "../trays/lrc-tray";
 
 export class MainWindow {
     private static instance: BrowserWindow;

@@ -5,12 +5,12 @@ import 'whatwg-fetch';
 import { render } from 'react-dom';
 import { HashRouter as Router } from 'react-router-dom';
 import { configureStore } from './utils/StoreUtil';
-import { CoreModule } from "./modules/core";
 import { Provider } from 'react-redux';
 import reducers from './reducers';
 
 import './styles/index.less';
 import { GET_STORE_CACHE_EVENT, SEND_STORE_CACHE_EVENT } from "./constants/Events";
+import { Routes } from "./modules";
 
 message.config({
     top: 100,
@@ -28,9 +28,9 @@ const renderApp = () => {
     store.replaceReducer(reducers);
 
     render(
-        <Provider store={ store }>
+        <Provider store={store}>
             <Router>
-                <CoreModule/>
+                <Routes/>
             </Router>
         </Provider>,
         document.getElementById('app')

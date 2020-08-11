@@ -9,6 +9,7 @@ export const initTray = (window: BrowserWindow) => {
         resolve(__dirname, '../../src/assets/tray/tray.png');
     const trayObj = new Tray(image);
     trayObj.setToolTip('i5SING');
+    trayObj.setTitle('');
 
     if (platform === 'win32') {
         const contextMenu = Menu.buildFromTemplate(initWindowsMenu(window));

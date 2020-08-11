@@ -1,5 +1,5 @@
-import { App, BrowserWindow } from 'electron';
+import { BrowserWindow } from 'electron';
 
 export interface INestService {
-    init(app: App, window: BrowserWindow, extra?: any): Promise<void> | void;
+    init(window: BrowserWindow, extra?: any): Promise<void> | void;
 }

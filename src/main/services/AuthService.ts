@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { set } from 'lodash';
-import { App, BrowserWindow } from 'electron';
+import { BrowserWindow } from 'electron';
 import { createHash } from 'crypto';
 import { I5singClient } from '../clients';
 import { LoginWindow } from "../windows/LoginWindow";
@@ -21,7 +21,7 @@ export class AuthService implements INestService {
     ) {
     }
 
-    init(app: App, window: BrowserWindow, store: Store): Promise<void> | void {
+    init(window: BrowserWindow, store: Store): Promise<void> | void {
         this.store = store;
         this.window = window;
     }

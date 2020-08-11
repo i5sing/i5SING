@@ -13,7 +13,7 @@ export class SongService {
     public async getSong(songId: string, songType: string) {
         const url = (await this.client.getSongUrl(songId, songType)).data;
         const song = (await this.client.getSong(songId, songType)).data;
-        const filename = `${ song.SN } - ${ song.user.NN } - ${ song.SK } - ${ song.ID } - ${ song.user.ID }.mp3`;
+        const filename = `${song.SN} - ${song.user.NN} - ${song.SK} - ${song.ID} - ${song.user.ID}.mp3`;
 
         return { url, song, filename };
     }

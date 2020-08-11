@@ -58,24 +58,24 @@ export class MusicianDetail extends React.Component<IMusicianProps> {
             isFollow: false,
             description: ''
         };
-        const headers = <span style={ { marginLeft: 20 } }>
-            <HeadBtn to={ `/musicians/${ musicianId }/yc` }>原创</HeadBtn>
-            <HeadBtn to={ `/musicians/${ musicianId }/fc` }>翻唱</HeadBtn>
-            <HeadBtn to={ `/musicians/${ musicianId }/bz` }>伴奏</HeadBtn>
+        const headers = <span style={{ marginLeft: 20 }}>
+            <HeadBtn to={`/musicians/${musicianId}/yc`}>原创</HeadBtn>
+            <HeadBtn to={`/musicians/${musicianId}/fc`}>翻唱</HeadBtn>
+            <HeadBtn to={`/musicians/${musicianId}/bz`}>伴奏</HeadBtn>
             {/*<HeadBtn to={ `/musicians/${ musicianId }/activities` }>动态</HeadBtn>*/}
-            <HeadBtn to={ `/musicians/${ musicianId }/guest-books` }>留言</HeadBtn>
+            <HeadBtn to={`/musicians/${musicianId}/guest-books`}>留言</HeadBtn>
         </span>;
-        return <Layout header={ headers } id="main">
-            <Musician image={ user.image }
-                      hideLike={ userId + '' === user.id + '' }
-                      title={ user.nickname }
-                      isLike={ user.isFollow }
-                      onLike={ () => this.follow(user) }
-                      description={ user.description }>
-                { type === 'yc' ? <MusicianSongs type="yc" musicianId={ musicianId }/> : '' }
-                { type === 'fc' ? <MusicianSongs type="fc" musicianId={ musicianId }/> : '' }
-                { type === 'bz' ? <MusicianSongs type="bz" musicianId={ musicianId }/> : '' }
-                { type === 'guest-books' ? <MusicianGuestBook musicianId={ musicianId }/> : '' }
+        return <Layout header={headers} id="main">
+            <Musician image={user.image}
+                      hideLike={userId + '' === user.id + ''}
+                      title={user.nickname}
+                      isLike={user.isFollow}
+                      onLike={() => this.follow(user)}
+                      description={user.description}>
+                {type === 'yc' ? <MusicianSongs type="yc" musicianId={musicianId}/> : ''}
+                {type === 'fc' ? <MusicianSongs type="fc" musicianId={musicianId}/> : ''}
+                {type === 'bz' ? <MusicianSongs type="bz" musicianId={musicianId}/> : ''}
+                {type === 'guest-books' ? <MusicianGuestBook musicianId={musicianId}/> : ''}
             </Musician>
         </Layout>
     }

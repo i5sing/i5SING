@@ -27,12 +27,12 @@ const createNestApp = async () => {
         const historyService: HistoryService = nestApp.get(HistoryService);
         const cloudService: CloudService = nestApp.get(CloudService);
 
-        initialService.init(app, mainWindow, store);
-        historyService.init(app, mainWindow);
-        downloadService.init(app, mainWindow);
-        localService.init(app, mainWindow);
-        authService.init(app, mainWindow, store);
-        cloudService.init(app, mainWindow, store);
+        initialService.init(mainWindow, store);
+        historyService.init(mainWindow);
+        downloadService.init(mainWindow);
+        localService.init(mainWindow);
+        authService.init(mainWindow, store);
+        cloudService.init(mainWindow, store);
     });
 };
 

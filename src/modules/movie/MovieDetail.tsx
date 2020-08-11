@@ -122,55 +122,55 @@ export class MovieDetail extends React.Component<IMovieDetailProps, IMovieDetail
         const movieId = this.props.match.params.movieId;
 
         console.log('test: ', comments);
-        return <Layout className="movie-detail">
-            { this.state.render && <Player autoPlay={ true } width="100%" controls>
-                <source src={ `http://127.0.0.1:56562/movies/${ movieId }/play` }/>
-            </Player> }
+        return <Layout className="movie-detail" noFooter={true}>
+            {this.state.render && <Player autoPlay={true} width="100%" controls>
+                <source src={`http://127.0.0.1:56562/movies/${movieId}/play`}/>
+            </Player>}
             <div className="movie-detail-info">
-                <h1>{ movie.title }</h1>
-                <div className="movie-detail-desc" dangerouslySetInnerHTML={ { __html: movie.description } }>
+                <h1>{movie.title}</h1>
+                <div className="movie-detail-desc" dangerouslySetInnerHTML={{ __html: movie.description }}>
                 </div>
                 <div className="movie-detail-user">
-                    <img src={ user.image } alt={ user.nickname }
-                         onClick={ () => location.hash = `#/musicians/${ user.id }` }/>
-                    <span onClick={ () => location.hash = `#/musicians/${ user.id }` }>
-                        { user.nickname }
+                    <img src={user.image} alt={user.nickname}
+                         onClick={() => location.hash = `#/musicians/${user.id}`}/>
+                    <span onClick={() => location.hash = `#/musicians/${user.id}`}>
+                        {user.nickname}
                     </span>
                 </div>
                 <div className="movie-detail-extra">
-                    <span>发布：{ moment(movie.createTime * 1000).format('YYYY-MM-DD') }</span>
-                    <span>播放：{ movie.play }次</span>
+                    <span>发布：{moment(movie.createTime * 1000).format('YYYY-MM-DD')}</span>
+                    <span>播放：{movie.play}次</span>
                 </div>
                 <Tool>
-                    <a className="button" onClick={ () => this.like(movie) }>
-                        { movie.isLike ? '已赞' : '赞' } { movie.like }
+                    <a className="button" onClick={() => this.like(movie)}>
+                        {movie.isLike ? '已赞' : '赞'} {movie.like}
                     </a>
-                    <a className="button" onClick={ () => this.love(movie) }>
-                        { movie.isCollect ? '已收藏' : '收藏' } { movie.collect }
+                    <a className="button" onClick={() => this.love(movie)}>
+                        {movie.isCollect ? '已收藏' : '收藏'} {movie.collect}
                     </a>
                 </Tool>
             </div>
-            { otherMovies.length > 0 ? <Card title="TA 的其他视频">
-                <ImgCard count={ 3 }>
-                    { (movie.movies || []).map((movie: IMovie) =>
+            {otherMovies.length > 0 ? <Card title="TA 的其他视频">
+                <ImgCard count={3}>
+                    {(movie.movies || []).map((movie: IMovie) =>
                         <ImgCard.Item
-                            height={ 128 }
-                            key={ movie.id }
-                            title={ movie.title }
-                            extra={ movie.play }
-                            img={ movie.cover }
-                            onClick={ () => location.hash = `#/movies/${ movie.id }` }
+                            height={128}
+                            key={movie.id}
+                            title={movie.title}
+                            extra={movie.play}
+                            img={movie.cover}
+                            onClick={() => location.hash = `#/movies/${movie.id}`}
                         />
-                    ) }
+                    )}
                 </ImgCard>
-            </Card> : null }
-            <CommentList comments={ comments } hots={ hots }
-                         wrap={ true }
-                         commentLoading={ get(net[MOVIE_COMMENT], 'loading') }
-                         replyLoading={ get(net[MOVIE_REPLY], 'loading') }
-                         onLike={ (commentId, like) => this.likeComment(movie.id, commentId, like) }
-                         onReply={ (commentId, userId, content) => this.reply(movie.id, userId, commentId, content) }
-                         onSubmit={ content => this.comment(movie.id, movie.user.id + '', content) }/>
+            </Card> : null}
+            <CommentList comments={comments} hots={hots}
+                         wrap={true}
+                         commentLoading={get(net[MOVIE_COMMENT], 'loading')}
+                         replyLoading={get(net[MOVIE_REPLY], 'loading')}
+                         onLike={(commentId, like) => this.likeComment(movie.id, commentId, like)}
+                         onReply={(commentId, userId, content) => this.reply(movie.id, userId, commentId, content)}
+                         onSubmit={content => this.comment(movie.id, movie.user.id + '', content)}/>
         </Layout>
     }
 }

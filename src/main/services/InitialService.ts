@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { get } from 'lodash';
-import { ipcMain, BrowserWindow, App } from 'electron';
+import { ipcMain, BrowserWindow, app } from 'electron';
 import { GET_SIGN_EVENT, INIT_SYSTEM_EVENT } from "../../constants/Events";
 import { INestService } from "./INestService";
 import { Store } from "../stores/Store";
@@ -19,7 +19,7 @@ export class InitialService implements INestService {
         avatar: '',
     };
 
-    public init(app: App, mainWindow: BrowserWindow, store: Store) {
+    public init(mainWindow: BrowserWindow, store: Store) {
         ipcMain.on(GET_SIGN_EVENT, evt => {
             const state: IState = store.get(REDUX_STORE) || {} as any;
             evt.returnValue = get(state.system, 'sign');

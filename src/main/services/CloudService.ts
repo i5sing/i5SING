@@ -18,7 +18,7 @@ export class CloudService implements INestService {
     ) {
     }
 
-    init(app: Electron.App, window: Electron.BrowserWindow, store: Store): Promise<void> | void {
+    init(window: Electron.BrowserWindow, store: Store): Promise<void> | void {
         this.store = store;
     }
 

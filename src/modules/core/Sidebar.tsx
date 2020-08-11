@@ -15,6 +15,7 @@ export interface ISidebarProps {
     actions?: {
         auth: typeof AuthAction;
     };
+    noFooter?: boolean;
     plays?: IPlay[];
     system?: ISystem;
 }
@@ -32,10 +33,10 @@ export interface ISidebarProps {
 )
 export class Sidebar extends React.Component<ISidebarProps> {
     render() {
-        const { plays, system, actions } = this.props;
+        const { plays, system, actions, noFooter } = this.props;
         const hasLogin = !!system.sign;
-        return <div className="sidebar">
-            <UserInfo username={ system.nickname } avatar={ system.avatar } onLogout={ () => actions.auth.logout() }/>
+        return <div className={`sidebar ${noFooter ? 'no-footer' : ''}`}>
+            <UserInfo username={system.nickname} avatar={system.avatar} onLogout={() => actions.auth.logout()}/>
             <div className="sidebar-content">
                 <Navigate>
                     <Navigate.Item to="/discoveries">
@@ -58,29 +59,29 @@ export class Sidebar extends React.Component<ISidebarProps> {
                     {/*</Navigate.Item>*/}
                 </Navigate>
                 <Navigate title="我的音乐">
-                    { hasLogin && <Navigate.Item to={ `/musicians/${ system.userId }` }>
+                    {hasLogin && <Navigate.Item to={`/musicians/${system.userId}`}>
                         <Icon className="sidebar-icon" type="user"/>我的音乐
-                    </Navigate.Item> }
+                    </Navigate.Item>}
                     <Navigate.Item to="/downloads">
                         <Icon className="sidebar-icon" type="download"/>下载管理
                     </Navigate.Item>
                     <Navigate.Item to="/clouds">
                         <Icon className="sidebar-icon" type="cloud"/>我的音乐云盘
                     </Navigate.Item>
-                    { hasLogin && <Navigate.Item to="/favorite/collections">
+                    {hasLogin && <Navigate.Item to="/favorite/collections">
                         <Icon className="sidebar-icon" type="star"/>我的收藏
-                    </Navigate.Item> }
+                    </Navigate.Item>}
                 </Navigate>
-                { hasLogin && <Navigate title="创建的歌单">
+                {hasLogin && <Navigate title="创建的歌单">
                     <Navigate.Item to="/favorite/songs">
                         <Icon className="sidebar-icon" type="heart"/>我喜欢的音乐
                     </Navigate.Item>
-                    { plays.map((play: IPlay) =>
-                        <Navigate.Item key={ play.id } to={ `/plays/${ play.id }` }>
-                            <Icon className="sidebar-icon" type="menu-unfold"/>{ play.title }
+                    {plays.map((play: IPlay) =>
+                        <Navigate.Item key={play.id} to={`/plays/${play.id}`}>
+                            <Icon className="sidebar-icon" type="menu-unfold"/>{play.title}
                         </Navigate.Item>
-                    ) }
-                </Navigate> }
+                    )}
+                </Navigate>}
             </div>
         </div>;
     }
