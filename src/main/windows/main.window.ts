@@ -59,6 +59,8 @@ export class MainWindow {
             maxWidth: 1000,
             center: true,
             show: false,
+            resizable: false,
+            fullscreen: false,
             transparent: process.platform === 'darwin',
             vibrancy: 'light',
             backgroundColor: process.platform === 'darwin' ? '#00FFFFFF' : '#FFFFFF',
