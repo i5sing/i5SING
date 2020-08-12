@@ -12,7 +12,6 @@ import { IState } from "../../reducers";
 import { Icon, Slider, Tag } from "antd";
 import { bindActionCreators, Dispatch } from "redux";
 import { CurrentAction, SongAction } from "../../actions";
-import { Link } from "react-router-dom";
 import { ISong } from "../../interfaces";
 import { SONG_CHANGE_EVENT, SONG_NOTIFY_EVENT, SYNC_LRC_EVENT } from "../../constants/events.constant";
 import { actions, toMap } from "../../helpers";
@@ -185,6 +184,11 @@ class Player extends React.Component<IPlayerProps, IPlayerState> {
         this.props.actions.current.showPlayingPage(!this.props.showPlaying);
     }
 
+    onClickUsername(user) {
+        this.props.actions.current.showPlayingPage(false);
+        location.hash = user.id === -1 ? `/clouds` : `/musicians/${user.id}`;
+    }
+
     render() {
         const { current, soundCloudAudio, songList, loveSongs, seq } = this.props;
         const song: ISong = songList[current] || { songName: '', name: '' };
@@ -203,7 +207,7 @@ class Player extends React.Component<IPlayerProps, IPlayerState> {
             <div className={styles.info}>
                 <h3 className="balabala">{song.name}</h3>
                 <h3 className="balabala">
-                    <Link to={user.id === -1 ? `/clouds` : `/musicians/${user.id}`}>{user.nickname}</Link>
+                    <a onClick={() => this.onClickUsername(user)}>{user.nickname}</a>
                 </h3>
             </div>
             <div className={styles.play_btn_group}>

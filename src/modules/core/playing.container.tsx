@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { IState } from "../../reducers";
 import { ISong } from "../../interfaces";
 import { get } from "lodash";
-import { Link } from "react-router-dom";
 import { bindActionCreators, Dispatch } from "redux";
 import { actions } from "../../helpers";
 import { CurrentAction } from "../../actions";
@@ -41,6 +40,11 @@ export class Playing extends React.Component<any, any> {
         }
     }
 
+    onClickUsername(user) {
+        this.props.actions.current.showPlayingPage(false);
+        location.hash = user.id === -1 ? `/clouds` : `/musicians/${user.id}`;
+    }
+
     render() {
         const { current, songList, lyrics = [], id, visible } = this.props;
         const song: ISong = songList[current] || { songName: '', name: '' };
@@ -57,7 +61,7 @@ export class Playing extends React.Component<any, any> {
                     <h1>{song.name}</h1>
                     <div className={styles.description}>
                         <span>歌手：</span>
-                        <Link to={user.id === -1 ? `/clouds` : `/musicians/${user.id}`}>{user.nickname}</Link>
+                        <a onClick={() => this.onClickUsername(user)}>{user.nickname}</a>
                     </div>
                     <div className={`${styles.content} lyric-content`}>
                         {lyrics.map((lyric, index) => <p
