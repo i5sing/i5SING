@@ -29,6 +29,20 @@ export class CloudAction {
         }
     }
 
+    public static deleteCloudSong(name: string) {
+        return async (dispatch, state) => {
+            try {
+                const songs = state().cloud.songs || [];
+                const newSongs = songs.filter(song => song.key !== name);
+                dispatch({ type: CLOUD, action: UPDATE_PROPERTY, path: 'songs', data: [...newSongs] });
+                const url = 'http://127.0.0.1:56562/cloud/songs/' + encodeURIComponent(name);
+                await instance.delete(url);
+            } catch (e) {
+                message.error(e.response ? e.response.data.message : e.message);
+            }
+        }
+    }
+
     public static updateConfig(config: ICloud) {
         return async (dispatch: Dispatch, state: () => IState) => {
             config.songs = state().cloud.songs;

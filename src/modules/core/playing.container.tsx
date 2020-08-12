@@ -9,8 +9,7 @@ import { get } from "lodash";
 import { Link } from "react-router-dom";
 import { bindActionCreators, Dispatch } from "redux";
 import { actions } from "../../helpers";
-import { SystemAction } from "../../actions/system.action";
-import { HistoryAction } from "../../actions/history.action";
+import { CurrentAction } from "../../actions";
 
 @connect(
     (state: IState) => ({
@@ -21,20 +20,15 @@ import { HistoryAction } from "../../actions/history.action";
         loading: state.current.loading,
         lyrics: state.current.dynamicLyrics,
         id: state.current.lyricId,
+        visible: state.current.showPlaying,
     }),
     (dispatch: Dispatch) => ({
         actions: {
-            system: bindActionCreators(actions(SystemAction), dispatch),
-            history: bindActionCreators(actions(HistoryAction), dispatch),
+            current: bindActionCreators(actions(CurrentAction), dispatch),
         }
     })
 )
 export class Playing extends React.Component<any, any> {
-    back() {
-        this.props.actions.history.back();
-        this.props.actions.system.refreshSystem();
-    }
-
     componentWillReceiveProps(props: Readonly<any>, nextContext: any) {
         if (props.id !== this.props.id) {
             const lineElement = $(`.lyric-${props.id}`)[0] || { offsetTop: 0 };
@@ -48,11 +42,13 @@ export class Playing extends React.Component<any, any> {
     }
 
     render() {
-        const { current, songList, lyrics = [], id } = this.props;
+        const { current, songList, lyrics = [], id, visible } = this.props;
         const song: ISong = songList[current] || { songName: '', name: '' };
         const user = get(song, 'user', { image: void 0, nickname: '', id: '' });
-        return <div className={styles.player_detail}>
-            <Icon type="down" className={styles.close_btn} onClick={() => this.back()}/>
+        return visible ? <div className={styles.player_detail}>
+            <Icon type="down"
+                  className={styles.close_btn}
+                  onClick={() => this.props.actions.current.showPlayingPage(false)}/>
             <div>
                 <div className={styles.image}>
                     <img src={user.image} alt={user.nickname}/>
@@ -71,6 +67,6 @@ export class Playing extends React.Component<any, any> {
                     </div>
                 </div>
             </div>
-        </div>;
+        </div> : '';
     }
 }

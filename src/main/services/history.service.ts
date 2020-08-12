@@ -5,16 +5,20 @@ import { INestService } from "../../interfaces";
 
 @Injectable()
 export class HistoryService implements INestService {
+    private back(window: BrowserWindow) {
+        if (window.webContents.canGoBack()) {
+            window.webContents.goBack();
+        }
+    }
+
+    private go(window: BrowserWindow) {
+        if (window.webContents.canGoForward()) {
+            window.webContents.goForward();
+        }
+    }
+
     public init(window: BrowserWindow) {
-        ipcMain.on(GO_BACK_EVENT, () => {
-            if (window.webContents.canGoBack()) {
-                window.webContents.goBack();
-            }
-        });
-        ipcMain.on(GO_FORWARD_EVENT, () => {
-            if (window.webContents.canGoForward()) {
-                window.webContents.goForward();
-            }
-        });
+        ipcMain.on(GO_BACK_EVENT, () => this.back(window));
+        ipcMain.on(GO_FORWARD_EVENT, () => this.go(window));
     }
 }

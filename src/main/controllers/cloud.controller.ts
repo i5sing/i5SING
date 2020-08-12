@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Put, Query, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { CloudService } from "../services";
 import * as stream from "stream";
@@ -32,6 +32,13 @@ export class CloudController {
     @Put('/songs')
     async transformSong(@Body('songId') songId: string, @Body('songType') songType: string) {
         await this.cloudService.uploadSong(songId, songType);
+        return {};
+    }
+
+    @Delete('/songs/:songName')
+    async delete(@Param('songName') songName: string) {
+        const name = decodeURIComponent(songName);
+        await this.cloudService.deleteSong(name);
         return {};
     }
 }

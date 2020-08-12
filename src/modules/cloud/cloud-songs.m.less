@@ -4,3 +4,16 @@
   margin: 0 -30px;
   border-top: 1px solid @border_color;
 }
+
+.cloud_table_row {
+  .delete_btn {
+    cursor: pointer;
+    visibility: hidden;
+  }
+
+  &:hover {
+    .delete_btn {
+      visibility: visible;
+    }
+  }
+}

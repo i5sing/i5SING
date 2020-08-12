@@ -6,4 +6,6 @@ export interface ICurrent {
     sequence: string;
     dynamicLyrics: any[];
     lyricId: string;
+    showPlaying: boolean;
+    showFooter: boolean;
 }

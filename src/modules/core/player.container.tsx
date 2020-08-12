@@ -31,6 +31,7 @@ export interface IPlayerProps {
     currentTime?: number;
     seq?: string;
     loading?: boolean;
+    showPlaying?: boolean;
 }
 
 interface IPlayerState {
@@ -180,6 +181,10 @@ class Player extends React.Component<IPlayerProps, IPlayerState> {
         this.props.actions.current.nextSequence();
     }
 
+    goPlaying() {
+        this.props.actions.current.showPlayingPage(!this.props.showPlaying);
+    }
+
     render() {
         const { current, soundCloudAudio, songList, loveSongs, seq } = this.props;
         const song: ISong = songList[current] || { songName: '', name: '' };
@@ -193,7 +198,7 @@ class Player extends React.Component<IPlayerProps, IPlayerState> {
                     <Icon className={styles.loading} type="loading"/>
                 </div>}
                 <img src={user.image || defaultUserImage} alt={user.nickname}
-                     onClick={() => location.hash = 'playing'}/>
+                     onClick={() => this.goPlaying()}/>
             </div>
             <div className={styles.info}>
                 <h3 className="balabala">{song.name}</h3>
@@ -235,6 +240,7 @@ export const I5singPlayer = withCustomAudio(connect(
         loveSongs: state.love.songs,
         seq: state.current.sequence,
         loading: state.current.loading,
+        showPlaying: state.current.showPlaying,
     }),
     (dispatch: Dispatch) => ({
         actions: {

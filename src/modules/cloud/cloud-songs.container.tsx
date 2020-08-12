@@ -54,6 +54,7 @@ export class CloudSongs extends React.Component<ICloudSongsProps> {
     }
 
     delete(key: string) {
+        this.props.actions.cloud.deleteCloudSong(key);
     }
 
     play(song: ICloudSong) {
@@ -115,7 +116,7 @@ export class CloudSongs extends React.Component<ICloudSongsProps> {
                             return <Table.Row id={`${song.key}--cloud.songs`}
                                               onDoubleClick={() => this.play(song)}
                                               className={
-                                                  `${styles.download_table_row} ${this.state.selected === index ? 'selected' : ''}`
+                                                  `${styles.cloud_table_row} ${this.state.selected === index ? 'selected' : ''}`
                                               }
                                               key={song.key}
                                               onClick={() => this.selected(index)}>

@@ -54,6 +54,14 @@ export class MovieDetail extends React.Component<IMovieDetailProps, IMovieDetail
         render: true,
     };
 
+    componentWillMount() {
+        this.props.actions.current.showFooter(false);
+    }
+
+    componentWillUnmount() {
+        this.props.actions.current.showFooter(true);
+    }
+
     componentDidMount(): void {
         const movieId: string = this.props.match.params.movieId;
         this.props.actions.movie.getMovie(movieId);

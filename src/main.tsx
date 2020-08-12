@@ -7,6 +7,7 @@ import { HashRouter as Router } from 'react-router-dom';
 import { configureStore } from './helpers';
 import { Provider } from 'react-redux';
 import reducers from './reducers';
+import { set } from 'lodash';
 
 import './styles/index.less';
 import { GET_STORE_CACHE_EVENT, SEND_STORE_CACHE_EVENT } from "./constants/events.constant";
@@ -19,6 +20,8 @@ message.config({
 });
 
 const preloadState = ipcRenderer.sendSync(GET_STORE_CACHE_EVENT);
+set(preloadState, 'current.showPlaying', false);
+set(preloadState, 'current.showFooter', true);
 const store = configureStore(preloadState || {});
 
 const renderApp = () => {

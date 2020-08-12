@@ -233,4 +233,16 @@ export class CurrentAction {
     public static end() {
         return dispatch => dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'current', data: -1 });
     }
+
+    public static showFooter(visible: boolean = true) {
+        return (dispatch, state) => {
+            dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'showFooter', data: visible })
+        }
+    }
+
+    public static showPlayingPage(visible: boolean = true) {
+        return (dispatch, state) => {
+            dispatch({ type: CURRENT, action: UPDATE_PROPERTY, path: 'showPlaying', data: visible })
+        }
+    }
 }

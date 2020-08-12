@@ -66,6 +66,8 @@ export default combineReducers({
         sequence: 'sequence',
         dynamicLyrics: [],
         lyricId: null,
+        showPlaying: null,
+        showFooter: true,
     }),
     downloads: createReducer<{ [songId: string]: IDownload }>(DOWNLOAD, {}),
     love: createReducer(LOVE, {

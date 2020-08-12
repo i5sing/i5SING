@@ -42,6 +42,25 @@ export class CloudService implements INestService {
         })
     }
 
+    public async deleteSong(songName: string) {
+        const state: IState = this.store.get(REDUX_STORE);
+        const accessKey = get(state, 'cloud.accessKey');
+        const secretKey = get(state, 'cloud.secretKey');
+        if (!accessKey || !secretKey) {
+            throw new BadRequestException('请先配置云盘');
+        }
+        const mac = new auth.digest.Mac(accessKey, secretKey);
+        const config = new conf.Config({ zone: zone[get(state, 'cloud.zone', 'Zone_z1')] });
+        const bucketManager = new rs.BucketManager(mac, config);
+        const bucket = get(state, 'cloud.bucket');
+        await new Promise((resolve, reject) => {
+            bucketManager.delete(bucket, songName, (err, respBody, respInfo) => {
+                err ? reject(err) : resolve();
+            });
+        });
+
+    }
+
     public async uploadSong(songId: string, songType: string) {
         const { url, filename } = await this.songService.getSong(songId, songType);
         const state: IState = this.store.get(REDUX_STORE);
