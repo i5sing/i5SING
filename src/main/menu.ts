@@ -6,38 +6,32 @@ export const initAppMenu = (window: BrowserWindow) => {
     if (process.platform === 'darwin') {
         Menu.setApplicationMenu(Menu.buildFromTemplate(initMacMenu(window)));
     }
+
+    window.setMenuBarVisibility(false);
 };
 
 export const initWindowsMenu = (window: BrowserWindow): MenuItemConstructorOptions[] => {
     return [
         {
             label: '播放/暂停',
-            click: () => {
-                window.webContents.send(SONG_CHANGE_EVENT, 'play_pause');
-            }
+            click: () =>  window.webContents.send(SONG_CHANGE_EVENT, 'play_pause'),
         },
         {
             label: '上一曲',
-            click: () => {
-                window.webContents.send(SONG_CHANGE_EVENT, 'pre');
-            }
+            click: () => window.webContents.send(SONG_CHANGE_EVENT, 'pre'),
         },
         {
             label: '下一曲',
-            click: function () {
-                window.webContents.send(SONG_CHANGE_EVENT, 'next');
-            }
+            click: () => window.webContents.send(SONG_CHANGE_EVENT, 'next'),
         },
         {
             label: 'DevTools',
             accelerator: 'Alt+Command+I',
-            role: 'toggleDevTools',
+            click: () => window.webContents.openDevTools(),
         },
         {
             label: '反馈',
-            click: () => {
-                shell.openExternal('https://github.com/i5sing/i5SING/issues');
-            }
+            click: () => shell.openExternal('https://github.com/i5sing/i5SING/issues'),
         },
         {
             type: 'separator'

@@ -63,7 +63,8 @@ export class Playing extends React.Component<any, any> {
                         <span>歌手：</span>
                         <a onClick={() => this.onClickUsername(user)}>{user.nickname}</a>
                     </div>
-                    <div className={`${styles.content} lyric-content`}>
+                    <div className={`${styles.content} lyric-content`}
+                         style={{height: process.platform !== 'darwin' ? 330 : 380}}>
                         {lyrics.map((lyric, index) => <p
                             className={`${styles.lyrics} ${id === index ? styles.selected : ''} lyric-${index}`}>
                             {lyric.text}
