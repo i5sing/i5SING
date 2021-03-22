@@ -10,7 +10,10 @@ export class TopModule extends React.Component {
         return <CoreModule>
             <Route path="/tops/:topId" exact={true} component={TopDetail}/>
             <Route path="/tops/style/:topId" exact={true} component={StyleTopDetail}/>
-            <Route path="/tops" exact={true} component={Tops}/>
+            <Route path="/tops" exact={true} children={props => <div
+                style={{ display: props.location.pathname === '/tops' ? 'block' : 'none' }}>
+                <Tops {...props}/>
+            </div>}/>
         </CoreModule>;
     }
 }

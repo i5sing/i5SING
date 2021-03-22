@@ -39,6 +39,7 @@
     "react-dom": "^16.8.6",
     "react-redux": "^6.0.1",
     "react-router-dom": "^5.0.0",
+    "react-slider": "^1.1.4",
     "react-soundplayer": "^1.0.4",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",

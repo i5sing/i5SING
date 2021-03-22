@@ -50,7 +50,7 @@ export class Carousels extends React.Component<ICarouselProps, ICarouselState> {
 
     render() {
         const carousels = this.props.carousels;
-        return <Carousel autoplay={true}>
+        return <Carousel autoplay={true} autoplaySpeed={5000}>
             {carousels.map((carousel: ICarousel) =>
                 <img className="carousel-img"
                      key={carousel.title}

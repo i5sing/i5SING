@@ -7,11 +7,17 @@ import { CoreModule } from "../core";
 export class MovieModule extends React.Component {
     render() {
         return <>
-            <Route path="/movies/:movieId" exact={true}
-                   component={props => <CoreModule type="no_footer"><MovieDetail {...props}/></CoreModule>}/>
-            <Route path="/movies"
-                   exact={true}
-                   component={props => <CoreModule><MovieList {...props}/></CoreModule>}/>
+            <Route
+                path="/movies/:movieId" exact={true}
+                component={props => <CoreModule type="no_footer"><MovieDetail {...props}/></CoreModule>}/>
+            <Route
+                path="/movies"
+                exact={true}
+                children={props => <div
+                    style={{ display: props.location.pathname === '/movies' ? 'block' : 'none' }}>
+                    <CoreModule><MovieList {...props}/></CoreModule>
+                </div>}
+            />
         </>;
     }
 }

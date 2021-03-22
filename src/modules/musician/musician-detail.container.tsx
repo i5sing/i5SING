@@ -33,8 +33,10 @@ export interface IMusicianProps {
 )
 export class MusicianDetail extends React.Component<IMusicianProps> {
     componentDidMount(): void {
-        const userId = this.props.match.params.musicianId;
-        this.props.actions.user.getMusician(userId);
+        const userId = this.props?.match?.params?.musicianId;
+        if (userId) {
+            this.props.actions.user.getMusician(userId);
+        }
     }
 
     follow(user: IUser) {
@@ -47,8 +49,8 @@ export class MusicianDetail extends React.Component<IMusicianProps> {
 
     render() {
         const { musician, userId } = this.props;
-        const musicianId = this.props.match.params.musicianId;
-        const type = this.props.match.params.type;
+        const musicianId = this.props?.match?.params?.musicianId;
+        const type = this.props?.match?.params?.type;
         const user: IUser = musician[musicianId] || {
             id: -1,
             image: '',
@@ -70,10 +72,18 @@ export class MusicianDetail extends React.Component<IMusicianProps> {
                       isLike={user.isFollow}
                       onLike={() => this.follow(user)}
                       description={user.description}>
-                {type === 'yc' ? <MusicianSongs type="yc" musicianId={musicianId}/> : ''}
-                {type === 'fc' ? <MusicianSongs type="fc" musicianId={musicianId}/> : ''}
-                {type === 'bz' ? <MusicianSongs type="bz" musicianId={musicianId}/> : ''}
-                {type === 'guest-books' ? <MusicianGuestBook musicianId={musicianId}/> : ''}
+                <div style={{ display: type === 'yc' ? 'block' : 'none' }}>
+                    <MusicianSongs type="yc" musicianId={musicianId}/>
+                </div>
+                <div style={{ display: type === 'fc' ? 'block' : 'none' }}>
+                    <MusicianSongs type="fc" musicianId={musicianId}/>
+                </div>
+                <div style={{ display: type === 'bz' ? 'block' : 'none' }}>
+                    <MusicianSongs type="bz" musicianId={musicianId}/>
+                </div>
+                <div style={{ display: type === 'guest-books' ? 'block' : 'none' }}>
+                    <MusicianGuestBook musicianId={musicianId}/>
+                </div>
             </Musician>
         </Layout>
     }

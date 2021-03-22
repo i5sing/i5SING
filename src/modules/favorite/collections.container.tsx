@@ -15,9 +15,18 @@ export class Collections extends React.Component {
         return <Layout header={headers} id="main">
             <Route exact={true} path="/favorite/collections"
                    component={() => <Redirect to="/favorite/collections/plays"/>}/>
-            <Route exact={true} path="/favorite/collections/plays" component={FavoritePlays}/>
-            <Route exact={true} path="/favorite/collections/movies" component={FavoriteMovies}/>
-            <Route exact={true} path="/favorite/collections/musicians" component={FavoriteMusicians}/>
+            <Route exact={true} path="/favorite/collections/plays" children={props => <div
+                style={{ display: props.location.pathname === '/favorite/collections/plays' ? 'block' : 'none' }}>
+                <FavoritePlays {...props}/>
+            </div>}/>
+            <Route exact={true} path="/favorite/collections/movies" children={props => <div
+                style={{ display: props.location.pathname === '/favorite/collections/movies' ? 'block' : 'none' }}>
+                <FavoriteMovies {...props}/>
+            </div>}/>
+            <Route exact={true} path="/favorite/collections/musicians" children={props => <div
+                style={{ display: props.location.pathname === '/favorite/collections/musicians' ? 'block' : 'none' }}>
+                <FavoriteMusicians {...props}/>
+            </div>}/>
         </Layout>;
     }
 }
