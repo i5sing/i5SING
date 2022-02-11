@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ${{matrix.os}}
+    strategy:
+      matrix:
+        os: [macOS-latest, window-latest, ubuntu-latest] 
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - run: npm install yarn -g
+      - run: yarn install
+      - run: npm run make
+      - name: Upload file
+        uses: actions/upload-artifact@v2
+        with:
+          name: packs
+          path: |
+            out/make/*
+            out/make/zip/darwin/x64/*
+            out/make/rpm/x64/*
+            out/make/deb/x64/*
+            out/make/squirrel.windows/x64/*
