@@ -21,14 +21,23 @@ jobs:
       - run: npm install yarn -g
       - run: yarn install
       - run: npm run make
-      - name: Qiniu Upload
-        uses: hujiulong/action-qiniu-upload@v0.0.2
+      - name: Release & Assets
+        uses: Hs1r1us/Release-AIO@v1.0
         with:
-          access_key: ${{ secrets.QINIU_ACCESS_KEY }}
-          secret_key: ${{ secrets.QINIU_SECRET_KEY }}
-          bucket: i5sing
-          source_dir: ./out/make
-          dest_dir: /packages
+          tag_name: ${{ steps.meta.outputs.tags }}
+          release_name: ${{ steps.meta.outputs.tags }}
+          # The path to the asset you want to upload
+          asset_files: out/make/*
+          draft: true
+          prerelease: true
+#       - name: Qiniu Upload
+#         uses: hujiulong/action-qiniu-upload@v0.0.2
+#         with:
+#           access_key: ${{ secrets.QINIU_ACCESS_KEY }}
+#           secret_key: ${{ secrets.QINIU_SECRET_KEY }}
+#           bucket: i5sing
+#           source_dir: ./out/make
+#           dest_dir: /packages
 #       - name: Upload file
 #         uses: actions/upload-artifact@v2
 #         with:
