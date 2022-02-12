@@ -24,8 +24,8 @@ jobs:
       - name: Release & Assets
         uses: Hs1r1us/Release-AIO@v1.0
         with:
-          tag_name: ${{ steps.meta.outputs.tags }}
-          release_name: ${{ steps.meta.outputs.tags }}
+          tag_name: temp
+          release_name: temp
           # The path to the asset you want to upload
           asset_files: out/make/*
           draft: true
