@@ -178,25 +178,39 @@
     }
   }
 
-  .progress {
-    cursor: pointer;
-    position: absolute;
-    top: 0;
-    height: 3px;
-    width: 100%;
-    background-color: #d8d8d8;
+  :global {
+    .slider {
+      position: fixed !important;
+      bottom: 60px;
+      height: 6px;
+      left: 0;
+      right: 0;
 
-    :global {
-      .sb-soundplayer-progress-inner {
+      .track {
+        height: 4px;
         background-color: @active_color;
-        height: 100%;
-      }
-    }
 
-    &:hover {
-      top: -2px;
-      height: 5px;
-      z-index: 300;
+        &.track-1 {
+          background-color: #eee;
+        }
+      }
+
+      .thumb {
+        outline: none;
+        opacity: 0;
+        top: -4px;
+        cursor: pointer;
+        height: 12px;
+        width: 12px;
+        border-radius: 12px;
+        background-color: @active_color;
+      }
+
+      &:hover {
+        .thumb {
+          opacity: 1;
+        }
+      }
     }
   }
 }

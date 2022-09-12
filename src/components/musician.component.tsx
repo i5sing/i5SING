@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as styles from './musician.m.less';
 import { Button } from "./button.component";
-import { Icon } from "antd";
+import { CaretUpOutlined, CaretDownOutlined, SelectOutlined } from "@ant-design/icons";
 
 export interface IMusicianProps {
     image: string;
@@ -27,9 +27,16 @@ export class Musician extends React.Component<IMusicianProps, IMusicianState> {
         return [
             <p className={!spread ? 'balabala' : ''} style={{ paddingRight: 14 }}>
                 描<i style={{ visibility: 'hidden' }}>描</i>述：{description}
-                <Icon className={styles.spread_btn}
-                      type={spread ? 'caret-up' : 'caret-down'}
-                      onClick={() => this.setState({ spread: !this.state.spread })}/>
+                {spread ?
+                    <CaretUpOutlined
+                        className={styles.spread_btn}
+                        onClick={() => this.setState({ spread: !this.state.spread })}
+                    /> :
+                    <CaretDownOutlined
+                        className={styles.spread_btn}
+                        onClick={() => this.setState({ spread: !this.state.spread })}
+                    />
+                }
             </p>
         ]
     }
@@ -38,7 +45,7 @@ export class Musician extends React.Component<IMusicianProps, IMusicianState> {
         const { isLike, onLike, hideLike } = this.props;
         return <div className={styles.tools}>
             {!hideLike ? <Button onClick={onLike}>
-                <Icon type="select"/>{isLike ? '已' : ''}收藏
+                <SelectOutlined/>{isLike ? '已' : ''}收藏
             </Button> : null}
         </div>
     }

@@ -55,7 +55,7 @@ export class CloudService implements INestService {
         const bucket = get(state, 'cloud.bucket');
         await new Promise((resolve, reject) => {
             bucketManager.delete(bucket, songName, (err, respBody, respInfo) => {
-                err ? reject(err) : resolve();
+                err ? reject(err) : resolve(void 0);
             });
         });
 
@@ -78,7 +78,7 @@ export class CloudService implements INestService {
                 url.hqurl || url.squrl || url.lqurl,
                 bucket,
                 filename,
-                (err) => err ? reject(err) : resolve()
+                (err) => err ? reject(err) : resolve(void 0)
             );
         })
     }
@@ -102,7 +102,7 @@ export class CloudService implements INestService {
                 filename,
                 stream as NodeJS.ReadableStream,
                 new form_up.PutExtra(),
-                err => err ? reject(err) : resolve()
+                err => err ? reject(err) : resolve(void 0)
             );
         })
     }

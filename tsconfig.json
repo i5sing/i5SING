@@ -4,6 +4,7 @@
     "declaration": false,
     "removeComments": true,
     "noLib": false,
+    "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -20,7 +21,8 @@
     "baseUrl": ".",
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    "skipLibCheck": true
   },
   "include": [
     "src"

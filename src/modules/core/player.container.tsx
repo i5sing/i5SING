@@ -3,13 +3,24 @@ import { get } from 'lodash';
 import { ipcRenderer } from 'electron';
 import { connect } from 'react-redux';
 import * as Lyrics from 'lyrics.js';
-import { Progress, Timer } from 'react-soundplayer/components';
+import ReactSlider from 'react-slider';
+import { Timer } from 'react-soundplayer/components';
 import * as styles from './player.m.less';
 import * as defaultUserImage from '../../assets/i5sing.png';
 
 import { withCustomAudio } from 'react-soundplayer/addons';
 import { IState } from "../../reducers";
-import { Icon, Slider, Tag } from "antd";
+import { Slider, Tag } from "antd";
+import {
+    LoadingOutlined,
+    HeartFilled,
+    VerticalRightOutlined,
+    PlayCircleOutlined,
+    PauseCircleOutlined,
+    VerticalLeftOutlined,
+    MenuUnfoldOutlined,
+    SoundOutlined,
+} from '@ant-design/icons';
 import { bindActionCreators, Dispatch } from "redux";
 import { CurrentAction, SongAction } from "../../actions";
 import { ISong } from "../../interfaces";
@@ -36,12 +47,16 @@ export interface IPlayerProps {
 interface IPlayerState {
     preload: boolean;
     visible: boolean;
+    current: number;
+    isSeeking: boolean;
 }
 
 class Player extends React.Component<IPlayerProps, IPlayerState> {
     public state = {
         preload: false,
         visible: false,
+        current: 0,
+        isSeeking: false,
     };
     private lrc = null;
 
@@ -56,7 +71,14 @@ class Player extends React.Component<IPlayerProps, IPlayerState> {
             console.log('play interrupted');
             this.next();
         });
-        this.props.soundCloudAudio.on('timeupdate', () => {
+        this.props.soundCloudAudio.on('playing', () => {
+            this.setState({ isSeeking: false });
+        })
+        this.props.soundCloudAudio.on('timeupdate', (e) => {
+            if (this.props.soundCloudAudio.playing && !this.state.isSeeking) {
+                this.setState({ current: this.props.currentTime });
+            }
+
             if (this.lrc) {
                 const index = this.lrc.select(this.props.currentTime);
                 const text = this.lrc.getLyric(index);
@@ -118,20 +140,19 @@ class Player extends React.Component<IPlayerProps, IPlayerState> {
         }
     }
 
-    play(song: ISong) {
-        const currentTime = this.props.currentTime;
+    play(song: ISong, notify: boolean = true) {
         const url = song.local || song.hqurl || song.squrl || song.lqurl;
         this.props.soundCloudAudio.play({
             streamUrl: song.local ? url : `http://127.0.0.1:56562/play-music?url=${encodeURIComponent(url)}`
         });
 
-        this.props.soundCloudAudio.setTime(currentTime);
-
-        ipcRenderer.send(SONG_NOTIFY_EVENT, {
-            title: song.name,
-            body: song.user.nickname,
-            icon: song.user.image || defaultUserImage
-        });
+        if (notify) {
+            ipcRenderer.send(SONG_NOTIFY_EVENT, {
+                title: song.name,
+                body: song.user.nickname,
+                icon: song.user.image || defaultUserImage
+            });
+        }
 
         if (song.dynamicWords) {
             this.lrc = new Lyrics(song.dynamicWords);
@@ -199,7 +220,7 @@ class Player extends React.Component<IPlayerProps, IPlayerState> {
         return <div className={styles.player}>
             <div className={styles.user_image}>
                 {this.props.loading && <div className={styles.loading_layer}>
-                    <Icon className={styles.loading} type="loading"/>
+                    <LoadingOutlined className={styles.loading}/>
                 </div>}
                 <img src={user.image || defaultUserImage} alt={user.nickname}
                      onClick={() => this.goPlaying()}/>
@@ -211,27 +232,39 @@ class Player extends React.Component<IPlayerProps, IPlayerState> {
                 </h3>
             </div>
             <div className={styles.play_btn_group}>
-                <Icon type="heart" theme="filled"
-                      onClick={() => this.love(hasLoved, song)}
-                      className={`${styles.like_btn} ${hasLoved ? styles.highlight : ''}`}/>
+                <HeartFilled
+                    onClick={() => this.love(hasLoved, song)}
+                    className={`${styles.like_btn} ${hasLoved ? styles.highlight : ''}`}/>
                 <Timer className={styles.time} {...this.props} />
-                <Icon className={styles.prev_btn} type="vertical-right" onClick={() => this.previous()}/>
+                <VerticalRightOutlined className={styles.prev_btn} onClick={() => this.previous()}/>
                 {!soundCloudAudio.playing ?
-                    <Icon className={styles.play_btn} type="play-circle" onClick={() => this.play(song)}/> :
-                    <Icon className={styles.pause_btn} type="pause-circle" onClick={() => this.pause()}/>
+                    <PlayCircleOutlined className={styles.play_btn} onClick={() => this.play(song)}/> :
+                    <PauseCircleOutlined className={styles.pause_btn} onClick={() => this.pause()}/>
                 }
-                <Icon className={styles.next_btn} type="vertical-left" onClick={() => this.next()}/>
+                <VerticalLeftOutlined className={styles.next_btn} onClick={() => this.next()}/>
                 <span className={styles.sequence} onClick={() => this.nextSeq()}>
                     <Tag>{this.prettySeq(seq)}</Tag>
                 </span>
                 {/*<Icon className={ styles.share_btn } type="export"/>*/}
             </div>
 
-            <Icon className={styles.list_btn} type="menu-unfold" onClick={() => this.togglePlayList()}/>
+            <MenuUnfoldOutlined className={styles.list_btn} onClick={() => this.togglePlayList()}/>
             <Slider className={styles.voice_slider} defaultValue={100} max={100} min={0}
                     onChange={(value: number) => soundCloudAudio.setVolume(value / 100)}/>
-            <Icon className={styles.voice_btn} type="sound"/>
-            <Progress className={styles.progress} {...this.props}/>
+            <SoundOutlined className={styles.voice_btn}/>
+            <ReactSlider
+                step={0.01}
+                onBeforeChange={() => {
+                    this.pause();
+                    this.setState({ isSeeking: true });
+                }}
+                onChange={val => this.setState({ current: val })}
+                onAfterChange={val => {
+                    this.props.soundCloudAudio.setTime(val);
+                    this.play(song, false);
+                }}
+                value={this.state.current}
+                max={this.props.duration}/>
             {this.state.visible ? <PlaySongs onHide={() => this.setState({ visible: false })}/> : null}
         </div>
     }

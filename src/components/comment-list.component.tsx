@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { Editor } from "./editor.component";
 import { IComment } from "../interfaces";
-import { Avatar, Comment, Icon, Input, Tooltip } from "antd";
+import { Avatar, Comment, Input, Tooltip } from "antd";
 import { Card } from "./card.component";
 
 import * as styles from './comment-list.m.less';
+import { LikeFilled, LikeOutlined } from "@ant-design/icons";
 
 export interface ICommentListProps {
     title?: string;
@@ -49,9 +50,10 @@ export class CommentList extends React.Component<ICommentListProps> {
             actions={[
                 this.props.hideLikeBtn ? '' : <span>
                     <Tooltip title="赞">
-                      <Icon type="like"
-                            onClick={() => this.props.onLike(comment.id, !comment.isLike)}
-                            theme={comment.isLike ? 'filled' : 'outlined'}/>
+                        {comment.isLike ?
+                            <LikeFilled onClick={() => this.props.onLike(comment.id, !comment.isLike)}/> :
+                            <LikeOutlined onClick={() => this.props.onLike(comment.id, !comment.isLike)}/>
+                        }
                     </Tooltip>
                     <span style={{ paddingLeft: 8, cursor: 'auto' }}>{comment.like}</span>
                 </span>,

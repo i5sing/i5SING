@@ -41,6 +41,9 @@ export class LoginWindow {
             webPreferences: {
                 webSecurity: false,
                 nodeIntegration: true,
+                nodeIntegrationInWorker: true,
+                nodeIntegrationInSubFrames: true,
+                contextIsolation: false,
                 preload: LOGIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
             }
         });

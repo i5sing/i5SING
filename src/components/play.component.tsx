@@ -2,7 +2,7 @@ import * as React from 'react';
 import { isUndefined } from 'lodash';
 import * as styles from './play.m.less';
 import { Button } from "./button.component";
-import { Icon } from "antd";
+import { CaretDownOutlined, CaretUpOutlined, PlayCircleOutlined, DownloadOutlined, SelectOutlined } from "@ant-design/icons";
 
 export interface IPlayProps {
     image: string;
@@ -38,9 +38,16 @@ export class Play extends React.Component<IPlayProps, IPlayState> {
             </p>,
             <p className={!spread ? 'balabala' : ''} style={{ paddingRight: 14 }}>
                 描<i style={{ visibility: 'hidden' }}>描</i>述：{description}
-                <Icon className={styles.spread_btn}
-                      type={spread ? 'caret-up' : 'caret-down'}
-                      onClick={() => this.setState({ spread: !this.state.spread })}/>
+                {spread ?
+                    <CaretUpOutlined
+                        className={styles.spread_btn}
+                        onClick={() => this.setState({ spread: !this.state.spread })}
+                    /> :
+                    <CaretDownOutlined
+                        className={styles.spread_btn}
+                        onClick={() => this.setState({ spread: !this.state.spread })}
+                    />
+                }
             </p>
         ]
     }
@@ -48,10 +55,10 @@ export class Play extends React.Component<IPlayProps, IPlayState> {
     renderTools() {
         const { collects, isLike, onLike, onPlayAll } = this.props;
         return <div className={styles.tools}>
-            <Button type="primary" onClick={onPlayAll}><Icon type="play-circle"/>播放全部</Button>
-            <Button onClick={this.props.onDownloadAll}><Icon type="download"/>下载全部</Button>
+            <Button type="primary" onClick={onPlayAll}><PlayCircleOutlined/>播放全部</Button>
+            <Button onClick={this.props.onDownloadAll}><DownloadOutlined/>下载全部</Button>
             {!isUndefined(collects) && <Button onClick={onLike}>
-                <Icon type="select"/>{isLike ? '已' : ''}收藏({collects})
+                <SelectOutlined/>{isLike ? '已' : ''}收藏({collects})
             </Button>}
             {/*{ !isUndefined(shares) && <Button onClick={ this.props.onDownloadAll }>*/}
             {/*    <Icon type="share-alt"/>分享({ shares })*/}

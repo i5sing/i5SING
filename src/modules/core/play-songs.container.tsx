@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
 import { IState } from "../../reducers";
 import * as styles from './play-songs.m.less';
-import { Icon } from "antd";
+import { DeleteOutlined } from '@ant-design/icons';
 import { bindActionCreators } from "redux";
 import { CurrentAction } from "../../actions";
 import { ISong } from "../../interfaces";
@@ -54,7 +54,7 @@ export class PlaySongs extends React.Component<IPlaySongsProps> {
             <div className={styles.content}>
                 <div className={styles.tool}>
                     <span className={styles.count}>共 {songList.length} 首</span>
-                    <a className={styles.clear_btn} onClick={() => this.clear()}><Icon type="delete"/> 清空</a>
+                    <a className={styles.clear_btn} onClick={() => this.clear()}><DeleteOutlined/> 清空</a>
                 </div>
                 <div className={styles.play_songs_content}>
                     <Table>

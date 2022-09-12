@@ -68,12 +68,18 @@ export class MainWindow {
             webPreferences: {
                 webSecurity: false,
                 nodeIntegration: true,
+                nodeIntegrationInWorker: true,
+                nodeIntegrationInSubFrames: true,
+                contextIsolation: false,
                 preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
             }
         });
+        require("@electron/remote/main").initialize();
+        require("@electron/remote/main").enable(mainWindow.webContents)
 
         // and load the index.html of the app.
-        mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+        // mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+        mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
 
         // Open the DevTools.
         // mainWindow.webContents.openDevTools();

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as styles from './playing.m.less';
-import { Icon } from "antd";
+import { DownOutlined } from "@ant-design/icons";
 import * as $ from 'jquery';
 import { connect } from 'react-redux';
 import { IState } from "../../reducers";
@@ -50,9 +50,10 @@ export class Playing extends React.Component<any, any> {
         const song: ISong = songList[current] || { songName: '', name: '' };
         const user = get(song, 'user', { image: void 0, nickname: '', id: '' });
         return visible ? <div className={styles.player_detail}>
-            <Icon type="down"
-                  className={styles.close_btn}
-                  onClick={() => this.props.actions.current.showPlayingPage(false)}/>
+            <DownOutlined
+                className={styles.close_btn}
+                onClick={() => this.props.actions.current.showPlayingPage(false)}
+            />
             <div>
                 <div className={styles.image}>
                     <img src={user.image} alt={user.nickname}/>
@@ -64,7 +65,7 @@ export class Playing extends React.Component<any, any> {
                         <a onClick={() => this.onClickUsername(user)}>{user.nickname}</a>
                     </div>
                     <div className={`${styles.content} lyric-content`}
-                         style={{height: process.platform !== 'darwin' ? 330 : 380}}>
+                         style={{ height: process.platform !== 'darwin' ? 330 : 380 }}>
                         {lyrics.map((lyric, index) => <p
                             className={`${styles.lyrics} ${id === index ? styles.selected : ''} lyric-${index}`}>
                             {lyric.text}

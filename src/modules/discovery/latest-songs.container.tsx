@@ -1,6 +1,4 @@
 import * as React from 'react';
-import { Icon } from 'antd';
-
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 
@@ -11,6 +9,7 @@ import { bindActionCreators, Dispatch } from "redux";
 import { ILatestSong, ISong } from "../../interfaces";
 import { actions } from "../../helpers";
 import { Card } from "../../components";
+import { PlayCircleOutlined } from "@ant-design/icons";
 
 export interface ILatestSongsProps {
     actions?: {
@@ -76,7 +75,7 @@ export class LatestSongs extends React.Component<ILatestSongsProps, LatestSongsS
                             <div className="latest-songs-item-img" onClick={() => this.play(song)}>
                                 <img src={song.image} alt={song.name}/>
                                 <div className="play-btn-wrap">
-                                    <Icon type="play-circle" className="play-btn"/>
+                                    <PlayCircleOutlined type="play-circle" className="play-btn"/>
                                 </div>
                             </div>
                             <span>{index + 1 >= 10 ? index + 1 : '0' + (index + 1)}</span>

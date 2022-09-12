@@ -1,7 +1,8 @@
 import * as React from 'react';
 import * as moment from 'moment';
 import { connect } from 'react-redux';
-import { Icon, Upload } from "antd";
+import { Upload } from "antd";
+import { PlayCircleOutlined, CloudUploadOutlined, CloseOutlined } from '@ant-design/icons';
 import * as styles from "./cloud-songs.m.less";
 import { IState } from "../../reducers";
 import { bindActionCreators } from "redux";
@@ -91,14 +92,14 @@ export class CloudSongs extends React.Component<ICloudSongsProps> {
         return <Layout>
             <Tool direction="left">
                 <Button type="primary" disabled={!hasConfig} onClick={() => this.playAll(songs)}>
-                    <Icon type="play-circle"/>播放全部
+                    <PlayCircleOutlined/>播放全部
                 </Button>
                 <span style={{ marginTop: 8 }}>
                 <Upload
                     accept=".mp3,.wma,.avi,.rm,.rmvb,.flv,.mpg,.mov,.mkv"
                     showUploadList={false}
                     beforeUpload={file => this.handleBeforeUpload(file)}>
-                    <Button disabled={!hasConfig}><Icon type="cloud-upload"/>上传</Button>
+                    <Button disabled={!hasConfig}><CloudUploadOutlined/>上传</Button>
                 </Upload>
                 </span>
             </Tool>
@@ -121,7 +122,7 @@ export class CloudSongs extends React.Component<ICloudSongsProps> {
                                               key={song.key}
                                               onClick={() => this.selected(index)}>
                                 <Table.Col width={30}>&nbsp;</Table.Col>
-                                <Table.Col width={40}>
+                                <Table.Col className="operations" width={40}>
                                     <span>{(index + 1) < 10 ? '0' + (index + 1) : index + 1}</span>
                                     <span>
 
@@ -134,7 +135,7 @@ export class CloudSongs extends React.Component<ICloudSongsProps> {
                                     {moment(song.putTime / 10000).format('YYYY-MM-DD HH:mm')}
                                 </Table.Col>
                                 <Table.Col width={30}>
-                                    <Icon className={styles.delete_btn} type="close" onClick={e => {
+                                    <CloseOutlined className={styles.delete_btn} type="close" onClick={e => {
                                         e.stopPropagation();
                                         this.delete(song.key);
                                     }}/>

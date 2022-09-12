@@ -19,7 +19,6 @@
     span {
       color: #aeaeae;
       margin-right: 10px;
-      float: right;
 
       &:first-child {
         float: left;
@@ -73,6 +72,22 @@
 
       .song-icon {
         color: @active_color;
+      }
+    }
+
+    .operations {
+      div span {
+        position: relative;
+        display: inline-block;
+        width: 14px;
+        height: 32px;
+        line-height: 32px;
+        float: left;
+
+        .anticon {
+          position: relative;
+          top: 2px;
+        }
       }
     }
   }

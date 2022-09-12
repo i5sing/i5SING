@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as styles from './channel.m.less';
 import { Link } from "react-router-dom";
-import { Icon } from "antd";
+import { PauseCircleOutlined, PlayCircleOutlined } from "@ant-design/icons";
 
 export interface IChannelItemProps {
     key?: string;
@@ -21,7 +21,10 @@ class ChannelItem extends React.Component<IChannelItemProps> {
                 <div className={styles.img_wrap} onClick={onClick}>
                     <img src={picture} alt={name}/>
                     <div className={styles.play_btn_wrap}>
-                        <Icon type={active ? 'pause-circle' : 'play-circle'} className={styles.play_btn}/>
+                        {active ?
+                            <PauseCircleOutlined className={styles.play_btn}/> :
+                            <PlayCircleOutlined className={styles.play_btn}/>
+                        }
                     </div>
                 </div>
                 <div className={styles.info}>

@@ -9,6 +9,7 @@ export interface ITableProps {
 
 export interface IColProps {
     type?: 'header' | 'column';
+    className?: string;
     style?: React.CSSProperties;
     width?: number | string;
 }
@@ -22,13 +23,13 @@ class Row extends React.Component<any> {
 
 class Col extends React.Component<IColProps> {
     render() {
-        const { style, width = 'auto', children } = this.props;
+        const { style, width = 'auto', children, className } = this.props;
         const css = { ...style, width, maxWidth: width } as React.CSSProperties;
         return this.props.type === 'header' ?
-            <th style={css}>
+            <th className={className} style={css}>
                 <div style={css}>{children}</div>
             </th> :
-            <td style={css}>
+            <td className={className} style={css}>
                 <div style={css}>{children}</div>
             </td>
     }

@@ -18,7 +18,7 @@ export const initTray = (window: BrowserWindow) => {
 
     trayObj.on('click', e => {
         if (!window.isVisible()) {
-            e.preventDefault();
+            (e as any).preventDefault();
             window.show();
         } else {
             window.setAlwaysOnTop(true);

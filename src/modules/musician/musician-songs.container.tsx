@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { get } from 'lodash';
-import { Icon, Progress } from "antd";
+import { Progress } from "antd";
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
 import { IState } from "../../reducers";
@@ -12,6 +12,14 @@ import { MUSICIAN } from "../../constants/action-types.constant";
 import { UPDATE_PROPERTY } from "../../constants/actions.constant";
 import { actions, DownloadQueue, prettySongKind, toMap } from "../../helpers";
 import { EndLoader, Loading, Table } from "../../components";
+import {
+    CaretRightOutlined,
+    CheckCircleOutlined,
+    CloudDownloadOutlined, DownloadOutlined,
+    HeartFilled,
+    HeartOutlined,
+    LoadingOutlined
+} from "@ant-design/icons";
 
 export interface IMusicianSongsProps {
     actions?: {
@@ -146,40 +154,49 @@ export class MusicianSongs extends React.Component<IMusicianSongsProps> {
                                           key={key}
                                           onClick={() => this.selected(index)}>
                             <Table.Col style={{ width: 30 }}>&nbsp;</Table.Col>
-                            <Table.Col>
+                            <Table.Col className="operations">
                                 <span>{(index + 1) < 10 ? '0' + (index + 1) : index + 1}</span>
                                 <span>
-                                    <Icon type="heart" theme={hasLoved ? 'filled' : 'outlined'}
-                                          onClick={() => this.love(hasLoved, song)}
-                                          className={`song-icon ${hasLoved ? 'highlight' : ''}`}/>
+                                    {currentSong && currentSong.id === song.id ?
+                                        <CaretRightOutlined className="song-icon"/> : null}
+                                </span>
+                                <span>
+                                    {hasLoved ?
+                                        <HeartFilled
+                                            className={`song-icon ${hasLoved ? 'highlight' : ''}`}
+                                            onClick={() => this.love(hasLoved, song)}
+                                        /> :
+                                        <HeartOutlined
+                                            onClick={() => this.love(hasLoved, song)}
+                                            className={`song-icon ${hasLoved ? 'highlight' : ''}`}
+                                        />
+                                    }
                                 </span>
                                 <span>
                                     {transforming ?
-                                        <Icon className="song-icon active" type="loading"/> :
+                                        <LoadingOutlined className="song-icon active"/> :
                                         hasTransformed ?
-                                            <Icon className="song-icon active" type="check-circle"/> :
-                                            <Icon className="song-icon"
-                                                  type="cloud-download"
-                                                  onClick={() => this.transform(song.id, song.kind)}/>
+                                            <CheckCircleOutlined className="song-icon active"/> :
+                                            <CloudDownloadOutlined
+                                                className="song-icon"
+                                                onClick={() => this.transform(song.id, song.kind)}
+                                            />
                                     }
                                 </span>
                                 <span>
                                     {
                                         download && download.percent === 100 ?
-                                            <Icon className="song-icon active" type="check-circle"/> : download ?
-                                            <Progress type="circle"
-                                                      strokeColor="#5785f7"
-                                                      percent={download.percent}
-                                                      showInfo={false}
-                                                      width={14}/> :
-                                            <Icon type="download"
-                                                  className="song-icon"
-                                                  onClick={() => this.download(song.id, song.kind)}/>
+                                            <CheckCircleOutlined className="song-icon active"/> : download ?
+                                                <Progress type="circle"
+                                                          strokeColor="#5785f7"
+                                                          percent={download.percent}
+                                                          showInfo={false}
+                                                          width={14}/> :
+                                                <DownloadOutlined
+                                                    className="song-icon"
+                                                    onClick={() => this.download(song.id, song.kind)}
+                                                />
                                     }
-                                </span>
-                                <span>
-                                    {currentSong && currentSong.id === song.id + '' ?
-                                        <Icon type="caret-right" className="song-icon"/> : null}
                                 </span>
                             </Table.Col>
                             <Table.Col>{song.name}</Table.Col>

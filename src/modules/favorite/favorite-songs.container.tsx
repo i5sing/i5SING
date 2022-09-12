@@ -3,12 +3,20 @@ import { connect } from 'react-redux';
 import { IState } from "../../reducers";
 import { bindActionCreators, Dispatch } from "redux";
 import { CurrentAction, SongAction } from "../../actions";
-import { Icon, Progress } from "antd";
+import { Progress } from "antd";
 import moment = require("moment");
 import { Link } from "react-router-dom";
 import { ICloudSong, IDownload, ISong } from "../../interfaces";
 import { actions, DownloadQueue, toMap } from "../../helpers";
 import { Layout, Play, Table } from "../../components";
+import {
+    CaretRightOutlined,
+    CheckCircleOutlined,
+    CloudDownloadOutlined,
+    DownloadOutlined,
+    HeartFilled,
+    LoadingOutlined
+} from "@ant-design/icons";
 
 export interface IDownloadManageProps {
     actions?: {
@@ -117,42 +125,42 @@ export class FavoriteSongs extends React.Component<IDownloadManageProps> {
                                               key={key}
                                               onClick={() => this.selected(index)}>
                                 <Table.Col width={30}>&nbsp;</Table.Col>
-                                <Table.Col width={140}>
+                                <Table.Col className="operations" width={140}>
                                     <span>{(index + 1) < 10 ? '0' + (index + 1) : index + 1}</span>
                                     <span>
-                                        <Icon
-                                            theme="filled"
-                                            type="heart"
+                                        {currentSong && currentSong.id === song.id ?
+                                            <CaretRightOutlined className="song-icon"/> : null}
+                                    </span>
+                                    <span>
+                                        <HeartFilled
                                             className="song-icon highlight"
                                             onClick={() => this.disLove(song)}/>
                                     </span>
                                     <span>
                                         {transforming ?
-                                            <Icon className="song-icon active" type="loading"/> :
+                                            <LoadingOutlined className="song-icon active"/> :
                                             hasTransformed ?
-                                                <Icon className="song-icon active" type="check-circle"/> :
-                                                <Icon className="song-icon"
-                                                      type="cloud-download"
-                                                      onClick={() => this.transform(song.id, song.kind)}/>
+                                                <CheckCircleOutlined className="song-icon active"/> :
+                                                <CloudDownloadOutlined
+                                                    className="song-icon"
+                                                    onClick={() => this.transform(song.id, song.kind)}
+                                                />
                                         }
                                     </span>
                                     <span>
                                         {
                                             download && download.percent === 100 ?
-                                                <Icon className="song-icon active" type="check-circle"/> : download ?
-                                                <Progress type="circle"
-                                                          strokeColor="#5785f7"
-                                                          percent={download.percent}
-                                                          showInfo={false}
-                                                          width={14}/> :
-                                                <Icon type="download"
-                                                      className="song-icon"
-                                                      onClick={() => this.download(song.id, song.kind)}/>
+                                                <CheckCircleOutlined className="song-icon active"/> : download ?
+                                                    <Progress type="circle"
+                                                              strokeColor="#5785f7"
+                                                              percent={download.percent}
+                                                              showInfo={false}
+                                                              width={14}/> :
+                                                    <DownloadOutlined
+                                                        className="song-icon"
+                                                        onClick={() => this.download(song.id, song.kind)}
+                                                    />
                                         }
-                                    </span>
-                                    <span>
-                                        {currentSong && currentSong.id === song.id ?
-                                            <Icon type="caret-right" className="song-icon"/> : null}
                                     </span>
                                 </Table.Col>
                                 <Table.Col width={400}>{song.name}</Table.Col>

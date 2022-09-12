@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Icon, Input } from 'antd';
+import { Input } from 'antd';
+import { LeftOutlined, RightOutlined, BarsOutlined } from '@ant-design/icons';
 
 import './header.less';
 import { IState } from "../../reducers";
@@ -64,12 +65,8 @@ export class Header extends React.Component<IHeaderProps> {
         }
         return <div className={`header ${noSide ? 'no-side' : ''}`}>
             <div className="histories-btn-group">
-                <Icon className={`histories-btn ${canGoBack ? '' : 'disabled'}`}
-                      type="left"
-                      onClick={() => this.back()}/>
-                <Icon className={`histories-btn ${canGoForward ? '' : 'disabled'}`}
-                      type="right"
-                      onClick={() => this.go()}/>
+                <LeftOutlined className={`histories-btn ${canGoBack ? '' : 'disabled'}`} onClick={() => this.back()}/>
+                <RightOutlined className={`histories-btn ${canGoForward ? '' : 'disabled'}`} onClick={() => this.go()}/>
             </div>
             <Input.Search
                 ref={el => this.el = el}
@@ -94,7 +91,7 @@ export class Header extends React.Component<IHeaderProps> {
                 }}
             />
             <a onClick={() => location.hash = '#/settings'} className="settings-btn">
-                <Icon type="bars" className="settings-btn-icon"/>
+                <BarsOutlined className="settings-btn-icon"/>
             </a>
         </div>
     }

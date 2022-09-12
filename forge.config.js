@@ -74,6 +74,7 @@ module.exports = {
     ],
     plugins: [
         ['@electron-forge/plugin-webpack', {
+            devContentSecurityPolicy: '`default-src \'self\' \'unsafe-inline\' data:;`',
             mainConfig: './webpack.main.config.js',
             renderer: {
                 config: './webpack.renderer.config.js',

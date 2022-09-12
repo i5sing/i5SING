@@ -5,12 +5,12 @@ import { connect } from 'react-redux';
 import { IState } from "../../reducers";
 import { bindActionCreators, Dispatch } from "redux";
 import { CurrentAction, SongAction } from "../../actions";
-import { Icon } from "antd";
 import * as styles from './download-manage.m.less';
 import { Link } from "react-router-dom";
 import { IDownload, ISong } from "../../interfaces";
 import { actions, prettyByte, toList, toMap } from "../../helpers";
 import { Button, Layout, Table, Tool } from "../../components";
+import { CloseOutlined, HeartFilled, HeartOutlined, PlayCircleOutlined } from "@ant-design/icons";
 
 export interface IDownloadManageProps {
     actions?: {
@@ -107,7 +107,7 @@ export class DownloadManage extends React.Component<IDownloadManageProps> {
         return <Layout>
             <Tool direction="left">
                 <Button type="primary" onClick={() => this.playAll(songs)}>
-                    <Icon type="play-circle"/>播放全部
+                    <PlayCircleOutlined type="play-circle"/>播放全部
                 </Button>
                 <a className={styles.open_folder_btn} onClick={() => this.openFolder()}>打开目录</a>
             </Tool>
@@ -132,12 +132,19 @@ export class DownloadManage extends React.Component<IDownloadManageProps> {
                                               key={song.songId}
                                               onClick={() => this.selected(index)}>
                                 <Table.Col width={30}>&nbsp;</Table.Col>
-                                <Table.Col width={60}>
+                                <Table.Col className="operations" width={60}>
                                     <span>{(index + 1) < 10 ? '0' + (index + 1) : index + 1}</span>
                                     <span>
-                                        <Icon type="heart" theme={hasLoved ? 'filled' : 'outlined'}
-                                              onClick={() => this.love(hasLoved, song)}
-                                              className={`song-icon ${hasLoved ? 'highlight' : ''}`}/>
+                                        {hasLoved ?
+                                            <HeartFilled
+                                                className={`song-icon ${hasLoved ? 'highlight' : ''}`}
+                                                onClick={() => this.love(hasLoved, song)}
+                                            /> :
+                                            <HeartOutlined
+                                                onClick={() => this.love(hasLoved, song)}
+                                                className={`song-icon ${hasLoved ? 'highlight' : ''}`}
+                                            />
+                                        }
                                     </span>
                                 </Table.Col>
                                 <Table.Col width={280}>{song.songName}</Table.Col>
@@ -147,7 +154,7 @@ export class DownloadManage extends React.Component<IDownloadManageProps> {
                                 <Table.Col width={70}>{prettyByte(song.total, 'B')}</Table.Col>
                                 <Table.Col width={130}>{song.createTime}</Table.Col>
                                 <Table.Col width={30}>
-                                    <Icon className={styles.delete_btn} type="close" onClick={e => {
+                                    <CloseOutlined className={styles.delete_btn} onClick={e => {
                                         e.stopPropagation();
                                         this.delete(song);
                                     }}/>

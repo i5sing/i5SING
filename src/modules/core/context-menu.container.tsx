@@ -1,14 +1,12 @@
 import * as React from 'react';
 import { find, get } from 'lodash';
 import { connect } from 'react-redux';
-import { remote } from "electron";
+import { Menu, MenuItem, getCurrentWindow } from "@electron/remote";
 import { IState } from "../../reducers";
 import { bindActionCreators, Dispatch } from "redux";
 import { actions, DownloadQueue } from "../../helpers";
 import { CurrentAction, SongAction } from "../../actions";
 import { resolve } from "path";
-
-const { Menu, MenuItem } = remote;
 
 export interface IContextMenuProps {
     actions?: {
@@ -151,7 +149,7 @@ export class ContextMenu extends React.Component<IContextMenuProps> {
             const path = e.path[i];
             if (path.localName === 'tr' && path.id) {
                 this.selected = path.id;
-                this.menu.popup({ window: remote.getCurrentWindow() });
+                this.menu.popup({ window: getCurrentWindow() });
                 return;
             }
         }
