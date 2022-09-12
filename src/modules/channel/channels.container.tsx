@@ -1,82 +1,44 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { IState } from "../../reducers";
-import { bindActionCreators, Dispatch } from "redux";
-import { ChannelAction, CurrentAction } from "../../actions";
-import { IChannel, INetwork, ISong } from "../../interfaces";
-import { CHANNELS } from "../../constants/action-types.constant";
-import { SET } from "../../constants/actions.constant";
-import { actions } from "../../helpers";
+import { useSelector } from 'react-redux';
+import { IChannel } from "../../interfaces";
 import { Channel, EndLoader, Layout, Loading } from "../../components";
+import { useSWRInfinite } from "swr";
+import { buildChannelsUrl } from "../../constants/urls.constant";
 
-export interface IChannelsProps {
-    actions?: {
-        channel: typeof ChannelAction;
-        current: typeof CurrentAction;
-    };
-    channels?: IChannel[];
-    network?: INetwork;
-    current?: number;
-    playlist?: ISong[];
-}
+const fetcher = async url => {
+    const res = await fetch(url);
+    const data = await res.json();
+    return data?.data;
+};
+const PAGE_SIZE = 10;
 
-interface IChannelsState {
-    page: number;
-}
-
-@connect(
-    (state: IState) => ({
-        channels: state.channels,
-        network: state.networks[`${CHANNELS}_${SET}`],
-        current: state.current.current,
-        playlist: state.current.list,
-    }),
-    (dispatch: Dispatch) => ({
-        actions: {
-            channel: bindActionCreators(actions(ChannelAction), dispatch),
-            current: bindActionCreators(actions(CurrentAction), dispatch),
-        }
-    })
-)
-export class Channels extends React.Component<IChannelsProps, IChannelsState> {
-    public state = {
-        page: 1,
-    };
-
-    componentDidMount(): void {
-        this.props.actions.channel.getChannels(1);
-    }
-
-    componentWillUnmount(): void {
-        this.setState({ page: 1 });
-    }
-
-    nextPage() {
-        this.setState({ page: this.state.page + 1 }, () => {
-            this.props.actions.channel.getChannels(this.state.page);
-        });
-    }
-
-    render() {
-        const { channels, network = { loading: true, nodata: false }, playlist, current } = this.props;
-        const playingSong = playlist[current];
-        return <Layout id="main">
-            <EndLoader target="main" onLoad={() => !network.nodata && this.nextPage()}>
-                <Channel>
-                    {channels.map((channel: IChannel) => <Channel.Item
-                        active={playingSong && playingSong.id === channel.id}
-                        onClick={() => this.props.actions.current.play(channel.id, channel.type)}
-                        key={channel.id}
-                        picture={channel.picture}
-                        name={channel.name}
-                        username={channel.user.nickname}
-                        to={`/musicians/${channel.user.id}`}
-                    />)}
-                </Channel>
-                <div style={{ marginTop: 40 }}>
-                    <Loading loading={network.loading} nodata={network.nodata}/>
-                </div>
-            </EndLoader>
-        </Layout>;
-    }
+export const Channels = () => {
+    const { list, current } = useSelector<any, any>(state => state.current);
+    const { data, size, setSize, isValidating } = useSWRInfinite<IChannel[]>(
+        index => buildChannelsUrl(1, index + 1, PAGE_SIZE),
+        fetcher,
+    );
+    const playingSong = list[current];
+    const nextPage = () => setSize(size + 1);
+    const channels = data ? [].concat(...data) : [];
+    const isEmpty = data?.[0]?.length === 0;
+    const isReachingEnd = isEmpty || (data && data[data.length - 1]?.length < PAGE_SIZE);
+    return <Layout id="main">
+        <EndLoader target="main" onLoad={() => !isValidating && !isReachingEnd && nextPage()}>
+            <Channel>
+                {channels?.map((channel: IChannel) => <Channel.Item
+                    active={playingSong && playingSong.id === channel.id}
+                    onClick={() => this.props.actions.current.play(channel.id, channel.type)}
+                    key={channel.id}
+                    picture={channel.pic}
+                    name={channel.name}
+                    username={channel.nickname}
+                    to={`/musicians/${channel.user_id}`}
+                />)}
+            </Channel>
+            <div style={{ marginTop: 40 }}>
+                <Loading loading={isValidating} nodata={isReachingEnd}/>
+            </div>
+        </EndLoader>
+    </Layout>;
 }

@@ -1,15 +1,15 @@
-import { IUser } from "./user.interface";
-
 export interface IChannel {
-    picture: string;
+    click: number;
     id: string;
     name: string;
-    songName: string;
+    nickname: string;
+    pic: string;
+    play_time: string;
+    song_name: string;
     time: string;
-    words: string;
-    playTime: string;
     type: string;
-    click: number;
     url: string;
-    user: IUser;
+    user_id: number;
+    user_pic: string;
+    words: string;
 }

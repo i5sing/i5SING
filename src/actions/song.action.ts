@@ -43,26 +43,6 @@ export class SongAction {
         };
     }
 
-    public static getLatestSongs() {
-        return async (dispatch: Dispatch) => {
-            const url = 'http://mobileapi.5sing.kugou.com/songlist/first';
-            const query = { isfirst: 2 };
-            const response: AxiosResponse<I5singResponse<I5singLatestSong[]>> = await instance.get(
-                url,
-                { params: query }
-            );
-            const songs = response.data.data.map(item => ({
-                name: item.songName,
-                id: item.singId,
-                type: item.singType,
-                singerName: item.singer,
-                singerId: item.singerId,
-                image: item.image,
-            }));
-            dispatch({ type: DISCOVERY_LATEST_SONGS, action: SET, data: songs.slice(0, 10) });
-        }
-    }
-
     public static getLocalSongs() {
         return async (dispatch: Dispatch) => {
             const url = 'http://127.0.0.1:56562/local/songs';
@@ -261,13 +241,6 @@ export class SongAction {
                 path: `${MUSICIAN}_${UPDATE_PROPERTY}_songs`,
                 data: { loading: false, nodata: response.data.data.length === 0 }
             });
-        }
-    }
-
-    public static uploadSong(formData: FormData) {
-        return async dispatch => {
-            await instance.post(`http://127.0.0.1:56562/cloud/songs`, formData, {});
-            dispatch(CloudAction.getCloudSongs());
         }
     }
 

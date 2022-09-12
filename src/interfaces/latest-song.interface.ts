@@ -1,8 +1,8 @@
 export interface ILatestSong {
-    name: string;
-    id: string;
-    type: number;
-    singerName: string;
-    singerId: number;
+    songName: string;
+    singId: number;
+    singType: number;
+    singer: string;
+    singerId: string;
     image: string;
 }

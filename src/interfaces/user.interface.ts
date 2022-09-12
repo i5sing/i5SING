@@ -18,3 +18,19 @@ export interface IUser {
     fclist?: ISong[];
     bzlist?: ISong[];
 }
+
+
+export interface IFollower {
+    ID: number;
+    NN: string;
+    I: string;
+    B: string;
+    M: string;
+    online: number;
+    follow: number;
+    /**
+     * 1 female
+     */
+    SX: number;
+    CT: number;
+}

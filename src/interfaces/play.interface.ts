@@ -18,3 +18,25 @@ export interface IPlay {
     songs?: ISong[];
     isLike?: boolean;
 }
+
+export interface IMyPlay {
+    C: string;
+    CT: string;
+    E: number;
+    H: number;
+    ID: string;
+    P: string;
+    T: string;
+}
+
+export interface IRecommendPlay {
+    T: string;
+    P: string;
+    ID: string;
+    H: string;
+    user: {
+        ID: string;
+        NN: string;
+        I: string;
+    }
+}

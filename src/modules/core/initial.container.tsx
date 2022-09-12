@@ -36,7 +36,6 @@ export class Initial extends React.Component<IInitialProps> {
     componentDidMount(): void {
         if (this.props.system.sign) {
             this.props.actions.song.getLoveSongsStatus();
-            this.props.actions.play.getMyPlays();
         }
         this.props.actions.song.getLocalSongs();
         this.props.actions.system.refreshSystem();
@@ -48,7 +47,6 @@ export class Initial extends React.Component<IInitialProps> {
     componentWillReceiveProps(nextProps: Readonly<IInitialProps>, nextContext: any): void {
         if (nextProps.system.sign && !this.props.system.sign) {
             this.props.actions.song.getLoveSongsStatus();
-            this.props.actions.play.getMyPlays();
         }
     }
 

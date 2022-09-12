@@ -10,38 +10,6 @@ import { SET, UPDATE_PROPERTY } from "../constants/actions.constant";
 import { IPlay } from "../interfaces";
 
 export class PlayAction {
-    public static getRecommendPlayLists(index: number = 1) {
-        return async (dispatch, state: () => IState) => {
-            dispatch(NetworkAction.fetching(PLAY_LIST));
-
-            const url = 'http://mobileapi.5sing.kugou.com/go/GetSongListSquareRecommended';
-            const query = { index };
-            const response: AxiosResponse<I5singResponse<I5singDiscoveryPlay[]>> = await instance.get(
-                url,
-                { params: query }
-            );
-            const playlist = response.data.data.map(item => ({
-                title: item.T,
-                picture: item.P,
-                id: item.ID,
-                playCount: Number(item.H),
-                user: {
-                    id: item.user.ID,
-                    nickname: item.user.NN,
-                    image: item.user.I,
-                }
-            }));
-            dispatch(NetworkAction.success(PLAY_LIST, response.data.data.length === 0));
-            if (index === 1) {
-                dispatch({ type: DISCOVERY_PLAYLIST, action: SET, data: playlist.slice(0, 10) });
-            }
-
-            const existPlays = index === 1 ? [] : state().plays;
-            const data = existPlays.concat(playlist);
-            dispatch({ type: PLAYS, action: SET, data });
-        }
-    }
-
     public static getPlay(id: string) {
         return async (dispatch: Dispatch, state: () => IState) => {
             const url = 'http://mobileapi.5sing.kugou.com/song/getsonglist';
@@ -125,72 +93,6 @@ export class PlayAction {
             await instance.get(url, { params: query });
 
             dispatch({ type: PLAY, action: UPDATE_PROPERTY, path: 'isLike', data: false });
-        }
-    }
-
-    public static getPlaysByLabel(label: string, page: number, pageSize: number) {
-        return async (dispatch: Dispatch, state: () => IState) => {
-            dispatch({
-                type: NETWORK_STATUS,
-                action: UPDATE_PROPERTY,
-                path: `${PLAYS}_${SET}`,
-                data: { loading: true, nodata: false }
-            });
-
-            const url = 'http://goapi.5sing.kugou.com/search/songSquare';
-            const query = { sortType: 1, pn: page, ps: pageSize, label };
-            const response: AxiosResponse<I5singResponse<{ songMenu: I5singPlay[] }>> = await instance.get(
-                url,
-                { params: query }
-            );
-            const playlist = response.data.data.songMenu.map(item => ({
-                playCount: item.playcount,
-                title: item.listName,
-                picture: item.url,
-                id: item.listId,
-                user: {
-                    id: item.user.ID,
-                    nickname: item.user.NN,
-                    image: item.user.I,
-                }
-            }));
-            dispatch({
-                type: NETWORK_STATUS,
-                action: UPDATE_PROPERTY,
-                path: `${PLAYS}_${SET}`,
-                data: { loading: false, nodata: response.data.data.songMenu.length === 0 }
-            });
-
-            const existPlays = page === 1 ? [] : state().plays;
-            const data = existPlays.concat(playlist);
-            dispatch({ type: PLAYS, action: SET, data });
-        }
-    }
-
-    public static getMyPlays() {
-        return async (dispatch: Dispatch, state: () => IState) => {
-            const userId = state().system.userId;
-            const url = 'http://mobileapi.5sing.kugou.com/song/listsonglist';
-            const query = { userid: userId, pageindex: 1, pagesize: 100000 };
-
-            const response: AxiosResponse<I5singResponse<I5singPlayDetail[]>> = await instance.get(url,
-                { params: query }
-            );
-            const plays = response.data.data.map((data: I5singPlayDetail) => ({
-                id: data.ID,
-                hot: data.H,
-                createTime: data.CT,
-                title: data.T,
-                description: data.C,
-                picture: data.P,
-                user: {
-                    id: data.user.ID,
-                    nickname: data.user.NN,
-                    image: data.user.I
-                },
-            }));
-
-            dispatch({ type: MY, action: UPDATE_PROPERTY, path: 'plays', data: plays });
         }
     }
 

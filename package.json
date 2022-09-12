@@ -19,13 +19,14 @@
     "forge": "./forge.config.js"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.6.2",
     "@nestcloud/common": "^0.3.1",
     "@nestcloud/core": "^0.3.1",
     "@nestcloud/feign": "^0.3.1",
     "@nestjs/common": "^6.0.5",
     "@nestjs/core": "^6.0.5",
     "@nestjs/platform-express": "^6.0.5",
-    "antd": "^3.16.1",
+    "antd": "^4.16.1",
     "axios": "^0.18.1",
     "electron-squirrel-startup": "^1.0.0",
     "jquery": "^3.5.1",
@@ -37,10 +38,11 @@
     "qs": "^6.7.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-redux": "^6.0.1",
+    "react-redux": "^7.2.4",
     "react-router-dom": "^5.0.0",
     "react-slider": "^1.1.4",
     "react-soundplayer": "^1.0.4",
+    "react-use": "^17.2.4",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "reflect-metadata": "^0.1.13",
@@ -48,8 +50,10 @@
     "request-promise-native": "^1.0.7",
     "rxjs": "6.4.0",
     "soundcloud-audio": "^1.4.0",
+    "swr": "^0.5.6",
     "typeorm": "^0.2.16",
-    "video-react": "^0.13.6"
+    "video-react": "^0.13.6",
+    "whatwg-fetch": "^3.6.2"
   },
   "devDependencies": {
     "@electron-forge/cli": "6.0.0-beta.52",

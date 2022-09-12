@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
 import { IState } from "../../reducers";
 import * as styles from './play-songs.m.less';
-import { Icon } from "antd";
 import { bindActionCreators } from "redux";
 import { CurrentAction } from "../../actions";
 import { ISong } from "../../interfaces";
 import { actions } from "../../helpers";
 import { Table } from "../../components";
+import { DeleteOutlined } from "@ant-design/icons";
 
 export interface IPlaySongsProps {
     songList?: ISong[];
@@ -54,19 +54,20 @@ export class PlaySongs extends React.Component<IPlaySongsProps> {
             <div className={styles.content}>
                 <div className={styles.tool}>
                     <span className={styles.count}>共 {songList.length} 首</span>
-                    <a className={styles.clear_btn} onClick={() => this.clear()}><Icon type="delete"/> 清空</a>
+                    <a className={styles.clear_btn} onClick={() => this.clear()}><DeleteOutlined/> 清空</a>
                 </div>
                 <div className={styles.play_songs_content}>
                     <Table>
                         {songList.map((song: ISong, index: number) => {
                                 const key = `${song.kind}-${song.id}`;
-                                return <Table.Row id={`${key}--current.list`}
-                                                  onDoubleClick={() => this.play(song)}
-                                                  className={
-                                                      `${this.state.selected === index ? 'selected' : ''} ${current === index ? styles.active : ''}`
-                                                  }
-                                                  key={key}
-                                                  onClick={() => this.selected(index)}>
+                                return <Table.Row
+                                    id={`${key}--current.list`}
+                                    onDoubleClick={() => this.play(song)}
+                                    className={
+                                        `${this.state.selected === index ? 'selected' : ''} ${current === index ? styles.active : ''}`
+                                    }
+                                    key={key}
+                                    onClick={() => this.selected(index)}>
                                     <Table.Col style={{ paddingLeft: 10 }} width={280}>{song.name}</Table.Col>
                                     <Table.Col width={120}>
                                         <Link to={`/musicians/${song.user.id}`}>{song.user.nickname}</Link>

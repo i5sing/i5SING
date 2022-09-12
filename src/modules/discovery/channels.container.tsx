@@ -1,63 +1,34 @@
 import * as React from 'react';
+import useSWR from "swr";
 import { Link } from "react-router-dom";
-import { connect } from 'react-redux';
-import { IState } from "../../reducers";
-import { bindActionCreators, Dispatch } from "redux";
-import { ChannelAction, CurrentAction } from "../../actions";
+import { useSelector } from "react-redux";
 import './channels.less';
-import { IChannel, ISong } from "../../interfaces";
-import { actions } from "../../helpers";
+import { IChannel } from "../../interfaces";
 import { Card, Channel } from "../../components";
+import { buildChannelsUrl } from "../../constants/urls.constant";
+import { IResponse } from "../../interfaces/response.interface";
 
-export interface IChannelProps {
-    actions?: {
-        channel: typeof ChannelAction;
-        current: typeof CurrentAction;
-    },
-    channels?: IChannel[];
-    current?: number;
-    playlist?: ISong[];
-}
-
-
-@connect(
-    (state: IState) => ({
-        channels: state.discoveryChannels,
-        current: state.current.current,
-        playlist: state.current.list,
-    }),
-    (dispatch: Dispatch) => ({
-        actions: {
-            channel: bindActionCreators(actions(ChannelAction), dispatch),
-            current: bindActionCreators(actions(CurrentAction), dispatch),
-        }
-    })
-)
-export class Channels extends React.Component<IChannelProps> {
-    componentDidMount(): void {
-        this.props.actions.channel.getChannels(1, 10);
+export const Channels = () => {
+    const { list, current } = useSelector<any, any>(state => state.current);
+    const playingSong = list[current];
+    const { data } = useSWR<IResponse<IChannel[]>>(buildChannelsUrl(1, 1, 10));
+    const channels = data?.data;
+    if (!channels) {
+        return <span/>;
     }
-
-    render() {
-        const { channels, playlist, current } = this.props;
-        if (channels.length === 0) {
-            return '';
-        }
-        const playingSong = playlist[current];
-        return <Card title={<Link to="/channels">
-            有声专栏 <span style={{ position: 'relative', top: -1 }}>&gt;</span>
-        </Link>}>
-            <Channel>
-                {channels.map((channel: IChannel) => <Channel.Item
-                    active={playingSong && playingSong.id === channel.id}
-                    onClick={() => this.props.actions.current.play(channel.id, channel.type)}
-                    key={channel.id}
-                    picture={channel.picture}
-                    name={channel.name}
-                    username={channel.user.nickname}
-                    to={`/musicians/${channel.user.id}`}
-                />)}
-            </Channel>
-        </Card>
-    }
+    return <Card title={<Link to="/channels">
+        有声专栏 <span style={{ position: 'relative', top: -1 }}>&gt;</span>
+    </Link>}>
+        <Channel>
+            {channels?.slice(0, 6)?.map((channel: IChannel) => <Channel.Item
+                active={playingSong && playingSong.id === channel.id}
+                onClick={() => this.props.actions.current.play(channel.id, channel.type)}
+                key={channel.id}
+                picture={channel.pic}
+                name={channel.name}
+                username={channel.nickname}
+                to={`/musicians/${channel.user_id}`}
+            />)}
+        </Channel>
+    </Card>
 }

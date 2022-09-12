@@ -6,6 +6,7 @@ export interface IMovie {
     title: string;
     description: string;
     cover: string;
+    cover_url: string;
     fileExt: string;
     hash: string;
     size: number;

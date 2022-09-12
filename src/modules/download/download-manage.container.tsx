@@ -1,59 +1,35 @@
 import * as React from 'react';
 import { shell } from 'electron';
 import { resolve } from 'path';
-import { connect } from 'react-redux';
-import { IState } from "../../reducers";
-import { bindActionCreators, Dispatch } from "redux";
+import { useDispatch, useSelector } from 'react-redux';
 import { CurrentAction, SongAction } from "../../actions";
-import { Icon } from "antd";
 import * as styles from './download-manage.m.less';
 import { Link } from "react-router-dom";
-import { IDownload, ISong } from "../../interfaces";
-import { actions, prettyByte, toList, toMap } from "../../helpers";
+import { IDownload, ISong, ISystem } from "../../interfaces";
+import { prettyByte, toList, toMap } from "../../helpers";
 import { Button, Layout, Table, Tool } from "../../components";
+import { CloseOutlined, HeartFilled, HeartOutlined, PlayCircleOutlined } from "@ant-design/icons";
+import { useState } from "react";
 
-export interface IDownloadManageProps {
-    actions?: {
-        song: typeof SongAction;
-        current: typeof CurrentAction;
-    };
-    downloads?: { [key: string]: IDownload };
-    homePath?: string;
-    loveSongs?: ISong[];
-}
+export const DownloadManage = () => {
+    const [selected, setSelected] = useState<null | number>();
+    const { homePath } = useSelector<any, ISystem>(state => state.system);
+    const loveSongs = useSelector<any, ISong[]>(state => state.love.songs);
+    const downloads = useSelector<any, IDownload[]>(state => state.downloads);
+    const songs = toList<IDownload>(downloads, i => `${i.songKind}-${i.songId}`);
+    const loves = toMap<ISong>(loveSongs, i => `${i.kind}-${i.id}`);
+    const dispatch = useDispatch();
 
-@connect(
-    (state: IState) => ({
-        downloads: state.downloads,
-        homePath: state.system.homePath,
-        loveSongs: state.love.songs,
-    }),
-    (dispatch: Dispatch) => ({
-        actions: {
-            song: bindActionCreators(actions(SongAction), dispatch),
-            current: bindActionCreators(actions(CurrentAction), dispatch),
-        }
-    })
-)
-export class DownloadManage extends React.Component<IDownloadManageProps> {
-    public state = {
-        selected: null,
-    };
+    // const download = (songId: number, songType: string) => {
+    //     location.href = `http://127.0.0.1:56562/songs/${songId}/download?songType=${songType}`;
+    // }
 
-    selected(index: number) {
-        this.setState({ selected: index === this.state.selected ? null : index });
+    const openFolder = () => {
+        shell.showItemInFolder(resolve(homePath, 'i5sing/downloads'));
     }
 
-    download(songId: number, songType: string) {
-        location.href = `http://127.0.0.1:56562/songs/${songId}/download?songType=${songType}`;
-    }
-
-    openFolder() {
-        shell.showItemInFolder(resolve(this.props.homePath, 'i5sing/downloads'));
-    }
-
-    love(hasLoved: boolean, song: IDownload) {
-        const musicboxSong = [{
+    const love = (hasLoved: boolean, song: IDownload) => {
+        const musicBoxSong = [{
             ID: song.songId,
             NN: song.username,
             SUID: song.userId,
@@ -61,18 +37,18 @@ export class DownloadManage extends React.Component<IDownloadManageProps> {
             SN: song.songName
         }];
         if (hasLoved) {
-            this.props.actions.song.syncLoveSongs([], musicboxSong);
+            dispatch(SongAction.syncLoveSongs([], musicBoxSong));
         } else {
-            this.props.actions.song.syncLoveSongs(musicboxSong);
+            dispatch(SongAction.syncLoveSongs(musicBoxSong));
         }
     }
 
-    delete(song: IDownload) {
-        this.props.actions.song.deleteLocalSong(song.songId, song.songKind);
+    const deleteSong = (song: IDownload) => {
+        dispatch(SongAction.deleteLocalSong(song.songId, song.songKind));
     }
 
-    play(song: IDownload) {
-        this.props.actions.current.play(song.songId + '', song.songKind, {
+    const play = (song: IDownload) => {
+        dispatch(CurrentAction.play(song.songId + '', song.songKind, {
             id: song.songId,
             name: song.songName,
             kind: song.songKind,
@@ -81,12 +57,12 @@ export class DownloadManage extends React.Component<IDownloadManageProps> {
                 nickname: song.username,
                 image: null
             },
-            local: `http://127.0.0.1:56562/local/play?url=${encodeURIComponent(resolve(this.props.homePath, 'i5sing/downloads', song.filename))}`
-        });
+            local: `http://127.0.0.1:56562/local/play?url=${encodeURIComponent(resolve(homePath, 'i5sing/downloads', song.filename))}`
+        }));
     }
 
-    playAll(songs: IDownload[]) {
-        this.props.actions.current.plays(songs.map(song => ({
+    const playAll = (songs: IDownload[]) => {
+        dispatch(CurrentAction.plays(songs.map(song => ({
             id: song.songId,
             name: song.songName,
             kind: song.songKind,
@@ -95,21 +71,19 @@ export class DownloadManage extends React.Component<IDownloadManageProps> {
                 nickname: song.username,
                 image: null
             },
-            local: `file:///${resolve(this.props.homePath, 'i5sing/downloads', song.filename)}`
-        })));
+            local: `file:///${resolve(homePath, 'i5sing/downloads', song.filename)}`
+        }))));
     }
 
-    render() {
-        const { downloads, loveSongs } = this.props;
-        const songs = toList<IDownload>(downloads, i => `${i.songKind}-${i.songId}`);
-        const loves = toMap<ISong>(loveSongs, i => `${i.kind}-${i.id}`);
-
-        return <Layout>
+    return (
+        <Layout>
             <Tool direction="left">
-                <Button type="primary" onClick={() => this.playAll(songs)}>
-                    <Icon type="play-circle"/>播放全部
+                <Button type="primary" onClick={() => playAll(songs)}>
+                    <PlayCircleOutlined/>播放全部
                 </Button>
-                <a className={styles.open_folder_btn} onClick={() => this.openFolder()}>打开目录</a>
+                <a className={styles.open_folder_btn} onClick={() => openFolder()}>
+                    打开目录
+                </a>
             </Tool>
             <div className={styles.content}>
                 <Table style={{ background: 'none' }} header={<Table.Row>
@@ -121,23 +95,31 @@ export class DownloadManage extends React.Component<IDownloadManageProps> {
                     <Table.Col type="header" width={130}>下载时间</Table.Col>
                     <Table.Col type="header" style={{ width: 30 }}>&nbsp;</Table.Col>
                 </Table.Row>}>
-                    {songs.map((song: IDownload, index: number) => {
+                    {songs?.map((song: IDownload, index: number) => {
                             const key = `${song.songKind}-${song.songId}`;
                             const hasLoved = !!loves[key];
-                            return <Table.Row id={`${key}--downloads`}
-                                              onDoubleClick={() => this.play(song)}
-                                              className={
-                                                  `${styles.download_table_row} ${this.state.selected === index ? 'selected' : ''}`
-                                              }
-                                              key={song.songId}
-                                              onClick={() => this.selected(index)}>
+                            return <Table.Row
+                                id={`${key}--downloads`}
+                                onDoubleClick={() => play(song)}
+                                className={
+                                    `${styles.download_table_row} ${selected === index ? 'selected' : ''}`
+                                }
+                                key={song.songId}
+                                onClick={() => setSelected(index === selected ? null : index)}>
                                 <Table.Col width={30}>&nbsp;</Table.Col>
                                 <Table.Col width={60}>
                                     <span>{(index + 1) < 10 ? '0' + (index + 1) : index + 1}</span>
                                     <span>
-                                        <Icon type="heart" theme={hasLoved ? 'filled' : 'outlined'}
-                                              onClick={() => this.love(hasLoved, song)}
-                                              className={`song-icon ${hasLoved ? 'highlight' : ''}`}/>
+                                        {hasLoved ?
+                                            <HeartFilled
+                                                className="song-icon highlight"
+                                                onClick={() => love(hasLoved, song)}
+                                            /> :
+                                            <HeartOutlined
+                                                className="song-icon highlight"
+                                                onClick={() => love(hasLoved, song)}
+                                            />
+                                        }
                                     </span>
                                 </Table.Col>
                                 <Table.Col width={280}>{song.songName}</Table.Col>
@@ -147,9 +129,9 @@ export class DownloadManage extends React.Component<IDownloadManageProps> {
                                 <Table.Col width={70}>{prettyByte(song.total, 'B')}</Table.Col>
                                 <Table.Col width={130}>{song.createTime}</Table.Col>
                                 <Table.Col width={30}>
-                                    <Icon className={styles.delete_btn} type="close" onClick={e => {
+                                    <CloseOutlined className={styles.delete_btn} onClick={e => {
                                         e.stopPropagation();
-                                        this.delete(song);
+                                        deleteSong(song);
                                     }}/>
                                 </Table.Col>
                             </Table.Row>
@@ -157,6 +139,6 @@ export class DownloadManage extends React.Component<IDownloadManageProps> {
                     )}
                 </Table>
             </div>
-        </Layout>;
-    }
+        </Layout>
+    )
 }

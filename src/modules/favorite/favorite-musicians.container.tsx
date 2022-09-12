@@ -1,69 +1,48 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { IState } from "../../reducers";
-import { bindActionCreators, Dispatch } from "redux";
-import { UPDATE_PROPERTY } from "../../constants/actions.constant";
-import { UserAction } from "../../actions/user.action";
-import { INetwork, IUser } from "../../interfaces";
-import { LOVE } from "../../constants/action-types.constant";
-import { actions } from "../../helpers";
+import { IFollower, ISystem } from "../../interfaces";
 import { EndLoader, ImgCard, Loading } from "../../components";
+import { useSWRInfinite } from "swr";
+import { buildFavoriteMusiciansUrl } from "../../constants/urls.constant";
+import { useSelector } from "react-redux";
 
-export interface IFavoriteMusiciansProps {
-    actions?: {
-        user: typeof UserAction;
-    };
-    musicians?: IUser[];
-    userId?: number;
-    network?: INetwork;
-}
+const fetcher = async url => {
+    const res = await fetch(url);
+    const data = await res.json();
+    return data?.data;
+};
 
-@connect(
-    (state: IState) => ({
-        musicians: state.love.musicians,
-        userId: state.system.userId,
-        network: state.networks[`${LOVE}_${UPDATE_PROPERTY}_musicians`]
-    }),
-    (dispatch: Dispatch) => ({
-        actions: {
-            user: bindActionCreators(actions(UserAction), dispatch),
-        }
-    })
-)
-export class FavoriteMusicians extends React.Component<IFavoriteMusiciansProps> {
-    public state = {
-        page: 1,
-    };
+const PAGE_SIZE = 10;
 
-    componentDidMount(): void {
-        const { userId } = this.props;
-        this.props.actions.user.getFollowers(userId, 1);
+export const FavoriteMusicians = () => {
+    const { userId } = useSelector<any, ISystem>(state => state.system);
+    const { data, size, setSize, isValidating } = useSWRInfinite<IFollower[]>(
+        index => userId ? buildFavoriteMusiciansUrl(userId, index + 1, PAGE_SIZE) : null,
+        fetcher,
+    );
+    const musicians = data ? [].concat(...data) : [];
+    const isEmpty = data?.[0]?.length === 0;
+    const isReachingEnd = isEmpty || (data && data[data.length - 1]?.length < PAGE_SIZE);
+
+    const nextPage = async () => {
+        await setSize(size + 1);
     }
 
-    nextPage() {
-        const { userId } = this.props;
-        this.setState({ page: this.state.page + 1 }, () => {
-            this.props.actions.user.getFollowers(userId, this.state.page);
-        });
-    }
-
-    render() {
-        const { musicians, network = { loading: true, nodata: false } } = this.props;
-        return <EndLoader target="main" onLoad={() => !network.nodata && this.nextPage()}>
+    return (
+        <EndLoader target="main" onLoad={() => !isValidating && nextPage()}>
             <div>
                 <ImgCard count={4}>
-                    {musicians.map((musician: IUser) =>
+                    {musicians.map((musician: IFollower) =>
                         <ImgCard.Item
                             height={171.5}
-                            key={musician.id}
-                            title={musician.nickname}
-                            img={musician.image}
-                            onClick={() => location.hash = `#/musicians/${musician.id}`}
+                            key={musician.ID}
+                            title={musician.NN}
+                            img={musician.I}
+                            onClick={() => location.hash = `#/musicians/${musician.ID}`}
                         />
                     )}
                 </ImgCard>
             </div>
-            <Loading loading={network.loading} nodata={network.nodata}/>
+            <Loading loading={isValidating} nodata={isReachingEnd}/>
         </EndLoader>
-    }
+    )
 }

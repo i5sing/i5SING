@@ -1,101 +1,82 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { Icon, Input } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { Input } from 'antd';
 
 import './header.less';
-import { IState } from "../../reducers";
 import { ISystem } from "../../interfaces";
-import { bindActionCreators, Dispatch } from "redux";
 import { ipcRenderer } from "electron";
 import { SystemAction } from "../../actions/system.action";
-import { HistoryAction } from "../../actions/history.action";
-import { actions } from "../../helpers";
-import { SEARCH_EVENT } from "../../constants/events.constant";
+import { GO_BACK_EVENT, GO_FORWARD_EVENT, SEARCH_EVENT } from "../../constants/events.constant";
+import { useMount } from "react-use";
+import { BarsOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 
 export interface IHeaderProps {
-    system?: ISystem;
     noSide?: boolean;
-    actions?: {
-        system: typeof SystemAction;
-        history: typeof HistoryAction;
-    }
 }
 
-@connect(
-    (state: IState) => ({
-        system: state.system,
-    }),
-    (dispatch: Dispatch) => ({
-        actions: {
-            system: bindActionCreators(actions(SystemAction), dispatch),
-            history: bindActionCreators(actions(HistoryAction), dispatch),
-        }
-    })
-)
-export class Header extends React.Component<IHeaderProps> {
-    private el = null;
+export const Header = ({ noSide }: IHeaderProps) => {
+    const current = location.hash;
+    let searchEl;
+    let searchValue = '';
+    if (current.includes('#/search')) {
+        const chunks = current.split('/');
+        searchValue = chunks[chunks.length - 1];
+    }
 
-    componentDidMount(): void {
+    const dispatch = useDispatch();
+    const { canGoForward, canGoBack } = useSelector<any, ISystem>(state => state.system);
+
+    useMount(() => {
         ipcRenderer.on(SEARCH_EVENT, evt => {
-            if (this.el) {
-                this.el.input.focus();
+            if (searchEl) {
+                searchEl.input.focus();
             }
         });
+    });
+
+    const go = () => {
+        ipcRenderer.send(GO_FORWARD_EVENT);
+        dispatch(SystemAction.refreshSystem());
     }
 
-    go() {
-        this.props.actions.history.go();
-        this.props.actions.system.refreshSystem();
+    const back = () => {
+        ipcRenderer.send(GO_BACK_EVENT)
+        dispatch(SystemAction.refreshSystem());
     }
 
-    back() {
-        this.props.actions.history.back();
-        this.props.actions.system.refreshSystem();
-    }
-
-    render() {
-        const { noSide } = this.props;
-        const { canGoForward, canGoBack } = this.props.system;
+    const onSearch = (value: string) => {
         const current = location.hash;
-        let searchValue = '';
         if (current.includes('#/search')) {
             const chunks = current.split('/');
-            searchValue = chunks[chunks.length - 1];
+            chunks.pop();
+            chunks.shift();
+            let hash = '/';
+            chunks.forEach(chunk => hash += chunk + '/');
+            if (hash.charAt(hash.length - 1) === '/') {
+                hash = hash.substring(0, hash.length - 1);
+            }
+            location.hash = hash + '/' + encodeURIComponent(value);
+        } else {
+            location.hash = `search/song/${encodeURIComponent(value)}`;
         }
-        return <div className={`header ${noSide ? 'no-side' : ''}`}>
+    }
+
+    return (
+        <div className={`header ${noSide ? 'no-side' : ''}`}>
             <div className="histories-btn-group">
-                <Icon className={`histories-btn ${canGoBack ? '' : 'disabled'}`}
-                      type="left"
-                      onClick={() => this.back()}/>
-                <Icon className={`histories-btn ${canGoForward ? '' : 'disabled'}`}
-                      type="right"
-                      onClick={() => this.go()}/>
+                <LeftOutlined className={`histories-btn ${canGoBack ? '' : 'disabled'}`} onClick={() => back()}/>
+                <RightOutlined className={`histories-btn ${canGoForward ? '' : 'disabled'}`} onClick={() => go()}/>
             </div>
             <Input.Search
-                ref={el => this.el = el}
+                ref={el => searchEl = el}
                 className="search-input"
                 size="small"
                 defaultValue={decodeURIComponent(searchValue)}
-                onSearch={value => {
-                    const current = location.hash;
-                    if (current.includes('#/search')) {
-                        const chunks = current.split('/');
-                        chunks.pop();
-                        chunks.shift();
-                        let hash = '/';
-                        chunks.forEach(chunk => hash += chunk + '/');
-                        if (hash.charAt(hash.length - 1) === '/') {
-                            hash = hash.substring(0, hash.length - 1);
-                        }
-                        location.hash = hash + '/' + encodeURIComponent(value);
-                    } else {
-                        location.hash = `search/song/${encodeURIComponent(value)}`;
-                    }
-                }}
+                onSearch={value => onSearch(value)}
             />
             <a onClick={() => location.hash = '#/settings'} className="settings-btn">
-                <Icon type="bars" className="settings-btn-icon"/>
+                <BarsOutlined className="settings-btn-icon"/>
             </a>
         </div>
-    }
+    );
 }

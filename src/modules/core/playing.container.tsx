@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as styles from './playing.m.less';
-import { Icon } from "antd";
 import * as $ from 'jquery';
 import { connect } from 'react-redux';
 import { IState } from "../../reducers";
@@ -9,6 +8,7 @@ import { get } from "lodash";
 import { bindActionCreators, Dispatch } from "redux";
 import { actions } from "../../helpers";
 import { CurrentAction } from "../../actions";
+import { DownOutlined } from "@ant-design/icons";
 
 @connect(
     (state: IState) => ({
@@ -50,9 +50,10 @@ export class Playing extends React.Component<any, any> {
         const song: ISong = songList[current] || { songName: '', name: '' };
         const user = get(song, 'user', { image: void 0, nickname: '', id: '' });
         return visible ? <div className={styles.player_detail}>
-            <Icon type="down"
+            <DownOutlined
                   className={styles.close_btn}
-                  onClick={() => this.props.actions.current.showPlayingPage(false)}/>
+                  onClick={() => this.props.actions.current.showPlayingPage(false)}
+            />
             <div>
                 <div className={styles.image}>
                     <img src={user.image} alt={user.nickname}/>

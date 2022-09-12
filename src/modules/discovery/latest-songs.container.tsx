@@ -1,95 +1,65 @@
 import * as React from 'react';
-import { Icon } from 'antd';
+import { PlayCircleOutlined } from '@ant-design/icons';
 
 import { Link } from "react-router-dom";
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import './latest-songs.less';
-import { CurrentAction, SongAction } from "../../actions";
-import { IState } from "../../reducers";
-import { bindActionCreators, Dispatch } from "redux";
-import { ILatestSong, ISong } from "../../interfaces";
-import { actions } from "../../helpers";
+import { ICurrent, ILatestSong } from "../../interfaces";
 import { Card } from "../../components";
+import useSWR from "swr";
+import { buildLatestSongsUrl } from "../../constants/urls.constant";
+import { IResponse } from "../../interfaces/response.interface";
 
-export interface ILatestSongsProps {
-    actions?: {
-        song: typeof SongAction;
-        current: typeof CurrentAction;
-    }
-    songs?: ILatestSong[];
-    current?: number;
-    playlist?: ISong[];
-}
+export const LatestSongs = () => {
+    const { current, list } = useSelector<any, ICurrent>(state => state.current);
+    const playingSong = list[current];
+    const { data } = useSWR<IResponse<ILatestSong[]>>(buildLatestSongsUrl());
+    const songs = data?.data;
 
-interface LatestSongsState {
-}
-
-@connect(
-    (state: IState) => ({
-        songs: state.discoveryLatestSongs,
-        current: state.current.current,
-        playlist: state.current.list,
-    }),
-    (dispatch: Dispatch) => ({
-        actions: {
-            song: bindActionCreators(actions(SongAction), dispatch),
-            current: bindActionCreators(actions(CurrentAction), dispatch),
-        }
-    })
-)
-export class LatestSongs extends React.Component<ILatestSongsProps, LatestSongsState> {
-
-    componentDidMount(): void {
-        this.props.actions.song.getLatestSongs();
-    }
-
-    play(song: ILatestSong) {
-        const songKind = song.type === 1 ? 'yc' : song.type === 2 ? 'fc' : 'bz';
+    const play = (song: ILatestSong) => {
+        const songKind = song.singType === 1 ? 'yc' : song.singType === 2 ? 'fc' : 'bz';
         this.props.actions.current.play(
-            song.id + '',
+            song.singId + '',
             songKind,
             {
                 kind: songKind,
-                name: song.name,
-                id: song.id,
+                name: song.songName,
+                id: song.singId,
                 user: {
                     id: song.singerId,
-                    nickname: song.singerName
+                    nickname: song.singer
                 }
-            })
+            },
+        );
     }
 
-    render() {
-        const { songs, playlist, current } = this.props;
-        const playingSong = playlist[current];
-        if (songs.length === 0) {
-            return '';
-        }
-        return <Card title={"最新音乐"}>
-            <div className="latest-songs">
-                {songs.map((song: ILatestSong, index: number) =>
-                    <div key={song.id} className="latest-songs-item">
-                        <div className={
-                            `latest-songs-item-content ${playingSong && playingSong.id === song.id ? 'active' : ''}`
-                        }>
-                            <div className="latest-songs-item-img" onClick={() => this.play(song)}>
-                                <img src={song.image} alt={song.name}/>
-                                <div className="play-btn-wrap">
-                                    <Icon type="play-circle" className="play-btn"/>
-                                </div>
-                            </div>
-                            <span>{index + 1 >= 10 ? index + 1 : '0' + (index + 1)}</span>
-                            <div className="latest-songs-item-info">
-                                <h3 className="balabala">{song.name}</h3>
-                                <p className="balabala">
-                                    <Link to={`/musicians/${song.singerId}`}>{song.singerName}</Link>
-                                </p>
+    if (songs?.length === 0) {
+        return <span/>;
+    }
+    return <Card title={"最新音乐"}>
+        <div className="latest-songs">
+            {songs?.slice(0, 10)?.map((song: ILatestSong, index: number) =>
+                <div key={song.singId} className="latest-songs-item">
+                    <div className={
+                        `latest-songs-item-content ${playingSong && playingSong.id === song.singId ? 'active' : ''}`
+                    }>
+                        <div className="latest-songs-item-img" onClick={() => play(song)}>
+                            <img src={song.image} alt={song.songName}/>
+                            <div className="play-btn-wrap">
+                                <PlayCircleOutlined className="play-btn"/>
                             </div>
                         </div>
+                        <span>{index + 1 >= 10 ? index + 1 : '0' + (index + 1)}</span>
+                        <div className="latest-songs-item-info">
+                            <h3 className="balabala">{song.songName}</h3>
+                            <p className="balabala">
+                                <Link to={`/musicians/${song.singerId}`}>{song.singer}</Link>
+                            </p>
+                        </div>
                     </div>
-                )}
-            </div>
-        </Card>
-    }
+                </div>
+            )}
+        </div>
+    </Card>
 }

@@ -114,22 +114,6 @@ export class UserAction {
         }
     }
 
-    public static getLatestMusician() {
-        return async (dispatch: Dispatch, state: () => IState) => {
-            const url = 'http://mobileapi.5sing.kugou.com/musician/latestList';
-            const response: AxiosResponse<I5singResponse<{ ID: string; NN: string; I: string; }[]>> = await instance.get(
-                url,
-            );
-            const list = response.data.data;
-            const musicians = list.map(item => ({
-                id: item.ID,
-                name: item.NN,
-                image: item.I,
-            }));
-            dispatch({ type: DISCOVERY_MUSICIAN, action: UPDATE, data: musicians });
-        }
-    }
-
     public static getMusician(userId: string) {
         return async (dispatch: Dispatch, state: () => IState) => {
             const url = 'http://mobileapi.5sing.kugou.com/user/get';
