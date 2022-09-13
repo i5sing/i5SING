@@ -13,7 +13,7 @@ jobs:
       matrix:
         os:
           - "macOS-latest"
-          - "[self-hosted, macOS, ARM64]"
+#          - "[self-hosted, macOS, ARM64]"
           - "windows-latest"
           - "ubuntu-latest"
 
