@@ -21,12 +21,13 @@ jobs:
       - run: npm install yarn -g
       - run: yarn install
       - run: npm run make
-      - name: Qiniu Upload
-        uses: miaowing/action-qiniu-upload@master
+      - name: Upload file
+        uses: actions/upload-artifact@v2
         with:
-          access_key: ${{ secrets.QINIU_ACCESS_KEY }}
-          secret_key: ${{ secrets.QINIU_SECRET_KEY }}
-          bucket: i5sing
-          source_dir: ./out/make
-          dest_dir: /packages
-          ignore: RELEASES
+          name: packs
+          path: |
+            out/make/*
+            out/make/zip/darwin/x64/*
+            out/make/rpm/x64/*
+            out/make/deb/x64/*
+            out/make/squirrel.windows/x64/*
