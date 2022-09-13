@@ -59,13 +59,17 @@ class Player extends React.Component<IPlayerProps, IPlayerState> {
         isSeeking: false,
     };
     private lrc = null;
+    private timer;
 
     componentDidMount(): void {
         this.props.soundCloudAudio.on('ended', () => this.next());
         this.props.soundCloudAudio.on('loadeddata', () => this.props.actions.current.loaded());
-        this.props.soundCloudAudio.on('error', () => {
-            console.log('play error');
-            this.next();
+        this.props.soundCloudAudio.on('error', (e) => {
+            console.log('play error', e);
+            if (this.timer) {
+                clearTimeout(this.timer);
+            }
+            this.timer = setTimeout(() => this.next(), 100);
         });
         this.props.soundCloudAudio.on('interrupted', () => {
             console.log('play interrupted');
@@ -118,6 +122,7 @@ class Player extends React.Component<IPlayerProps, IPlayerState> {
     }
 
     componentWillReceiveProps(nextProps: Readonly<IPlayerProps>, nextContext: any): void {
+        console.log(nextProps.current, nextProps.songList[nextProps.current], this.props.current);
         if (nextProps.current >= 0 && nextProps.current !== this.props.current) {
             const song: ISong = nextProps.songList[nextProps.current];
             const url = song.local || song.hqurl || song.squrl || song.lqurl;
