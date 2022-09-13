@@ -1,19 +1,6 @@
 # i5SING
 
-<p align="center">
-    <a href="https://travis-ci.org/i5sing/i5SING" target="_blank">
-        <img src="https://travis-ci.org/i5sing/i5SING.svg?branch=master" alt="Travis"/>
-    </a>
-    <a href="https://travis-ci.org/i5sing/i5SING" target="_blank">
-        <img src="https://img.shields.io/travis/i5sing/i5SING/master.svg?label=linux" alt="Linux"/>
-    </a>
-    <a href="https://travis-ci.org/i5sing/i5SING" target="_blank">
-        <img src="https://img.shields.io/travis/i5sing/i5SING/master.svg?label=osx" alt="MacOS"/>
-    </a>
-    <a href="https://travis-ci.org/i5sing/i5SING" target="_blank">
-        <img src="https://img.shields.io/travis/i5sing/i5SING/master.svg?label=windows" alt="Windows"/>
-    </a>
-</p>
+[![CI](https://github.com/i5sing/i5SING/actions/workflows/docker-build.yml/badge.svg)](https://github.com/i5sing/i5SING/actions/workflows/docker-build.yml)
 
 中国原创音乐基地5sing PC版。爱生活,爱音乐,爱5SING。
 

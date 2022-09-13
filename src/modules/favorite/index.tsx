@@ -8,7 +8,10 @@ export class FavoriteModule extends React.Component {
     render() {
         return <CoreModule>
             <Route path="/favorite/songs" exact={true} component={FavoriteSongs}/>
-            <Route path="/favorite/collections" component={Collections}/>
+            <Route exact={true} path="/favorite/collections" children={props => <div
+                style={{ display: props.location.pathname.indexOf('/favorite/collections') === 0 ? 'block' : 'none' }}>
+                <Collections {...props}/>
+            </div>}/>
         </CoreModule>;
     }
 }

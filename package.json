@@ -1,7 +1,7 @@
 {
   "name": "i5sing",
   "productName": "i5sing",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "My Electron application description",
   "main": "./.webpack/main",
   "scripts": {
@@ -13,7 +13,7 @@
     "lint": "echo \"No linting configured\""
   },
   "keywords": [],
-  "author": "miaowing<me@zf.ink>",
+  "author": "miaowing<me@mxb.cc>",
   "license": "MIT",
   "config": {
     "forge": "./forge.config.js"

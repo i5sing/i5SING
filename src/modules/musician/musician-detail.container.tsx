@@ -32,9 +32,11 @@ export interface IMusicianProps {
     })
 )
 export class MusicianDetail extends React.Component<IMusicianProps> {
-    componentDidMount(): void {
-        const userId = this.props.match.params.musicianId;
-        this.props.actions.user.getMusician(userId);
+    componentWillReceiveProps(props): void {
+        if (props.match?.params) {
+            const userId = this.props.match?.params?.musicianId;
+            this.props.actions.user.getMusician(userId);
+        }
     }
 
     follow(user: IUser) {
@@ -47,8 +49,8 @@ export class MusicianDetail extends React.Component<IMusicianProps> {
 
     render() {
         const { musician, userId } = this.props;
-        const musicianId = this.props.match.params.musicianId;
-        const type = this.props.match.params.type;
+        const musicianId = this.props.match?.params?.musicianId;
+        const type = this.props.match?.params?.type;
         const user: IUser = musician[musicianId] || {
             id: -1,
             image: '',
