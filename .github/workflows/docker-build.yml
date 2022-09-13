@@ -22,7 +22,7 @@ jobs:
       - run: yarn install
       - run: npm run make
       - name: Qiniu Upload
-        uses: miaowing/action-qiniu-upload@v0.0.3
+        uses: miaowing/action-qiniu-upload@master
         with:
           access_key: ${{ secrets.QINIU_ACCESS_KEY }}
           secret_key: ${{ secrets.QINIU_SECRET_KEY }}
