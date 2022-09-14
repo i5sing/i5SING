@@ -65,7 +65,7 @@ export class Setting extends React.Component<ISettingProps> {
                     <Form.Item label="域名" name="domain" initialValue={cloud.domain} rules={[{
                         required: true, message: '请输入网盘域名',
                     }]}>
-                        <Input/>
+                        <Input placeholder="例如：http://music.i5sing.com"/>
                     </Form.Item>
                     <Form.Item label="Access Key" name="accessKey" initialValue={cloud.accessKey} rules={[{
                         required: true, message: '请输入网盘 Access Key',
@@ -85,7 +85,7 @@ export class Setting extends React.Component<ISettingProps> {
                     <Form.Item label="地区" name="zone" initialValue={cloud.zone} rules={[{
                         required: true, message: '请输入网盘所在地区',
                     }]}>
-                        <Input/>
+                        <Input placeholder="例如：cn-north-1"/>
                     </Form.Item>
                 </Form>
             </Card>

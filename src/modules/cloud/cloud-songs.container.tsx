@@ -122,11 +122,8 @@ export class CloudSongs extends React.Component<ICloudSongsProps> {
                                               key={song.key}
                                               onClick={() => this.selected(index)}>
                                 <Table.Col width={30}>&nbsp;</Table.Col>
-                                <Table.Col className="operations" width={40}>
+                                <Table.Col width={40}>
                                     <span>{(index + 1) < 10 ? '0' + (index + 1) : index + 1}</span>
-                                    <span>
-
-                                    </span>
                                 </Table.Col>
                                 <Table.Col width={400}>{song.key}</Table.Col>
                                 <Table.Col width={90}>{song.mimeType}</Table.Col>
